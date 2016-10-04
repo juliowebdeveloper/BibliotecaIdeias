@@ -1,0 +1,237 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+			<span class= "Leaden" style="float:right;">
+			<h:form>
+		<p:link  value="Pular essa etapa"
+			includeViewParams="true" outcome="clientedetails.xhtml">
+					<f:param name="clienteid" value="#{cliDadosBean.cliente.idCliente}"></f:param>
+					</p:link>
+ 				</h:form>
+ </span>
+				<div class="CardTopic Blue PosAbsolute">Cadastrar Dados do Cliente #{cliDadosBean.cliente.nomeFantasia}
+				
+				
+		
+				</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+					
+			
+					<p:ajaxStatus
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+				
+				<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+
+
+
+			<p:tabView id="accordion">
+
+
+
+				<!-- *************************** Trabalhos ************************************** -->
+
+				<p:tab title="Trabalhos">
+					<h2>
+						<h:graphicImage alt="calendaricon"
+							value="/site/images/icons/calendaricon.png" width="30"
+							height="30"
+							/>
+						Trabalhos que a BI realizou para esse cliente
+					</h2>
+					
+
+					<h:form>
+						<p:growl id="anosGrowl" />
+						<p>Selecione em quais anos ele recebeu trabalhos.</p>
+						<p:pickList value="#{cliDadosBean.anosEscolhidos}" var="anos"
+							itemLabel="#{anos.ano}" itemValue="#{anos}"
+							converter="anoConverter">
+							<p:column>  
+            			#{anos.ano}  
+        				</p:column>
+						</p:pickList>
+						<div id="separadora" style="margin-top: 20px;"></div>
+
+						<p:commandButton icon="ui-icon-circle-check"
+							value="Cadastrar anos que o cliente recebeu trabalhos da BI"
+							update="anosGrowl" actionListener="#{cliDadosBean.cadastrarAnos}" />
+					</h:form>
+
+				</p:tab>
+
+
+
+
+
+				<!-- ***************************Feiras ************************************** -->
+
+				<p:tab title="Feiras" id="feirastab">
+
+					<h:form id="feiraselect">
+						<p:growl id="feirasGrowl" />
+						
+						<p:selectManyMenu id="scroll"
+							value="#{cliDadosBean.feirasSelecionadas}"
+							converter="feiraConverter" style="width:100%;height:350px;"
+							var="f" showCheckbox="true" filter="true"
+							filterMatchMode="startsWith">
+							<f:selectItems value="#{cliDadosBean.feiras}" var="feira"
+								itemLabel="#{feira.nomeFeira}" itemValue="#{feira}" />
+
+							<p:column>
+								<p:graphicImage alt="#{f.nomeFeira}" value="#{f.urlLogo}"
+									/>
+								<br />
+								<h:outputText value="#{f.nomeFeira}"  />
+
+								<br />
+								<h:outputText value="Edição: "  />
+								<h:outputText value="#{f.edicao}" />
+
+								<br />
+								<h:outputText value="Ano: "  />
+								<h:outputText value="#{f.ano}" />
+
+
+							</p:column>
+						</p:selectManyMenu>
+
+						<p:commandButton value="Relacionar feiras ao cliente"
+							icon="ui-icon-circle-check" update="feirasGrowl"
+							actionListener="#{cliDadosBean.cadastrarFeiras()}" />
+
+					</h:form>
+
+				</p:tab>
+
+
+
+				<!-- ***************************Fichas ************************************** -->
+
+
+				<p:tab id="fichasTab" title="Fichas">
+					<h:form id="uploadFichas">
+						<p:growl id="fichasgrowl" showDetail="true" showSummary="true" />
+						
+						<h2>
+							<h:graphicImage alt="fichasicon"
+								value="/site/images/icons/fichasicon.png" width="30" height="30"  styleClass="h3ImageIcons"/>
+							Adicione as fichas desse cliente
+						</h2>
+
+
+						<p:fileUpload sizeLimit="2204800" widgetVar="uploaderf"
+							label="Escolher ficha..." auto="false" mode="advanced"
+							uploadLabel="Adicionar todas as fichas" cancelLabel="Cancelar"
+							fileUploadListener="#{cliDadosBean.handleFichaUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="fichasgrowl" multiple="true" customUI="true"
+							invalidSizeMessage="O tamanho da imagem é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+
+					<p:commandButton value="Relacionar fichas ao cliente"
+							icon="ui-icon-circle-check" update="fichasgrowl"
+							actionListener="#{cliDadosBean.uploadFichas()}" />
+					</h:form>
+
+
+				</p:tab>
+
+
+
+				<!-- ***************************Fotos ************************************** -->
+
+				<p:tab id="fotosTab" title="Fotos">
+					<h:form id="uploadFotos">
+						<p:growl id="fotosgrowl" showDetail="true" showSummary="true" />
+						
+						<h2>
+							<h:graphicImage alt="fotoicon"
+								value="/site/images/icons/fotoicon.png" 
+								width="30" height="30"  styleClass="h3ImageIcons" />
+							Adicione as fotos referência à esse cliente
+						</h2>
+
+					
+						<p:fileUpload sizeLimit="2204800" widgetVar="uploader"
+							label="Escolher foto..." auto="false" mode="advanced"
+							uploadLabel="Adicionar todas as fotos" cancelLabel="Cancelar"
+							fileUploadListener="#{cliDadosBean.handleFotoUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="fotosgrowl" multiple="true" customUI="true"
+							invalidSizeMessage="O tamanho da imagem é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+
+
+			
+
+
+						<p:commandButton value="Relacionar fotos ao cliente"
+							icon="ui-icon-circle-check" update="fotosgrowl"
+							actionListener="#{cliDadosBean.uploadFotos()}" />
+
+					</h:form>
+
+
+				</p:tab>
+
+
+			</p:tabView>
+
+			<h:form>
+
+				<p:button style="float:right;" icon="ui-icon-disk"
+					includeViewParams="true" outcome="clientedetails.xhtml"
+					value="Concluir cadastro">
+					<f:param name="clienteid" value="#{cliDadosBean.cliente.idCliente}"></f:param>
+				</p:button>
+
+				<p:ajaxStatus
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+			</h:form>
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

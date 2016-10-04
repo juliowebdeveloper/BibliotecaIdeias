@@ -1,0 +1,24 @@
+	/* output label geral  */
+	.searchLabel{
+		font-weight: bold;
+		font-size: 12px;
+		
+	}
+	/* output text geral  */
+	.searchResults{
+		font-style: italic;
+		font-size: 12px;
+		font-family: sans-serif;
+		
+	}
+
+	
+	
+	.feirasDiv{
+	
+	clear: left;
+	
+	
+	
+	
+	}

@@ -1,0 +1,413 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100 Resposive100">
+			<div class="Card TexAlCenter">
+				<div class="CardTopic Blue">Pesquisa de Fornecedores</div>
+				<div class="Separator"></div>
+				<br />
+				
+				
+<p:tabView orientation="top" id="tabview">
+<p:tab title="Pesquisa por Razão Social"> 
+
+<h:form id ="buscafornecedorbyname" >
+<h3><h:graphicImage alt="searchicon" name ="/images/icons/searchicon.png" library="bibliotecaideias"
+width="30" height="30" styleClass="h3ImageIcons"  />Pesquisar fornecedores</h3>
+<div class ="Separator"></div>
+
+
+<h:panelGrid columns = "3" >
+
+<h:outputLabel value="Razão Social:" for="razaosocial" />
+
+<p:inputText  value="#{fornecedorBean.razaoBusca}" id ="razaosocial" />
+
+<p:commandButton icon="ui-icon-search" update ="lista growl"
+ actionListener="#{fornecedorBean.buscarPorRazaoSocial}" />
+
+
+</h:panelGrid>
+<div class ="EmptyBox10"></div>
+<p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+
+
+<p:growl id ="growl" showDetail="true" />
+<p:dataTable  value ="#{fornecedorBean.fornesByRazao}" 
+ var="forn" id="lista" emptyMessage="Nenhum resultado encontrado" >
+<f:facet name="header" >
+	<h:outputText value ="#{fornecedorBean.fornesByRazao.size()} resultado(s) encontrados" 
+	rendered="#{not empty fornecedorBean.fornesByRazao}" />
+</f:facet>
+
+<p:column headerText = "Editar">
+<p:commandButton icon="ui-icon-pencil" update =":editForne" oncomplete="PF('editdlg').show()" >
+			<f:setPropertyActionListener value="#{forn}" target="#{fornecedorBean.fornecedorSelecionado}" />
+	</p:commandButton>
+</p:column>
+
+<p:column headerText="Razão Social" >
+
+	<h:outputText value="#{forn.razaoSocial}" styleClass="FontVoltBold"/>
+
+</p:column>
+
+<p:column headerText="Segmento" >
+
+<h:outputText value="#{forn.segmento}" styleClass="FontSemiBold"/>
+
+</p:column>
+
+<p:column headerText="Produtos oferecidos" >
+
+	<h:outputText value="#{forn.produto}"  />
+		
+</p:column>
+
+<p:column headerText="Localização" >
+	<h:outputText value="#{forn.endereco}" rendered="#{not empty forn.endereco}" />
+	<h:outputText value="#{forn.numero}" rendered="#{not empty forn.numero}" />
+	<h:outputText value="#{forn.complemento}" rendered="#{not empty forn.complemento}" />
+	<br/>
+	<h:outputText value="#{forn.bairro}" rendered="#{not empty forn.bairro}" />
+	<br/>
+	<h:outputText value="#{forn.cep}" rendered="#{not empty forn.cep}" />
+	<br/>
+	<h:outputText value="#{forn.cidade.nome}"  rendered="#{not empty forn.cidade.nome}" />
+	
+</p:column>
+
+<p:column headerText="Contato" >
+  <h:outputLink value="#{forn.site}" target="blank"  >
+	<h:outputText value="#{forn.site}" title="#{forn.site}" rendered="#{not empty forn.site}" />
+	</h:outputLink>
+	<br/>
+	
+	<h:outputText value="#{forn.email}" rendered="#{not empty forn.email}" title="#{forn.email}" />
+
+	<h:outputText value="#{forn.email2}" rendered="#{not empty forn.email2}" title="#{forn.email2}"/>
+
+	
+	<h:outputText value="#{forn.email3}" rendered="#{not empty forn.email3}" title="#{forn.email3}"/>
+
+	
+	<h:outputText value="#{forn.nomeContato}" rendered="#{not empty forn.nomeContato}" />
+
+	<h:outputText value="#{forn.cargo}" rendered="#{not empty forn.cargo}" />
+
+	</p:column>
+	
+	
+	<p:column headerText="Telefones">
+	<h:outputText value="#{forn.telefone}" rendered="#{not empty forn.telefone}" />
+	<h:outputText value="#{forn.telefone2}" rendered="#{not empty forn.telefone2}" />
+	<h:outputText value="#{forn.telefone3}" rendered="#{not empty forn.telefone3}" />
+	<h:outputText value="#{forn.nextel}" rendered="#{not empty forn.nextel}" />
+	<h:outputText value="#{forn.celular}" rendered="#{not empty forn.celular}" />
+	
+</p:column>
+
+
+</p:dataTable>
+
+
+</h:form>
+
+</p:tab>
+
+<!-- *********************Pesquisa por segmento ****************************** -->
+<p:tab title="Pesquisa por Segmento"> 
+
+
+<h:form id ="buscafornecedorbyseg" >
+<h3><h:graphicImage alt="searchicon" library="bibliotecaideias"
+name="/images/icons/searchicon.png" width="30" height="30" 
+styleClass ="h3ImageIcons"  />
+Pesquisar fornecedores</h3>
+
+
+<div class ="Separator"></div>
+
+<h:panelGrid columns = "3">
+
+<h:outputLabel value="Segmento:" for="segmento" />
+
+<p:inputText  value="#{fornecedorBean.segmentoBusca}" id ="segmento" />
+
+
+
+<p:commandButton  icon="ui-icon-search" update ="listaseg  growl"
+ actionListener="#{fornecedorBean.buscarPorSegmento}" />
+
+</h:panelGrid>
+
+
+
+<p:growl id ="growl" showDetail="true" />
+
+
+<div class ="EmptyBox10"></div>
+
+<p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+
+<p:dataTable  value ="#{fornecedorBean.fornesBySegm}" 
+ var="forn" id="listaseg" emptyMessage="Nenhum resultado encontrado" >
+<f:facet name="header" >
+	<h:outputText value ="#{fornecedorBean.fornesBySegm.size()} resultado(s) encontrados" 
+	rendered="#{not empty fornecedorBean.fornesBySegm}" />
+</f:facet>
+
+<p:column headerText = "Editar">
+<p:commandButton icon="ui-icon-pencil" update =":editForne" oncomplete="PF('editdlg').show()" >
+			<f:setPropertyActionListener value="#{forn}" target="#{fornecedorBean.fornecedorSelecionado}" />
+	</p:commandButton>
+</p:column>
+
+<p:column headerText="Razão Social" >
+
+	<h:outputText value="#{forn.razaoSocial}" styleClass="FontVoltBold"/>
+
+</p:column>
+
+<p:column headerText="Segmento" >
+
+<h:outputText value="#{forn.segmento}" styleClass="FontBold"/>
+
+</p:column>
+
+<p:column headerText="Produtos oferecidos" >
+
+	<h:outputText value="#{forn.produto}"  />
+		
+</p:column>
+
+<p:column headerText="Localização" >
+	<h:outputText value="#{forn.endereco}" rendered="#{not empty forn.endereco}" />
+	<h:outputText value="#{forn.numero}" rendered="#{not empty forn.numero}" />
+	<h:outputText value="#{forn.complemento}" rendered="#{not empty forn.complemento}" />
+	<br/>
+	<h:outputText value="#{forn.bairro}" rendered="#{not empty forn.bairro}" />
+	<br/>
+	<h:outputText value="#{forn.cep}" rendered="#{not empty forn.cep}" />
+	<br/>
+	<h:outputText value="#{forn.cidade.nome}"  rendered="#{not empty forn.cidade.nome}" />
+	
+</p:column>
+
+<p:column headerText="Contato" >
+  <h:outputLink value="#{forn.site}" target="blank"  >
+	<h:outputText value="#{forn.site}" title="#{forn.site}" rendered="#{not empty forn.site}" />
+	</h:outputLink>
+	<br/>
+	
+	<h:outputText value="#{forn.email}" rendered="#{not empty forn.email}" title="#{forn.email}" />
+
+	<h:outputText value="#{forn.email2}" rendered="#{not empty forn.email2}" title="#{forn.email2}"/>
+
+	
+	<h:outputText value="#{forn.email3}" rendered="#{not empty forn.email3}" title="#{forn.email3}"/>
+
+	
+	<h:outputText value="#{forn.nomeContato}" rendered="#{not empty forn.nomeContato}" />
+
+	<h:outputText value="#{forn.cargo}" rendered="#{not empty forn.cargo}" />
+
+	</p:column>
+	
+	
+	<p:column headerText="Telefones">
+	<h:outputText value="#{forn.telefone}" rendered="#{not empty forn.telefone}" />
+	<h:outputText value="#{forn.telefone2}" rendered="#{not empty forn.telefone2}" />
+	<h:outputText value="#{forn.telefone3}" rendered="#{not empty forn.telefone3}" />
+	<h:outputText value="#{forn.nextel}" rendered="#{not empty forn.nextel}" />
+	<h:outputText value="#{forn.celular}" rendered="#{not empty forn.celular}" />
+	
+</p:column>
+
+
+</p:dataTable>
+
+
+</h:form>
+
+
+
+
+
+</p:tab>
+<!-- ***************************EDIT FORNECEDOR ******************************************** -->
+
+
+
+
+
+</p:tabView>
+
+
+
+<h:form id ="editForne">
+
+<p:dialog widgetVar="editdlg" header="Editar Fornecedor" resizable="false"  
+              width="900" showEffect="clip" hideEffect="fold" height="500" modal="true" styleClass="dialogGeral">  
+            <p:growl id ="editgrowl"  showSummary="true" />
+            
+            <h2>Informações Básicas</h2>
+           <hr></hr>
+            <p:panelGrid columns="2">
+           <h:outputLabel value="Razão Social:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.razaoSocial}" id="editrazao" />
+           
+           <h:outputLabel value ="Data do cadastro: " for="datacad"/>
+		<h:outputText value ="#{fornecedorBean.fornecedorSelecionado.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+               <h:outputLabel value="Segmento:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.segmento}" id="editsegmento" />
+             <h:outputLabel value="Produtos Oferecidos:" />
+           <p:inputTextarea  value ="#{fornecedorBean.fornecedorSelecionado.produto}" id="editproduto"  />
+           
+           
+            <h:outputLabel value="Site:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.site}" id="editsite" />
+           
+           </p:panelGrid>
+           
+            <h2>Localização</h2>
+           <hr></hr>
+           
+            <p:panelGrid columns="2">
+             <h:outputLabel value="Endereço:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.endereco}" id="editende" />
+           <h:outputLabel value="Número:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.numero}" id="editnum" />
+           <h:outputLabel value="Complemento:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.complemento}" id="editcomp"  />
+             <h:outputLabel value="Bairro:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.bairro}" id="editbairro" />
+             <h:outputLabel value="CEP:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.cep}" id="editcep" />
+           
+               
+           <h:outputLabel value="Cidade cadastrada:" for="citycads"/>
+ 
+ <h:outputText value="#{fornecedorBean.fornecedorSelecionado.cidade.nome}" id="citycads" />
+ 
+ <h:outputLabel value ="Se deseja alterar a cidade, escolha outra:" for="cidadesE" />
+
+<p:selectOneMenu style ="width: 190px; border-radius: 3px; font-size: 16px;" value="#{fornecedorBean.idCidadeE}" id="cidadesE">
+        <f:selectItem itemLabel="Selecione uma cidade " itemValue="0"/>    
+        <f:selectItems value="#{fornecedorBean.cidadesE}" var="cidade" itemValue="#{cidade.id}" itemLabel="#{cidade.nome}"/>
+
+ </p:selectOneMenu>
+ 
+ 
+  <h:outputLabel value ="País:" for="paisesE" />
+ 
+<p:selectOneMenu  style ="width: 190px; border-radius: 3px; font-size: 16px;" 
+ valueChangeListener="#{fornecedorBean.stateChangeListenerE}" 
+  value="#{fornecedorBean.codPaisE}" id="paisesE" >
+        <f:selectItem itemLabel=" Selecione um país " itemValue="0"  />    
+        <f:selectItems value="#{fornecedorBean.paisesE}" var="pais" itemValue="#{pais.codigo}" itemLabel="#{pais.nome}"/>
+   		 <f:ajax event="change" render =":editForne:cidadesE" /> 
+   		
+ </p:selectOneMenu>
+ 
+           </p:panelGrid>
+           
+           
+           
+           <h2>Contato</h2>
+           <hr></hr>
+           <p:panelGrid columns = "2" >
+             <h:outputLabel value="Nome do Contato:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.nomeContato}" id="editcontato" />
+             <h:outputLabel value="Cargo:" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.cargo}" id="editcargo" />
+             <h:outputLabel value="Telefone(1) :" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.telefone}" id="edittel" />
+               <h:outputLabel value="Telefone(2):" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.telefone2}" id="edittel2" />
+              <h:outputLabel value="Telefone(3):" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.telefone3}" id="edittel3" />
+            <h:outputLabel value="Nextel" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.nextel}" id="editnextel" />
+              <h:outputLabel value="E-mail(1):" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.email}" id="editemail" />
+              <h:outputLabel value="E-mail(2):" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.email2}" id="editemail2" />
+           <h:outputLabel value="E-mail(3):" />
+           <p:inputText value ="#{fornecedorBean.fornecedorSelecionado.email3}" id="editemail3" />
+          
+            </p:panelGrid>
+            
+            
+            
+            <p:commandButton actionListener="#{fornecedorBean.alterarFornecedor}"
+             oncomplete="PF('editdlg').hide();" update="editgrowl :tabview:buscafornecedorbyname:lista :tabview:buscafornecedorbyseg:listaseg" 
+             value="Alterar dados" icon="ui-icon-check" />
+
+            
+            
+          </p:dialog>
+
+
+
+</h:form>
+
+
+
+
+
+
+
+
+
+
+			<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

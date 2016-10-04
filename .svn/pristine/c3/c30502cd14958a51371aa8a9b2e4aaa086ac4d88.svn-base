@@ -1,0 +1,67 @@
+# Arquivo de configuracao de log  
+#### Usando 2 appenders, 1 para logar no console, outro para um arquivo
+log4j.rootCategory=stdout, fileOut
+ 
+# Imprime somente mensagens com 'priority' WARN ou mais alto para o logger
+#lembrando a ordem: DEBUG - INFO - WARN - ERROR - FATAL
+log4j.category.SEU.LOGGER.NAME=ERROR
+
+# Explicita a herança do nivel de prioridade
+#log4j.category.your.category.name=INHERITED
+  
+#### O primeiro appender escreve no console
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+
+# Pattern que mostra o nome do arquivo e numero da linha.
+log4j.appender.stdout.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n
+
+#### O segundo appender escreve em um arquivo
+#FileAppender - envia para um arquivo
+#RollingFileAppender - é subclasse de FileAppender, sendo que este pode fazer um backup do arquivo sempre que ele atingir um determinado tamanho.
+#DailyRollingFileAppender - é subclasse de FileAppender, este appender pode fazer um backup de tempos em tempos (definido pelo desenvolvedor, a cada semana por exemplo), para setar o tempo, basta usar o mesmo pattern da classe SimpleDateFormat na propriedade DatePattern.
+#SMTPAppender - appender para enviar o log para um destinatário de e-mail
+#SocketAppender - envia os eventos de log para um servidor de logs remoto através do protocolo TCP.
+#NTEventLogAppender - envia para o sistema de log de uma máquina com plataforma Windows.
+#SyslogAppender - envia os logs para um daemon (monitor de logs) remoto
+#JMSAppender - envia os logs como uma mensagem JMS
+#AsyncAppender - possibilita que os logs sejam coletados em um buffer e depois enviados para um ou mais appender anexados a ele
+#NullAppender - meramente existe mas nao manda mensagens para nenhum dispositivo.
+#log4j.appender.fileOut =org.apache.log4j.RollingFileAppender
+log4j.appender.fileOut =org.apache.log4j.FileAppender
+#log4j.appender.fileOut.File=C:/Public/bibliotecaideias.log
+
+# Controla o tamanho maximo do arquivo
+log4j.appender.fileOut.MaxFileSize=1000KB
+
+# Faz backup dos arquivos de log (apenas 1)
+log4j.appender.fileOut.MaxBackupIndex=1
+
+log4j.appender.fileOut.layout=org.apache.log4j.PatternLayout
+log4j.appender.fileOut.layout.ConversionPattern=%p %t %c - %m%n
+
+org.apache.commons.digester.Digester.level = ERROR
+
+
+
+
+!-------------------- Enviando por e-mail -------------------!
+
+
+
+
+#log4j.rootCategory=DEBUG, emailOut
+
+
+#log4j.appender.emailOut=org.apache.log4j.net.SMTPAppender
+#log4j.appender.emailOut.Threshold=DEBUG
+
+#log4j.appender.emailOut.SMTPHost=<seu servidor smtp>
+#log4j.appender.emailOut.From=<seu e-mail>
+
+#log4j.appender.emailOut.BufferSize=2
+#log4j.appender.emailOut.Subject=<assunto>
+
+#log4j.appender.emailOut.To=<destinatario>
+#log4j.appender.emailOut.layout=org.apache.log4j.PatternLayout
+#log4j.appender.emailOut.layout.ConversionPattern=%d{ISO8601} %5p [%t](%F:%L)- %m%n 

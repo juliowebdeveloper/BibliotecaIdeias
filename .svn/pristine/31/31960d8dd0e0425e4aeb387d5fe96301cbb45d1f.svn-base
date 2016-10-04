@@ -1,0 +1,83 @@
+package br.com.bibideais.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+//"Cesta" de arquivos do briefing, permitindo word, excell, pdf, corel, jpg
+public class BriefingFiles implements Serializable {
+
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long idFile;
+	
+	@Column(length = 2100)
+	private String urlFile;
+	
+	private String descricao;
+	
+	//TODO juntar o nome do arquivo com o nome do cliente para nao gerar duplicidade ja que vai ficar tudo na mesma pasta.
+	private String nomeArquivo;
+	
+	
+	
+	@ManyToOne
+	@JoinColumn(name ="id_briefing")
+	private Briefing briefing;
+	
+	
+	
+	public long getIdFile() {
+		return idFile;
+	}
+
+	public void setIdFile(long idFile) {
+		this.idFile = idFile;
+	}
+
+	public String getUrlFile() {
+		return urlFile;
+	}
+
+	public void setUrlFile(String urlFile) {
+		this.urlFile = urlFile;
+	}
+
+	public Briefing getBriefing() {
+		return briefing;
+	}
+
+	public void setBriefing(Briefing briefing) {
+		this.briefing = briefing;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public String getNomeArquivo() {
+		return nomeArquivo;
+	}
+
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
+	}
+	
+	
+	
+	
+}

@@ -1,0 +1,238 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de Entidades
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+				<span class="Leaden" style="float: right;">
+				 <h:form id="ultimosForm">
+						<p:commandButton id="ultimosBtn" value="Últimos Cadastros"
+							type="button" style="font-size:10px" />
+						<p:overlayPanel id="ultimosPanel" for="ultimosBtn"
+							hideEffect="fade">
+							<p:dataTable  scrollable="true"  resizableColumns="true" scrollHeight="500"  value="#{entBean.ultimosCadastrados}" var="ent"  
+                    widgetVar="ent" id="ultimasEntidades">  
+  
+  
+         <p:column width="10">  
+         
+         <h:outputText value="#{ent.nome}" styleClass="label"/>
+         <p:graphicImage alt="checkicon" value="/site/images/Check-icon.png" style ="float:left;" width="20" height="20" rendered="#{ent.associada}" title="É associada à BI"/>
+             <br/>
+            <h:outputText value="#{ent.endereco} #{ent.numero}" styleClass="enderecolabel" />
+            <br />
+            <h:outputText value="#{ent.bairro}" styleClass="enderecolabel" /> 
+             <br/>
+            <h:outputText value="#{ent.cidade.nome}"  />
+            
+	
+  
+ 
+    </p:column>
+    
+    </p:dataTable>
+
+						</p:overlayPanel>
+
+					</h:form>
+
+				</span>
+
+				<div class="CardTopic Blue PosAbsolute">Cadastro de Entidades</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+				<span class="Leaden"> <strong>Os campos com * são obrigatórios</strong></span> <br />
+				<br />
+
+		<p:growl showDetail="true" showSummary="true" id ="messag" />
+		
+		<h:form id ="pavcadastro" >
+		
+		<div class ="Container50 Responsive50"> 
+<h3><h:graphicImage alt="basicinfoicon" library="bibliotecaideias" name="/images/icons/basicinfoicon.png" 
+width="30" height="30" styleClass="h3ImageIcons"  />
+Sobre a Entidade</h3>
+                 <div class ="EmptyBox20"></div>
+                 
+<h:panelGrid columns="1" >
+<p:inputText value="#{entBean.newentidade.nome}" 
+ required="true"  requiredMessage="O nome da entidade é obrigatório" 
+id ="nome" title="Verifique na lista se a entidade já não está cadastrada">
+<p:tooltip for="nome" showEvent="focus" hideEvent="blur" />  
+	<p:watermark value="*Nome Entidade" for ="nome" />
+
+
+</p:inputText>
+
+
+<p:inputText value ="#{entBean.newentidade.endereco}"
+ id="endereco" required="true" requiredMessage="O endereço é obrigatório"  >
+					<p:watermark value="*Endereço" for ="endereco" />
+
+</p:inputText>
+
+<p:inputText value ="#{entBean.newentidade.numero}"  id ="numero"  >
+					<p:watermark value="Número" for ="numero" />
+
+</p:inputText>
+
+
+
+<p:inputText value ="#{entBean.newentidade.complemento}" id="complemento" >
+					<p:watermark value="Complemento" for ="complemento" />
+
+</p:inputText>
+
+
+
+<p:inputText value ="#{entBean.newentidade.bairro}" id="bairro" >
+					<p:watermark value="Bairro" for ="bairro" />
+
+</p:inputText>
+
+
+
+<p:inputText value ="#{entBean.newentidade.cep}" id="cep" >
+					<p:watermark value="cep" for ="cep" />
+
+</p:inputText>
+
+<h:outputLabel value="É associada à BI?" for="options"/>
+
+     <p:selectOneRadio id="options" value="#{entBean.newentidade.associada}">  
+            <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            <f:selectItem itemLabel="Não" itemValue="false" />  
+            
+        </p:selectOneRadio>  
+
+<h:outputLabel value="País:" for="paises"/>
+<p:selectOneMenu 
+ valueChangeListener="#{entBean.stateChangeListener}" 
+  value="#{entBean.codPais}" id="paises" >
+        <f:selectItem itemLabel=" Selecione um país " itemValue="0"  />    
+        <f:selectItems value="#{entBean.paises}" var="pais" itemValue="#{pais.codigo}" itemLabel="#{pais.nome}"/>
+   		 <f:ajax event="change" render =":pavcadastro:cidades" /> 
+   		
+ </p:selectOneMenu>
+       	 
+       	 
+    <h:outputLabel value="Cidade:" for="cidades"/>
+<p:selectOneMenu  value="#{entBean.idCidade}" id="cidades">
+        <f:selectItem itemLabel=" Selecione uma cidade " itemValue="0"/>    
+        <f:selectItems value="#{entBean.cidades}" var="cidade" itemValue="#{cidade.id}" 
+        itemDescription="#{cidade.distrito}" itemLabel="#{cidade.nome}"/>
+
+ </p:selectOneMenu>
+
+</h:panelGrid>
+
+
+					</div>
+
+
+
+
+					<div class="Container50 Responsive50">
+
+						<h3>
+							<h:graphicImage alt="contatosicon" library="bibliotecaideias"
+								name ="/images/icons/contatosicon.png" width="30" height="30" styleClass="h3ImageIcons" />
+							Formas de Contato
+						</h3>
+						<h:panelGrid columns="2">
+
+							<h:outputLabel value="*Telefone:" for="telefone" />
+							<p:inputText value="#{entBean.newentidade.telefone}"
+								id="telefone" required="true"
+								requiredMessage="É necessário cadastrar o telefone de contato">
+								<p:watermark value="Telefone" for="telefone" />
+
+							</p:inputText>
+
+							<h:outputLabel value="*E-mail 1:" for="email1" />
+							<p:inputText value="#{entBean.newentidade.email1}" id="email1"
+								required="true"
+								requiredMessage="É necessário cadastrar um e-mail de contato"
+								size="30">
+								<f:validator validatorId="validadorEmail" />
+								<p:watermark value="E-mail 1" for="email1" />
+
+							</p:inputText>
+
+							<h:outputLabel value="E-mail 2:" for="email2" />
+							<p:inputText value="#{entBean.newentidade.email2}" id="email2"
+								styleClass="form-itens degrade-vertical2" size="30">
+								<f:validator validatorId="validadorEmail" />
+								<p:watermark value="E-mail 2" for="email2" />
+
+							</p:inputText>
+
+							<h:outputLabel value="E-mail 3:" for="email3" />
+							<p:inputText value="#{entBean.newentidade.email3}" id="email3"
+								styleClass="form-itens degrade-vertical2" size="30">
+								<f:validator validatorId="validadorEmail" />
+								<p:watermark value="E-mail 3" for="email3" />
+
+							</p:inputText>
+							<h:outputLabel value="E-mail 4:" for="email4" />
+							<p:inputText value="#{entBean.newentidade.email4}" id="email4"
+								styleClass="form-itens degrade-vertical2" size="30">
+								<f:validator validatorId="validadorEmail" />
+								<p:watermark value="E-mail 4" for="email4" />
+
+							</p:inputText>
+
+
+
+						</h:panelGrid>
+
+						<div class="EmptyBox30"></div>
+						<p:commandButton style="float:right;" value="Cadastrar"
+							actionListener="#{entBean.cadastrarEntidade}"
+							update=":messag :ultimosForm:ultimasEntidades pavcadastro"
+							icon="ui-icon-disk" iconPos="right" />
+							
+						<div class="EmptyBox10"></div>
+						
+						<p:ajaxStatus style="float:right;" id="ajaxStatusPanel">
+							<f:facet name="start">
+								<h:graphicImage name="/images/ajaxloadingbar.gif"
+									library="bibliotecaideias" alt="loader" />
+							</f:facet>
+
+							<f:facet name="complete">
+								<h:outputText value="" />
+							</f:facet>
+						</p:ajaxStatus>
+
+					</div>
+
+
+				</h:form>
+
+
+
+
+
+
+
+
+			</div>
+			
+			
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

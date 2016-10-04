@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"  >
+
+<f:view>
+	<h:head>
+		<title>Biblioteca Idéias - Página Inicial</title>
+
+	<link type="text/css" rel="stylesheet" href="CSS/default.css" />
+	<link type="text/css" rel="stylesheet" href="CSS/bibdefault.css" />
+	<link type="text/css" rel="stylesheet" href="CSS/index.css" />
+	<link rel="shortcut icon" href="imagens/favicon.ico" />
+	
+	</h:head>
+	<h:body>
+	
+	<div id ="container" class="home-container">
+	<!--<div id ="topo"></div>-->
+	<div id ="login" class="login">
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+	<p:panel styleClass="loginPanel loginarea" >
+	<div class="img-logo">
+		<img src="imagens/logosmall.jpg" />
+	</div>
+	
+		<h:form id="login_form" class="login-form">
+
+	
+			<img src="imagens/user-icon.png"/>
+			<p:inputText styleClass="inputs login-input" id="username"
+				value="#{loginBean.func.username}" placeholder="usuário" required="true" label="Email" validatorMessage="O valor é necessário"></p:inputText>
+			<img src="imagens/pass-icon.png"/>
+			<p:password styleClass="inputs login-input" id="senha" label="Senha"
+				value="#{loginBean.func.password}" placeholder="senha" feedback="false" required="true" validatorMessage="O valor é necessário"/>
+			
+				<p:commandButton value="Ok" id="logar" action="#{loginBean.logar}" styleClass=".ui-button btn logar-bt"  update=":messages" />
+			
+
+		</h:form>
+		<p:messages id ="messages" showDetail="true" showSummary="true" styleClass="msg-error"/>
+		</p:panel>
+	</div>
+		</div>
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,794 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+
+
+
+
+
+
+body{
+	margin: 0px;
+	padding: 0;
+	font-size: 12px;
+	color: #616161;
+	font-family: TAHOMA;
+	font-color: black;
+	background-color: #f8f8f8;
+	width: 100%;
+	height: 100%;
+	}
+	
+
+.home-container{
+	position: relative;
+width: 70%;
+height: auto;
+float: left;
+margin: 10% 15%;
+}
+
+
+#topo{
+	
+	background-image: url(../imagens/logosmall.jpg);
+	float:left;
+	height: 170px;
+	width: 186px;
+	color:red;
+	background-repeat: no-repeat;
+	
+}
+
+#topo{
+	
+	margin-left: 200px;
+	margin-top: 240px;
+	position: relative;
+	
+	
+}
+
+/* LOGIN AREA */
+
+.home-container .login {
+	float: left;
+height: auto;
+margin-top: 0px;
+width: 100%;
+position: relative;
+}
+.home-container .login-container {
+	float: left;
+height: auto;
+margin-top: 0px;
+width: 100%;
+position: relative;
+}
+
+.home-container .loginarea
+{
+width: 40% !important;
+height: auto !important;
+border: 0px !important;
+margin: 0 auto;
+background: transparent;
+border-radius: 0px !important;
+position: relative;
+}
+.home-container .img-logo 
+{
+width: 100%;
+margin: 0 auto;
+float: left;
+background: #fff;
+border-radius: 0px !important;
+box-shadow: #e8e8e8 0px 0px 4px 0px;
+border-top: 1px solid #eeeeee;
+border-left: 1px solid #eeeeee;
+border-right: 1px solid #eeeeee;
+border-bottom: 0px;
+position: relative;
+}
+.home-container .img-logo img
+{
+width: 40%;
+margin: 20px 30%;
+position: relative;
+}
+.login-form{
+	width: 100%;
+clear: both;
+float: right;
+background-color: #313d65;
+position: relative;
+margin-right: -10%;
+padding: 10%;
+}
+.login-form img{
+float: left;
+background-color: #fff;
+position: relative;
+padding: 2px 2px 2px 2px;
+}
+.login-form .login-input{
+float: left;
+background-color: #FFFFFF !important;
+position: relative;
+border: 0 !important;
+border-radius: 0;
+padding: 7px 6px;
+width: 88%;
+margin-bottom: 2%;
+}
+.logar-bt{
+	width: 100%;
+	border: 0 !important;
+	border-radius: 0 !important;
+	text-shadow: 0 !important;
+	float: left;
+	position: relative;
+}
+.msg-error{
+	background: #fff !important;
+	border-radius: 0 !important;
+	float: left;
+	position: relative;
+	margin: 0 !important;
+}
+.msg-error .ui-messages-error{
+	background: #fff !important;
+	border-radius: 0 !important;
+	border: 0 !important;
+	color: #ff0000;
+	float: left;
+	position: relative;
+	margin: 1px 0 !important;
+	font-size: 10px !important;
+	box-shadow: #e8e8e8 0px 0px 4px 0px;
+	border-bottom: 1px solid #eeeeee;
+	border-left: 1px solid #eeeeee;
+	border-right: 1px solid #eeeeee;
+	border-top: 0px;
+}
+.msg-error .ui-messages-error .ui-messages-error-icon{
+	float: left;
+	position: relative;
+	margin-top: 0px;
+}
+.msg-error .ui-messages-error ul span{
+	float: left;
+	position: relative;
+	margin-left: 10px !important;
+	width: 102%;
+}
+/* top */
+
+
+
+
+
+
+
+
+#dock_menu {
+	height: 60px;
+}
+#dock2 {
+	margin: 50px auto 0px 0px;
+	position: top;
+
+}
+
+.pf-dock-top, .pf-dock-bottom {
+   position: relative; 
+        height: 80px; 
+        text-align: center;
+	
+    
+}
+.ui-dock-container-top{
+	position: absolute !important;
+}
+.ui-dock-container-bottom{
+	position: absolute !important;
+}
+
+.pf-dock-container-bottom {
+    position: absolute;
+	
+        background: url("../../Imagens/Perfis/dock_back.jpg");
+        height: 80px;
+        padding-left: 20px;
+        
+        
+}
+a.pf-dock-item-bottom{
+ 		display:block;
+        width: 30px;
+        color: #000;
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        text-decoration: none;
+        font: bold 12px Arial, Helvetica, sans-serif;
+
+}
+.pf-dock-item-bottom img {
+        border: none; 
+        margin: 5px 10px 0px; 
+        width: 100%; 
+}
+.pf-dock-item-bottom span {
+        display: none; 
+        padding-left: 20px;
+}
+.ui-dock-bottom{
+	position: static;
+	
+	
+}	
+
+
+
+/* bottom */
+/* .pf-dock-bottom {
+        width: 100%;
+        bottom: 0px;
+        left: 0px;
+}
+.pf-dock-container-bottom {
+        position: absolute;
+        background: url("../../Imagens/Perfis/dock_back.jpg");
+        height: 80px;
+        padding-left: 20px;
+}
+a.pf-dock-item-bottom {
+        display:block;
+        width: 40px;
+        color: #000;
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        text-decoration: none;
+        font: bold 12px Arial, Helvetica, sans-serif;
+}
+.pf-dock-item-bottom span {
+        display: none;
+        padding-left: 20px;
+}
+.pf-dock-item-bottom img {
+        border: none; 
+        margin: 5px 10px 0px; 
+        width: 100%; 
+}
+*/
+
+
+
+	
+	
+h1, h2, h3 {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 1.6em;
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1em;
+	margin-top:20px;
+}
+
+ul {
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
+
+img.left {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+img.right {
+	float: right;
+	margin: 0 0 0 20px;
+}
+
+/* Header */
+#logo {
+	width: 960px;
+	height: 75px;
+	margin: 0 auto;
+	padding: 25px 10px 0 10px;
+}
+
+#logo h1, #logo p {
+	float: left;
+	margin: 0;
+}
+
+#logo h1 {
+	padding: 0 0 0 0;
+	letter-spacing: -1px;
+	font-weight: normal;
+	font-size: 3em;
+}
+
+#logo p {
+	text-transform: uppercase;
+	padding: 47px 0 0 3px;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+
+#logo a {
+	border: none;
+	text-decoration: none;
+	color: #DC8700;
+}
+
+/* Menu */
+#menu {
+	width: 960px;
+	margin: 0 auto;
+	padding: 0;
+	height: 59px;
+}
+
+#menu ul {
+	margin: 0;
+	padding-left: 270px;
+	list-style: none;
+}
+
+#menu li {
+	display: inline;
+}
+
+#menu li a {
+	display: block;
+	float: left;
+	height: 42px;
+	margin: 0;
+	padding: 18px 40px 0 40px;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+#menu li a:hover {
+	text-decoration: underline;
+}
+
+
+
+
+
+
+
+.ui-carousel-nav{
+	background-image: url("../Imagens/Perfis/Social/fundo_carrousel.jpg");
+	color: white;
+	
+}
+.ui-carousel-button {
+	color: white;
+	}
+	.ui-carousel-first-button{
+
+color: white;
+}
+
+.ui-carousel-next-button{
+	color: white;
+	}
+
+
+/* Wrapper */
+
+#wrapper {
+}
+
+/* Page */
+
+#page {
+	width: 960px;
+	margin: 0 auto;
+	padding: 20px 5px;
+	background: #FFFFFF;
+}
+
+#page-bg {
+}
+
+/* Latest Post */
+
+#latest-post {
+	padding: 20px;
+	border: 1px solid #E7E7E7;
+}
+
+/* Content */
+
+#content {
+	float: left;
+	width: 700px;
+}
+
+.post {
+	padding-bottom: 15px;
+}
+
+.post h1 {
+	font-weight: normal;
+}
+
+.title {
+	height: 30px;
+	margin-left: 10px;
+	padding: 8px 0 0 20px;
+}
+
+.title a {
+	border-bottom: none;
+	color: #FFFFFF;
+}
+
+.title a:hover {
+	border-bottom: 1px dotted #000000;
+}
+
+.byline {
+	margin: -60px 20px 20px 20px;
+}
+
+.byline a {
+	color: #DC8700;
+}
+
+.tag {
+	padding: 0 15px;
+}
+
+.entry {
+	padding: 0 20px;
+}
+
+.entry p {
+	line-height: 200%;
+}
+
+.links {
+	padding: 4px 0px;
+	text-align: right;
+	font-weight: bold;
+}
+
+.links a {
+	border: none;
+}
+
+.links a:hover {
+}
+
+/* Sidebars */
+
+#sidebar1 {
+	float: left;
+	margin-top: -81px;
+	margin-left: -1px;
+}
+
+#sidebar2 {
+	float: right;
+}
+
+.sidebar {
+	float: left;
+	width: 240px;
+	padding: 0;
+	font-size: 12px;
+}
+
+.sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sidebar li {
+	padding: 0 0 20px 0;
+}
+
+.sidebar span {
+	cursor: pointer;
+}
+
+.sidebar li ul {
+}
+
+.sidebar li li {
+	margin: 0 10px 0 10px;
+	padding: 3px 0px;
+}
+
+
+.sidebar li h2 {
+	height: 40px;
+	margin: 0 0 0 0;
+	padding: 20px 15px 0px 65px;
+	background: url(../Imagens/Perfis/Social/fundo_carrousel.jpg) no-repeat left top;
+	letter-spacing: -1px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+.sidebar a {
+}
+
+.sidebar a:hover {
+	text-decoration: underline;
+}
+
+/* Search */
+
+#searchform {
+	margin: 0;
+	padding: 0 0 0 0;
+}
+
+#searchform br {
+	display: none;
+}
+
+#searchform h2 {
+}
+
+#s {
+	margin: 10px 0px 0 15px;
+	padding: 2px 2px;
+	width: 180px;
+	height: 18px;
+	border: 1px solid #6F6E6E;
+	background: #FFFFFF;
+	font-size: 10px;
+	color: #000000;
+}
+
+#x {
+	margin: 0;
+	padding: 2px 5px;
+	height: 25px;
+	background: #CA8186;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #CCCCCC;
+}
+/* Calendar */
+
+#calendar_wrap {
+	padding: 0 15px;
+	text-align: center;
+}
+
+#calendar_wrap table {
+	width: 100%;
+}
+
+#calendar_wrap th {
+}
+
+#calendar_wrap td {
+}
+
+#calendar_wrap tfoot td {
+	border: none;
+}
+
+#calendar_wrap tfoot td#prev {
+	text-align: left;
+	font-weight: bold;
+	border: none;
+}
+
+#calendar_wrap tfoot td#prev a {
+	border: none;
+}
+
+#calendar_wrap tfoot td#next {
+	text-align: right;
+	font-weight: bold;
+	border: none;
+}
+
+#calendar_wrap tfoot td#next a {
+	border: none;
+}
+
+/* Footer */
+
+#footer {
+	width: 960px;
+	height: 70px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+#footer p {
+	margin: 0;
+	padding: 25px 0 0 0;
+	text-align: center;
+	font-size: smaller;
+}
+
+#footer a {
+}
+
+#footer .link {
+	float: right;
+}
+
+#footer .copyright {
+	float: left;
+}
+
+.homeText {
+	line-height: 175%;
+}
+
+.jpassword{
+	color: red;	
+	
+}	
+
+
+
+.homeMenu {
+	width:200px;
+	float:left;
+	margin-right:10px
+}
+
+.new {
+    background: url(../images/new-ico.gif) no-repeat 1%;
+}
+
+.ui-widget {
+    font-size: 98% !important;
+}
+
+.ui-growl {
+    top:115px;
+}
+
+.themeMenu {
+    overflow: auto;
+    height:300px;
+    width:200px;
+}
+
+.sidebar .wijmo-wijmenu a {
+    text-decoration: none !important;
+}
+
+.gravar {
+	font-family: Arial;
+	font-size: 14px;
+	background-image: url("../Imagens/Perfis/Social/fundo_tag.jpg");
+	border: 1px #ccc solid;
+	padding: 5px 15px;
+	margin-left: 3px;
+	cursor: pointer;
+	color: black;
+}
+
+
+
+
+
+
+
+
+
+
+.title {
+    height: 30px;
+    margin-left: 10px;
+    padding: 8px 0 0 20px;
+}
+
+
+
+
+
+
+
+
+
+
+a:VISITED{
+	color:black;
+	
+	}
+
+
+/*Estilos do Pepa Yeeeeeah /,,/ */
+
+
+
+
+
+#j_id_a_header
+{
+font-size: 14pt !important;
+color: #9f9f9f !important;
+border: 0;
+margin-bottom: -10px;
+}
+
+label {
+clear:both;
+color: #9f9f9f;
+float: left;
+margin-top: 5px;
+margin-bottom: 15px;
+font-size:12pt !important;
+}
+
+
+
+.btn
+{
+clear:both;
+float:right;	
+padding: 0.1em 2em;	
+border: 1pt solid #d9d9d9;	
+background: #f1f1f1; /* Old browsers */
+background: -moz-linear-gradient(top,  #f1f1f1 0%, #f1f1f1 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#f1f1f1)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f1f1f1 0%,#f1f1f1 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f1f1f1 0%,#f1f1f1 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f1f1f1 0%,#f1f1f1 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #f1f1f1 0%,#f1f1f1 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1f1f1', endColorstr='#f1f1f1',GradientType=0 ); /* IE6-9 */	
+}
+
+hr.meu-hr
+{
+clear:both;
+border-left: #d9d9d9;
+border-top: 1px solid #d9d9d9;
+border-bottom: 1px solid #fff;
+background: #ccc;
+color: #d9d9d9;
+margin-bottom: 35px;
+}
+
+.margin-top-fix
+{
+top: 30px;
+position: relative;
+}
+}

@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos_feiradetails.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Detalhes da Feira</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="cadastro">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            	<h:graphicImage alt="feiraicon" value="/site/images/icons/feiraicon.png" width="30" height="30" /> Feiras/ <b>Detalhes da Feira</b>
+            </div>
+            
+            
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+<p:graphicImage alt="#{viewFeiraBean.feira.nomeFeira}" value="#{viewFeiraBean.feira.urlLogo}" id="imagem" cache="false" width="200" height="120" />
+  	
+
+			<h:form id="alterar">
+	<p:messages id="messages" showDetail="true" />
+	<p:commandButton value="Editar essa Feira" icon="ui-icon-pencil" ajax="false"  style="float:right;" action="#{viewFeiraBean.editarFeira()}"> 
+ 
+ 		
+ </p:commandButton> 
+ 
+   <h2><h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Sobre a feira</h2>
+    <hr/>
+				<h:panelGrid columns="2" styleClass="form-cadastro inner">
+					
+
+					<h:outputLabel value="Nome da feira: " styleClass="label" for ="nome"/>
+
+					<h:outputText value="#{viewFeiraBean.feira.nomeFeira}"  id ="nome"
+					 size="70" />
+
+				
+					<h:outputLabel value="Ano: " styleClass="label" for="ano"/>
+					
+					<h:outputText value="#{viewFeiraBean.feira.ano}"  id ="ano" />
+					
+					<h:outputLabel value="Período: " styleClass="label" for="periodo" />
+
+					 <h:outputText value="#{viewFeiraBean.feira.periodo}" id ="periodo" />
+					
+					<h:outputLabel value="Edição: " styleClass="label" for="edicao"/>
+					
+					<h:outputText value="#{viewFeiraBean.feira.edicao}" id ="edicao" />
+					 
+					
+					<h:outputLabel value="Frequência: " styleClass="label" for="frequencia" />
+					
+					<h:outputText value="#{viewFeiraBean.feira.frequencia}" id = "frequencia" />
+					
+					<h:outputLabel value="Bi construiu nessa feira? "  styleClass="label" for="construiu"/>
+					
+					<h:outputText rendered="#{viewFeiraBean.feira.biConstruiu}" value="Sim" 
+					  id ="construiu"/>
+					
+						<h:outputText rendered="#{!viewFeiraBean.feira.biConstruiu}" value="Não" 
+					 size="10" />
+					
+					 
+      						  
+      				<h:outputLabel value="Número expositores nacionais: " styleClass="label" for="expositores_nacionais"/>
+					
+					<h:outputText value="#{viewFeiraBean.feira.expositoresNac}" id ="expositores_nacionais" />
+					
+					<h:outputLabel value="Número expositores internacionais: " styleClass="label" for="expositores_internacionais"/>
+
+					
+					<h:outputText value="#{viewFeiraBean.feira.expositoresInt}" id ="expositores_internacionais" /> 
+						
+		
+					<h:outputLabel value="Número total de expositores: " styleClass="label" for="total_expositores"/>
+					
+					<h:outputText value="#{viewFeiraBean.feira.totalExpositores}"  id ="total_expositores"  />
+					
+			
+					 
+				<h:outputLabel value="Metro construído: " styleClass="label" for="metro_construido" />
+						
+					<h:outputText value="#{viewFeiraBean.feira.metroConstruido}"  id ="metro_construido"  />
+					 
+					 
+					<h:outputLabel value="Número de visitantes: " styleClass="label"  for="nvisitantes"/>
+					 
+					 <h:outputText value="#{viewFeiraBean.feira.numeroVisitantes}" id ="nvisitantes" />
+					 
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{viewFeiraBean.feira.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+
+</h:panelGrid>
+
+<h:panelGrid columns="2" styleClass="form-cadastro inner">
+
+
+	<h:outputLabel value="Anotações: " styleClass="label" for="anotacoespav" />
+					 
+					 <h:outputText  value="#{viewFeiraBean.feira.anotacoes}" 
+					 size="7" style="color: black;" id ="anotacoespav"  />
+
+				</h:panelGrid >	
+  					<div id ="separadora" style ="margin-top: 50px;"></div>
+
+				  					<div id ="separadora" style ="margin-top: 80px;"></div>
+				
+
+<h2><h:graphicImage alt="manualicon" value="/site/images/icons/manualicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Manual</h2>
+<hr />
+<p:media value="#{viewFeiraBean.feira.urlManual}" width="100%" height="300px" rendered="#{not empty viewFeiraBean.feira.urlManual}">  
+   Seu navegador não consegue exibir o manual, <h:outputLink value="#{viewFeiraBean.feira.urlManual}">clique</h:outputLink> para fazer o download.  
+</p:media> 
+<h:outputText value ="Essa feira não possui um manual" rendered ="#{empty viewFeiraBean.feira.urlManual}" />
+
+  					<div id ="separadora" style ="margin-top: 50px;"></div>
+
+<h2><h:graphicImage alt="mapaicon" value="/site/images/icons/mapaicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Mapa da feira</h2>
+<hr />
+
+
+
+			</h:form>
+
+       <p:media value="#{viewFeiraBean.feira.urlMapa}" width="100%" height="300px" rendered="#{not empty viewFeiraBean.feira.urlMapa}">  
+   Seu navegador não consegue exibir o mapa, <h:outputLink value="#{viewFeiraBean.feira.urlMapa}">clique</h:outputLink> para fazer o download.  
+</p:media> 
+<h:outputText value ="Essa feira não possui um mapa" rendered ="#{empty viewFeiraBean.feira.urlMapa}" />
+
+</section>
+
+
+
+
+
+</section>
+
+<aside class="aside degrade-vertical arredondado bordas" style="padding: 30px;">
+
+
+<h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Contato</h2>
+<hr/>
+					<p:panelGrid columns="1" styleClass="form-cadastro inner">
+	
+	
+						
+						<h:outputLabel value="E-mail:" styleClass="label" for="email"/>
+						<h:outputText rendered="#{empty viewFeiraBean.feira.email}"  value ="Nenhum email cadastrado"/>
+						
+						<h:outputText value="#{viewFeiraBean.feira.email}" id="email" rendered="#{not empty viewFeiraBean.feira.email}"
+						 />
+
+
+						<h:outputLabel value="Telefone:" styleClass="label" for="telef"/>
+						<h:outputText rendered="#{empty viewFeiraBean.feira.telefone}" value ="Nenhum telefone cadastrado" />
+						
+						<h:outputText value="#{viewFeiraBean.feira.telefone}" id ="telef" rendered="#{not empty viewFeiraBean.feira.telefone}" />
+
+
+						<h:outputLabel value="Site:" styleClass="label" for="site"/>
+						<h:outputText rendered="#{empty viewFeiraBean.feira.site}"  value ="Nenhum site cadastrado"/>
+						
+						<h:outputText value="#{viewFeiraBean.feira.site}"  id ="site" rendered="#{not empty viewFeiraBean.feira.site}" />
+
+						</p:panelGrid>
+	
+	  					<div id ="separadora" style ="margin-top: 50px;"></div>
+	
+	
+
+<h2><h:graphicImage alt="organizadoraicon" value="/site/images/icons/organizadoraicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Organizadora</h2>
+<hr/>
+
+
+<p:panelGrid columns="2" styleClass="form-cadastro inner">
+				<p:graphicImage alt="#{viewFeiraBean.feira.organizadora.razaoSocial}" width="120" height="80" value ="#{viewFeiraBean.feira.organizadora.logourl}" />
+				<br/>
+				<h:outputText value="#{viewFeiraBean.feira.organizadora.razaoSocial}"  />
+				<br/>
+				<h:outputLabel value="Telefone: " for="orgtel" />
+					
+					<h:outputText value="#{viewFeiraBean.feira.organizadora.telefone}" id ="orgtel" />
+						
+					</p:panelGrid>
+					  					
+				<div id ="separadora" style ="margin-top: 50px;"></div>
+					
+			<h2><h:graphicImage alt="locaisicon" value="/site/images/icons/locaisicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Local/Pavilhão</h2>
+<hr/>
+				  					
+<p:panelGrid columns="1" styleClass="form-cadastro inner">			
+
+					<h:outputText value="#{viewFeiraBean.feira.local.nome}" />
+					
+			<h:outputText value="#{viewFeiraBean.feira.local.endereco} , #{viewFeiraBean.feira.local.numero} -- #{viewFeiraBean.feira.local.bairro}" />
+					<h:outputText value="#{viewFeiraBean.feira.local.cidade.nome}" />
+					
+		</p:panelGrid>
+
+	  					<div id ="separadora" style ="margin-top: 50px;"></div>
+	
+	<!--************************************ Clientes dessa feira ************************************** -->
+	<div id ="clientes" style="width: 100%">
+<h2>Clientes que participaram dessa feira</h2>
+<h5>#{viewFeiraBean.clientes.size()} clientes encontrados</h5>
+<hr/>					
+			  <h:form id = "listform" styleClass="listFuncsManager" >  
+ 			
+                      <p:dataList paginator="true" rows="4"
+                       id="grid" value="#{viewFeiraBean.clientes}" var="cli" >
+                     <p:column>
+                      <h:link includeViewParams="true"   outcome="clientedetails" >
+                      <f:param name="clienteid" value="#{cli.idCliente}"></f:param>
+                     
+                     <p:graphicImage value="#{cli.urlCartao}"  width="70" height="50" alt="#{cli.anotacoes}"/>
+                     
+                     </h:link>
+               
+  				 <h:link includeViewParams="true"   outcome="clientedetails" title="#{cli.anotacoes}" >
+  			 		<f:param name="clienteid" value="#{cli.idCliente}"></f:param>
+  					<b><h:outputText value="#{cli.razaoSocial}" style="float:right;" /></b>
+                            
+               </h:link>
+                
+               <br/>
+               
+               
+                     </p:column>
+                     
+                     
+                     <p:column>
+               <p:commandLink  action="#{viewFeiraBean.verEmailClientesFeira}" value="Lista de e-mails" 
+			oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+			<f:setPropertyActionListener value="#{cli}" target="#{viewFeiraBean.clienteSelecionado}" />
+			</p:commandLink>
+				</p:column>
+				
+				
+               	<hr />
+               
+                    
+                     
+                     </p:dataList>
+                     
+      
+						
+						
+                     </h:form>	
+                     
+                     		
+						</div>
+						
+	               					
+		<p:dialog header="E-mails do cliente #{viewFeiraBean.clienteSelecionado.razaoSocial}"
+			widgetVar="emailDlg" styleClass="dialogGeral" resizable="false" height="300">
+			
+			<h:panelGroup id="display">
+			<h:outputText value="Nenhum e-mail encontrado" rendered="#{empty viewFeiraBean.contatosCliente}" /> 
+			
+				<ui:repeat value="#{viewFeiraBean.contatosCliente}" var="email"
+					id="emailslist">
+					#{email.email}
+						<br />
+
+
+				</ui:repeat>
+			</h:panelGroup>
+		</p:dialog>
+						
+						
+				
+</aside>
+
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

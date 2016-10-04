@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos_historico.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Pesquisa Fornecedores</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            	<h:graphicImage alt="feiraicon" value="/site/images/icons/entidadeicon.png" width="30" height="30" /> Entidade/ <b>Pesquisa de Entidades</b>
+            </div>
+            
+            
+            
+            
+<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage alt="loader" value="../site/images/ajax-loader.gif" />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+
+<!-- *************************Buscar por nome *****************************************  -->
+
+<h:form id ="buscaentidade" >
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Pesquisar Entidades</h2>
+
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro" >
+
+<h:outputLabel value="Nome:" for="nome" />
+
+<p:inputText  value="#{entBean.nomeEntidade}" id ="nome" size="60" />
+        <p:watermark for="nome" value="Não digite nenhum valor para pesquisar todas as entidades" id="watermark" />
+</h:panelGrid>
+
+<p:commandButton value ="Pesquisar Entidades" icon="ui-icon-search" update ="list" actionListener="#{entBean.buscarEntidadesPorNome}" />
+
+
+<p:dataTable value ="#{entBean.entByName}" var="ent" id="list" emptyMessage="Sem registros" >
+<p:column headerText="Nome" width="40%" style="white-space: normal;">
+<p:commandButton icon="ui-icon-pencil" update =":editent" oncomplete="PF('editdlg').show()" >
+			<f:setPropertyActionListener value="#{ent}" target="#{entBean.entidadeSelecionada}" />
+	</p:commandButton>
+	<h:outputText value="#{ent.nome}" style ="font-weight:bold;" />
+
+
+</p:column>
+
+	<p:column headerText="Localização" width="30%" style="white-space: normal;">
+					<h:outputText value="#{ent.endereco}"
+						rendered="#{not empty ent.endereco}" />
+					<h:outputText value="#{ent.numero}"
+						rendered="#{not empty ent.numero}" />
+					<br />
+					<h:outputText value="#{ent.complemento}"
+						rendered="#{not empty ent.complemento}" />
+					<br />
+
+					<h:outputText value="#{ent.bairro}"
+						rendered="#{not empty ent.bairro}" />
+					<br />
+					<h:outputText value="#{ent.cep}" rendered="#{not empty ent.cep}" />
+					<br />
+					<h:outputText value="#{ent.cidade.nome}"
+						rendered="#{not empty ent.cidade.nome}" />
+
+				</p:column>
+
+			<p:column headerText="Contato" width="30%" style="white-space: normal;">
+					<h:outputText value="#{ent.email1}"
+						rendered="#{not empty ent.email1}" />
+					<br />
+					<h:outputText value="#{ent.email2}"
+						rendered="#{not empty ent.email2}" />
+					<br />
+					<h:outputText value="#{ent.email3}"
+						rendered="#{not empty ent.email3}" />
+					<br />
+					<h:outputText value="#{ent.email4}"
+						rendered="#{not empty ent.email4}" />
+					<br />
+					<br />
+					<h:outputText value="#{ent.telefone}"
+						rendered="#{not empty ent.telefone}" />
+
+
+
+
+				</p:column>
+
+
+</p:dataTable>
+
+
+</h:form>
+
+
+<h:form id ="editent">
+
+<p:dialog widgetVar="editdlg" header="Editar Entidade" resizable="false"  
+              width="900" showEffect="clip" hideEffect="fold" height="500" modal="true" styleClass="dialogGeral">  
+            <p:growl id ="editgrowl"  showSummary="true" />
+            
+            <h2>Informações Básicas</h2>
+           <hr></hr>
+            <p:panelGrid columns="2">
+					<h:outputLabel value="Nome:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.nome}" />
+
+				</p:panelGrid>
+           
+             <h2>Localização</h2>
+           <hr></hr>
+            <p:panelGrid columns="2">
+
+
+					<h:outputLabel value="Endereço:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.endereco}" />
+					<h:outputLabel value="Número:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.numero}" />
+					<h:outputLabel value="Complemento:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.complemento}" />
+					<h:outputLabel value="Bairro:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.bairro}" />
+					<h:outputLabel value="CEP:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.cep}" />
+
+<h:outputLabel value="Cidade cadastrada:" for="citycads"/>
+ 
+ <h:outputText value="#{entBean.entidadeSelecionada.cidade.nome}" id="citycads" />
+ 
+ <h:outputLabel value ="Se deseja alterar a cidade, escolha outra:" for="cidadesE" />
+
+<p:selectOneMenu style ="width: 190px; border-radius: 3px; font-size: 16px;" value="#{entBean.idCidadeE}" id="cidadesE">
+        <f:selectItem itemLabel="Selecione uma cidade " itemValue="0"/>    
+        <f:selectItems value="#{entBean.cidadesE}" var="cidade" itemValue="#{cidade.id}" itemLabel="#{cidade.nome}"/>
+
+ </p:selectOneMenu>
+ 
+ 
+  <h:outputLabel value ="País:" for="paisesE" />
+ 
+<p:selectOneMenu  style ="width: 190px; border-radius: 3px; font-size: 16px;" 
+ valueChangeListener="#{entBean.stateChangeListenerE}" 
+  value="#{entBean.codPaisE}" id="paisesE" >
+        <f:selectItem itemLabel=" Selecione um país " itemValue="0"  />    
+        <f:selectItems value="#{entBean.paisesE}" var="pais" itemValue="#{pais.codigo}" itemLabel="#{pais.nome}"/>
+   		 <f:ajax event="change" render =":editent:cidadesE" /> 
+   		
+ </p:selectOneMenu>
+       	 
+       	 
+				</p:panelGrid>
+           
+           <h2>Contato</h2>
+           <hr></hr>
+           <p:panelGrid columns = "2" >
+					<h:outputLabel value="Telefone:" />
+					<p:inputText value="#{entBean.entidadeSelecionada.telefone}" />
+					<h:outputLabel value="E-mail(1):" />
+					<p:inputText value="#{entBean.entidadeSelecionada.email1}" />
+					<h:outputLabel value="E-mail(2):" />
+					<p:inputText value="#{entBean.entidadeSelecionada.email2}" />
+					<h:outputLabel value="E-mail(3):" />
+					<p:inputText value="#{entBean.entidadeSelecionada.email3}" />
+					<h:outputLabel value="E-mail(4):" />
+					<p:inputText value="#{entBean.entidadeSelecionada.email4}" />
+
+				</p:panelGrid>
+            
+            <p:commandButton actionListener="#{entBean.alterarEntidade}" oncomplete="PF('editdlg').hide();" update="editgrowl :buscaentidade:list" value="Alterar dados" icon="ui-icon-check" />
+            
+          </p:dialog>
+
+</h:form>
+
+
+</section>
+
+</section>
+
+
+
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

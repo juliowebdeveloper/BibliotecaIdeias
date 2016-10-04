@@ -1,0 +1,90 @@
+#basicInfos{
+	float: left;
+	
+	width: 50%;
+	
+
+	
+	
+}
+
+
+#stringFormSearch{
+	width: 900px;
+	height: auto;
+	float: left; 
+	margin-left: 10px;
+	
+	
+	
+}
+
+
+#feirasOnlySearch{
+	width:  100%;
+	height: auto;
+	float: left; 
+	margin-left: 10px;
+	
+	
+	
+}
+
+
+#feirasAnosSearch{
+	width: 100%;
+	height: auto;
+	float: left; 
+	margin-left: 10px;
+	
+	
+	
+}
+
+#anosSearch{
+	
+		width: 100%;
+	height: auto;
+	float: left; 
+	margin-left: 10px;
+}
+
+
+#completeSearch{
+	
+		width: 100%;
+	height: auto;
+	float: left; 
+	margin-left: 10px;
+}
+
+.clientResults{
+	font-size: 13px;
+	font-family: serif;
+	
+	
+}
+
+#contatosDiv{
+	
+	
+	
+	
+}
+
+#accPanel{
+		
+	float:left;
+	
+	width: 50%;
+	
+
+}
+
+
+
+#fotos{
+	
+	clear: left;
+	
+}

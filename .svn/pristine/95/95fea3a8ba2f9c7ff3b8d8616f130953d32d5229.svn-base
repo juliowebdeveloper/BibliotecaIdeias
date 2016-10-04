@@ -1,0 +1,803 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Busca Clientes</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            	<h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" /> Cliente/ <b>Pesquisar Clientes</b>
+            </div>
+            
+            
+
+
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+
+
+
+<p:tabView orientation="left">
+<p:tab title="Busca rápida"> 
+
+<h:form id ="fastsearch">
+<p:growl id ="growlbusca" showDetail="true" />
+
+	<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pelo Nome Fantasia </h2> 
+<hr/>
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+
+<h:outputLabel value="Nome Fantasia: " for="fantasiafast" />
+<p:inputText value ="#{cliBuscaBean.fantasiaFast}" id ="fantasiafast"/>
+
+   <p:commandButton value="Buscar Clientes"  icon="ui-icon-search" id="buscarapidabtn" update= "growlbusca fastSearchList" 
+    actionListener="#{cliBuscaBean.fastSearch}" /> 
+</h:panelGrid>
+
+<p:dataTable id ="fastSearchList" scrollRows="50" scrollable="true" liveScroll="true" scrollHeight="600" var="cli" value = "#{cliBuscaBean.clientesFastSearch}" 
+emptyMessage="Nenhum cliente encontrado"  >
+<f:facet name ="header">
+<h:outputText value="#{cliBuscaBean.clientesFastSearch.size()} resultados encontrados"  />
+</f:facet>
+
+<p:column>
+<p:graphicImage alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="100" height="60" />
+
+
+
+</p:column>
+
+<p:column>
+<h:link outcome="clientedetails" includeViewParams="true" >
+<f:param name="clienteid" value="#{cli.idCliente}" />
+<h:outputText value="#{cli.razaoSocial}" styleClass="clientResults" />
+</h:link>
+<br/>
+<h:outputText value="Este assinou contrato BI" styleClass="clientResults" style ="color:green;" rendered="#{cli.client}" />
+<h:outputText value="Este não assinou contrato BI" styleClass="clientResults" style ="color:red;" rendered="#{!cli.client}" />
+
+<br/>
+<h:outputText value="Categoria: #{cli.categoria}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Responsável pelo atendimento: #{cli.atendimento.nomeCompleto}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Site: #{cli.site}" styleClass="clientResults" />
+<br/>
+
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cli.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+										<br/>
+<div style ="width: 570px; overflow: auto"> 
+<h:outputText value="Anotações: #{cli.anotacoes}" title="#{cli.anotacoes}" styleClass="clientResults" />
+</div>
+
+
+</p:column>
+
+</p:dataTable>
+
+</h:form>
+</p:tab>
+
+<p:tab title="Busca por Razão Social, Nome Fantasia, Categoria e Segmento Principal"> 
+<h:form id ="stringForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pela Razão Social, Categoria e Segmento Principal </h2> 
+<hr/>
+
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Razão Social: " for="razaostring" />
+<p:inputText value ="#{cliBuscaBean.razaoString}" id ="razaostring"/>
+<h:outputLabel value="Nome Fantasia: " for="razaostring" />
+<p:inputText value ="#{cliBuscaBean.fantasiaString}" id ="fantasiastring"/>
+<h:outputLabel value="Categoria: " for ="categoriastring" />
+<p:inputText value ="#{cliBuscaBean.categoriaString}" id ="categoriastring"/>
+<h:outputLabel value="Segmento Principal: " for="segmentoprinstring" />
+<p:inputText value ="#{cliBuscaBean.segprinString}"  id ="segmentoprinstring"/>
+<h:outputLabel value="Assinou contrato BI ? " for="cli1options"/>
+
+ <p:selectOneRadio id="cli1options" value="#{cliBuscaBean.clientString}" >  
+            <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            <f:selectItem itemLabel="Não" itemValue="false" />  
+            
+        </p:selectOneRadio>  
+        
+    <p:commandButton value="Buscar Clientes"  icon="ui-icon-search"  update= "stringSearch" 
+    actionListener="#{cliBuscaBean.buscarPorString}" />    
+        
+
+</h:panelGrid>
+
+
+
+<p:dataTable id ="stringSearch" var="cli" value = "#{cliBuscaBean.clientesByString}" 
+emptyMessage="Nenhum cliente encontrado"  >
+<f:facet name ="header">
+<h:outputText value="#{cliBuscaBean.clientesByString.size()} resultados encontrados"  />
+</f:facet>
+
+<p:column>
+<p:graphicImage alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="100" height="60" />
+
+
+
+</p:column>
+
+<p:column>
+<h:link outcome="clientedetails" includeViewParams="true" >
+<f:param name="clienteid" value="#{cli.idCliente}" />
+<h:outputText value="#{cli.razaoSocial}" styleClass="clientResults" />
+</h:link>
+<br/>
+<h:outputText value="Categoria: #{cli.categoria}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Responsável pelo atendimento: #{cli.atendimento.nomeCompleto}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Site: #{cli.site}" styleClass="clientResults" />
+<br/>
+
+
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cli.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+										<br/>
+
+<div style ="width: 570px; overflow: auto"> 
+<h:outputText value="Anotações: #{cli.anotacoes}" title="#{cli.anotacoes}" styleClass="clientResults" />
+</div>
+
+
+</p:column>
+
+</p:dataTable>
+
+
+
+
+</h:form>
+</p:tab>
+
+
+
+
+
+
+
+
+<p:tab title="Busca por Feira"> 
+<h:form id ="feirasForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pela feira</h2>
+
+<hr/>
+
+<p>Essa busca irá retornar todos os clientes que estiveram presentes nessa feira. </p>
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Feira:" for="selectfeira"/>
+ <p:selectOneMenu id ="selectfeira" value="#{cliBuscaBean.feiraOnlySelecionada}" converter="feiraConverter" 
+ panelStyle="width:150px; height: 100px;"  height="150" var="f" style="width:230px;"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione uma feira"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{cliBuscaBean.feiras}"  var="feiras" itemLabel="#{feiras.nomeFeira}" itemValue="#{feiras}"/>  
+       			<p:column>
+<p:graphicImage alt="#{f.nomeFeira}" value="#{f.urlLogo}"  width="90" height="50"/>
+<br/>
+#{f.nomeFeira}
+<br/>
+<strong>Edição: #{f.edicao}</strong>
+<br/>
+<strong>Ano: #{f.ano}</strong>
+</p:column>
+</p:selectOneMenu>
+          
+    <p:commandButton value="Buscar Clientes" icon="ui-icon-search" update= "feirasSearch" 
+    actionListener="#{cliBuscaBean.buscarPorFeiras}" />    
+        
+
+</h:panelGrid>
+
+<p:dataTable id ="feirasSearch" var="cli" value = "#{cliBuscaBean.clientesByFeira}" 
+emptyMessage="Nenhum cliente encontrado" >
+<f:facet name ="header">
+<h:outputText value="#{cliBuscaBean.clientesByFeira.size()} resultados encontrados"  />
+</f:facet>
+
+<p:column>
+<p:graphicImage alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="100" height="60" />
+
+
+
+</p:column>
+
+<p:column>
+<h:link outcome="clientedetails" includeViewParams="true" >
+<f:param name="clienteid" value="#{cli.idCliente}" />
+<h:outputText value="#{cli.razaoSocial}" styleClass="clientResults" />
+</h:link>
+<br/>
+<h:outputText value="Este assinou contrato BI" styleClass="clientResults" style ="color:green;" rendered="#{cli.client}" />
+<h:outputText value="Este não assinou contrato BI" styleClass="clientResults" style ="color:red;" rendered="#{!cli.client}" />
+
+<br/>
+<br/>
+<h:outputText value="Categoria: #{cli.categoria}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Responsável pelo atendimento: #{cli.atendimento.nomeCompleto}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Site: #{cli.site}" styleClass="clientResults" />
+<br/>
+
+
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cli.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+										<br/>
+
+<div style ="width: 570px; overflow: auto"> 
+<h:outputText value="Anotações: #{cli.anotacoes}" title="#{cli.anotacoes}" styleClass="clientResults" />
+</div>
+
+
+</p:column>
+
+</p:dataTable>
+
+
+
+
+</h:form>
+</p:tab>
+
+
+
+
+<p:tab title="Busca pela Feira e Anos"> 
+<h:form id ="feirasAnosForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pela feiras e pelos Anos que recebeu trabalhos</h2>
+
+<hr/>
+
+<p>Essa busca irá retornar todos os clientes que estiveram presentes nessa feira e que receberam trabalhos nos anos selecionados </p>
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Feira:" for="selectfeirano" />
+ <p:selectOneMenu id ="selectfeirano" value="#{cliBuscaBean.feiraAnosFeiraSelecionada}" converter="feiraConverter" panelStyle="width:150px; height: 200px;"  
+               height="150"     effect="fade" var="f" style="width:230px"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione uma feira"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{cliBuscaBean.feiras}" var="feiras" itemLabel="#{feiras.nomeFeira}" itemValue="#{feiras}"  />  
+       			<p:column>
+<p:graphicImage alt="#{f.nomeFeira}" value="#{f.urlLogo}"  width="100" height="60"/>
+<br/>
+
+
+#{f.nomeFeira}
+<br/>
+Edição: #{f.edicao}
+<br/>
+Ano: #{f.ano}
+</p:column>
+</p:selectOneMenu>
+
+
+<h:outputLabel value="Anos que recebeu trabalhos: " for ="scrollanos"/>
+<p:selectManyMenu id="scrollanos"  value="#{cliBuscaBean.anosFeirasAnosSelecionados}" converter="anoConverter" style="width:200px;height:200px" var="p" 
+showCheckbox="true">  
+            <f:selectItems value="#{cliBuscaBean.anos}" var="anos" itemLabel="#{anos.ano}" itemValue="#{anos}" />  
+  
+           
+  
+            <p:column>  
+                #{p.ano}  
+            </p:column>  
+        </p:selectManyMenu>  
+  
+
+
+        
+    <p:commandButton value="Buscar Clientes" icon="ui-icon-search" update= "feirasAnosSearch" actionListener="#{cliBuscaBean.buscarPorFeiraAnos()}" />    
+        
+
+</h:panelGrid>
+
+
+
+<p:dataTable id ="feirasAnosSearch" var="cli" value = "#{cliBuscaBean.clientesByFeiraAno}" 
+emptyMessage="Nenhum cliente encontrado" >
+<f:facet name ="header">
+<h:outputText value="#{cliBuscaBean.clientesByFeiraAno.size()} resultados encontrados"  />
+</f:facet>
+
+<p:column>
+<p:graphicImage alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="100" height="60" />
+</p:column>
+
+<p:column>
+<h:link outcome="clientedetails" includeViewParams="true" >
+<f:param name="clienteid" value="#{cli.idCliente}" />
+<h:outputText value="#{cli.razaoSocial}" styleClass="clientResults" />
+</h:link>
+<br/>
+<h:outputText value="Este assinou contrato BI" styleClass="clientResults" style ="color:green;" rendered="#{cli.client}" />
+<h:outputText value="Este não assinou contrato BI" styleClass="clientResults" style ="color:red;" rendered="#{!cli.client}" />
+
+<h:outputText value="Categoria: #{cli.categoria}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Responsável pelo atendimento: #{cli.atendimento.nomeCompleto}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Site: #{cli.site}" styleClass="clientResults" />
+<br/>
+
+
+
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cli.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+										<br/>
+
+<div style ="width: 570px; overflow: auto"> 
+<h:outputText value="Anotações: #{cli.anotacoes}" title="#{cli.anotacoes}" styleClass="clientResults" />
+
+</div>
+
+</p:column>
+</p:dataTable>
+
+
+
+
+
+</h:form>
+</p:tab>
+
+
+
+<p:tab title="Busca por Anos"> 
+
+<h:form id ="aForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pelos Anos que recebeu trabalho</h2>
+
+<hr/>
+<p>Essa busca irá retornar todos os clientes que receberam trabalhos nos anos selecionados </p>
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+
+
+<h:outputLabel value="Anos que recebeu trabalhos: " for="scroll" />
+<p:selectManyMenu id="scroll" 
+ value="#{cliBuscaBean.anosSelecionados}" converter="anoConverter" style="width:200px;height:200px" var="p" showCheckbox="true">  
+            <f:selectItems value="#{cliBuscaBean.anos}" var="anos" itemLabel="#{anos.ano}" itemValue="#{anos}" />  
+  
+           
+  
+            <p:column>  
+                #{p.ano}  
+            </p:column>  
+        </p:selectManyMenu>  
+  
+
+
+        
+    <p:commandButton value="Buscar Clientes" icon="ui-icon-search" update= "anosSearch" actionListener="#{cliBuscaBean.buscarPorAnos()}" />    
+        
+
+</h:panelGrid>
+
+
+
+<p:dataTable id ="anosSearch" var="cli" value = "#{cliBuscaBean.clientesByAno}" 
+emptyMessage="Nenhum cliente encontrado" >
+
+<f:facet name ="header">
+<h:outputText value="#{clientesByAno.size()} resultados encontrados"  />
+</f:facet>
+<p:column>
+<p:graphicImage alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="100" height="60" />
+</p:column>
+
+<p:column>
+<h:link outcome="clientedetails" includeViewParams="true" >
+<f:param name="clienteid" value="#{cli.idCliente}" />
+<h:outputText value="#{cli.razaoSocial}" styleClass="clientResults" />
+</h:link>
+<br/>
+<h:outputText value="Categoria: #{cli.categoria}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Responsável pelo atendimento: #{cli.atendimento.nomeCompleto}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Site: #{cli.site}" styleClass="clientResults" />
+<br/>
+
+
+
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cli.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+										<br/>
+
+<div style ="width: 570px; overflow: auto"> 
+<h:outputText value="Anotações: #{cli.anotacoes}" title="#{cli.anotacoes}" styleClass="clientResults" />
+</div>
+
+
+</p:column>
+</p:dataTable>
+
+
+
+
+
+</h:form>
+</p:tab>
+
+
+
+<p:tab title="Busca completa"> 
+
+<h:form id ="completeForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca Completa</h2>
+<hr />
+
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro" >
+<h:outputLabel value="Razão Social: " for ="razaocomp"/>
+<p:inputText value ="#{cliBuscaBean.razaoCompleta}" id ="razaocomp" />
+<h:outputLabel value="Nome Fantasia: " for="fantasiascomp" />
+<p:inputText value ="#{cliBuscaBean.fantasiaCompleta}" id ="fantasiascomp"/>
+<h:outputLabel value="Categoria: " for="categocomp" />
+<p:inputText value ="#{cliBuscaBean.categoriaCompleta}" id ="categocomp"/>
+<h:outputLabel value="Segmento Principal: " for ="segprincomp" />
+<p:inputText value ="#{cliBuscaBean.segprinCompleta}" id ="segprincomp"/>
+<h:outputLabel value="Feira que participou: " for ="feiracomp" />
+
+<p:selectOneMenu value="#{cliBuscaBean.feiraCompletaSelecionada}" converter="feiraConverter" panelStyle="width:150px; height: 200px;"  
+                 id ="feiracomp"   height="150"  effect="fade" var="f" style="width:230px"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione uma feira"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{cliBuscaBean.feiras}" var="feiras" itemLabel="#{feiras.nomeFeira}" itemValue="#{feiras}"  />  
+       			<p:column>
+<p:graphicImage alt="#{f.nomeFeira}" value="#{f.urlLogo}"  width="100" height="60"/>
+<br/>
+
+
+#{f.nomeFeira}
+<br/>
+Edição: #{f.edicao}
+<br/>
+Ano: #{f.ano}
+</p:column>
+</p:selectOneMenu>
+<h:outputLabel value="Anos que recebeu trabalhos: " for ="scrollcomp" />
+
+<p:selectManyMenu id="scrollcomp" value="#{cliBuscaBean.anosCompletoSelecionados}" converter="anoConverter" style="width:200px;height:200px" var="p" 
+showCheckbox="true">  
+            <f:selectItems value="#{cliBuscaBean.anos}" var="anos" itemLabel="#{anos.ano}" itemValue="#{anos}" />  
+  
+           
+  
+            <p:column>  
+                #{p.ano}  
+            </p:column>  
+        </p:selectManyMenu>  
+  
+
+
+    <p:commandButton value="Buscar Clientes" icon="ui-icon-search" update= "completeSearch" actionListener="#{cliBuscaBean.buscaCompleta()}" />    
+        
+
+</h:panelGrid>
+
+<p:dataTable id ="completeSearch" var="cli" value = "#{cliBuscaBean.clientesByCompleto}" 
+emptyMessage="Nenhum cliente encontrado" >
+
+<f:facet name ="header">
+<h:outputText value="#{cliBuscaBean.clientesByCompleto.size()} resultados encontrados"  />
+</f:facet>
+
+<p:column>
+<p:graphicImage  alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="100" height="60" />
+</p:column>
+
+<p:column>
+<h:link outcome="clientedetails" includeViewParams="true" >
+<f:param name="clienteid" value="#{cli.idCliente}" />
+<h:outputText value="#{cli.razaoSocial}" styleClass="clientResults" />
+</h:link>
+<br/>
+<h:outputText value="Categoria: #{cli.categoria}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Responsável pelo atendimento: #{cli.atendimento.nomeCompleto}" styleClass="clientResults" />
+<br/>
+<h:outputText value="Site: #{cli.site}" styleClass="clientResults" />
+<br/>
+
+
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cli.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+										
+										<br/>
+
+<div style ="width: 570px; overflow: auto"> 
+<h:outputText value="Anotações: #{cli.anotacoes}" title="#{cli.anotacoes}" styleClass="clientResults" />
+</div>
+
+
+</p:column>
+
+</p:dataTable>
+
+
+
+
+
+</h:form>
+</p:tab>
+
+
+
+
+<p:tab title="Relatório todos Clientes" rendered="#{funcBean.admin}" > 
+
+<h:form id ="allClientsForm">
+<h:outputText value ="Atenção: Essa operação pode levar alguns minutos" styleClass="ui-messages-warn" style ="margin: 0 auto;" />
+<br/>
+<div class ="separadora" style ="margin-top: 40px;" />
+<!-- <p:commandButton value="Relatório de todos os Clientes Cadastrados" oncomplete="allClientsDialog.show()" 
+update = "allClientsList"  style ="margin: 0 auto;"
+ icon="ui-icon-search" rendered="#{funcBean.admin}"/>
+ -->
+ <p:commandButton value="Listagem de todos os e-mails disponíveis" oncomplete="PF('allEmailsDialog').show()" 
+update = "allEmailsList" actionListener="#{cliBuscaBean.buscarTodosEmailsCliente}" style ="margin: 0 auto;"
+ icon="ui-icon-search" rendered="#{funcBean.admin}"/>
+ 
+ 
+<p:dialog resizable="false" styleClass ="dialogGeral" header="Todos os e-mails dos clientes cadastrados na Biblioteca de Idéias" 
+widgetVar="allEmailsDialog" width="900" height="500" modal = "true">
+ <p:commandButton value="Imprimir Lista de emails" type="button" icon="ui-icon-print">  
+         <p:printer target="allEmailsList"  />
+         
+         
+         </p:commandButton>
+         
+         
+         <p:dataList id ="allEmailsList" value ="#{cliBuscaBean.allEmails}" var ="ema" emptyMessage="Nenhum e-mail encontrado">
+         
+         <p:column>
+         	#{ema}
+         </p:column>
+         </p:dataList>
+         </p:dialog>
+         
+         
+         
+
+<p:dialog resizable="false" styleClass ="dialogGeral" header="Todos os Clientes da Biblioteca de Idéias" widgetVar="allClientsDialog" width="900" height="500" modal = "true">
+ <p:commandButton value="Imprimir Lista de Clientes" type="button" icon="ui-icon-print">  
+         <p:printer target="allClientsList"  /> 
+  
+    </p:commandButton>  
+
+<p:dataTable id ="allClientsList" value ="#{cliBuscaBean.allClients}" var ="cli" emptyMessage="Nenhum cliente encontrado">
+
+          
+  <p:column>
+  <div class = "barraBackground" > <h2 style ="color: black; font-size: 16px;"> #{cli.razaoSocial}  </h2> </div>
+  
+   <hr></hr>
+<h:outputLabel value ="Nome Fantasia:" for ="nome"/>
+<h:outputText value ="#{cli.nomeFantasia}" id ="nome"/>
+<br/>
+<h:outputLabel value ="Categoria:" for="categoria"/>
+<h:outputText value ="#{cli.categoria}" id ="categoria"/>
+<br/>
+<h:outputLabel value ="Segmento Principal: " for="segprin"/>
+<h:outputText value ="#{cli.segmentoPrincipal}" id ="segprin"/>
+<br/>
+<h:outputLabel value ="Segmento Secundário:" for="segsec"/>
+<h:outputText value ="#{cli.segmentoSecundario}" id="segsec" />
+<br/>
+<h:outputLabel value ="Segmento Terciário:" for="segter"/>
+<h:outputText value ="#{cli.segmentoTerciario}" id ="segter"/>
+<br/>
+<h:outputLabel value ="Funcionário que cadastrou: " for="funcad"/>
+<h:outputText value ="#{cli.cadastrador.nomeCompleto}" id ="funcad" />
+<br/>
+<h:outputLabel value ="Funcionário atendimento: " for="funatend"/>
+<h:outputText value ="#{cli.atendimento.nomeCompleto}" id ="funatend" />
+<br/>
+<h:outputLabel value ="Já recebeu trabalhos da BI? " for="receb"/>
+<h:outputText value ="Sim" rendered="#{cli.recebeuTrabalhos}"  id ="receb"/>
+<h:outputText value ="Não" rendered="#{!cli.recebeuTrabalhos}" />
+<br/>
+<h:outputLabel value ="Anotações: " for="anot"/>
+<h:outputText value="#{cli.anotacoes}" id ="anot"/>
+
+</p:column>
+<p:column>
+ <p:subTable var="contato" value="#{cli.contatos}">  
+          <f:facet name="header">  
+              Contatos  
+            </f:facet>  
+          
+            
+            <p:column>  
+            <span class="searchLabel">Contato: </span> #{contato.nome}, 
+            <span class="searchLabel">E-mail: </span> #{contato.email}, 
+            <span class="searchLabel">Telefone: </span> #{contato.telefone}, 
+            <span class="searchLabel">Celular:</span> #{contato.celular}, 
+            <span class="searchLabel">Cargo:</span> #{contato.cargo}
+            </p:column>  
+  </p:subTable>
+  </p:column>
+  
+  <p:column>
+  <p:subTable var="ano" value="#{cli.anostrabalhos}">  
+          <f:facet name="header">  
+              Anos que recebeu trabalhos  
+            </f:facet>  
+          
+            
+            <p:column>  
+            <span class="searchLabel">#{ano.ano} </span>
+        
+            </p:column>  
+  </p:subTable>
+  </p:column>
+  
+</p:dataTable>
+
+</p:dialog>
+
+</h:form>
+
+
+
+</p:tab>
+
+
+
+
+
+
+</p:tabView>
+
+</section>
+
+</section>
+
+
+
+
+  <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

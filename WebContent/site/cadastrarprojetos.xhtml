@@ -1,0 +1,322 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+			<span class= "Leaden" style="float:right;">
+			<h:form>
+		<p:commandLink  action="#{cadProjetoBean.cadastrarProjetos}" value="Pular essa etapa" process="@this" />
+			
+ 				</h:form>
+ </span>
+				<div class="CardTopic Blue PosAbsolute">Cadastrar Projetos do Cliente #{cadProjetoBean.cliente.nomeFantasia}
+				
+				
+		
+				</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+					
+			
+
+				
+				
+				<p:messages showDetail="true" showSummary="true" id = "noprojects"  />
+				<h:form id="cadProjForm">
+					<div class="Container50 Responsive50">
+
+						<h3>Adicionar novo projeto</h3>
+						<div class="Separator"></div>
+						<h:panelGrid>
+
+							<h:outputText for="codigo" value="Código Projeto:" />
+							<p:inputText id="codigo" required="true"
+								value="#{cadProjetoBean.newProjeto.codigo}">
+								<p:watermark value="Código do projeto" for="codigo" />
+							</p:inputText>
+
+							<h:outputText for="nome" value="Nome do Projeto:" />
+							<p:inputText id="nome" required="true"
+								value="#{cadProjetoBean.newProjeto.nome}">
+								<p:watermark value="Nome do projeto" for="nome" />
+							</p:inputText>
+
+							<h:outputText for="evento" value="Evento:" />
+							<p:inputText id="evento" required="false"
+								value="#{cadProjetoBean.newProjeto.evento}">
+								<p:watermark value="Evento" for="evento" />
+							</p:inputText>
+
+							<h:outputText for="arquiteto" value="Arquiteto:" />
+							<p:inputText id="arquiteto" required="true"
+								value="#{cadProjetoBean.newProjeto.arquiteto}">
+								<p:watermark value="Arquiteto do projeto" for="arquiteto" />
+							</p:inputText>
+
+							<h:outputText for="metragem" value="Metragem:" />
+							<p:selectOneMenu id="metragem"
+								value="#{cadProjetoBean.newProjeto.metragem}"
+								style="width: 150px;">
+								<f:selectItem itemLabel="Até 20m²" itemValue="Até 20m²" />
+								<f:selectItem itemLabel="Até 50m²" itemValue="Até 50m²" />
+								<f:selectItem itemLabel="Até 100m²" itemValue="Até 100m²" />
+								<f:selectItem itemLabel="Acima 100m²" itemValue="Acima 100m²" />
+							</p:selectOneMenu>
+
+
+
+							<h:outputText for="ano" value="Ano:" />
+							<p:inputText id="ano" required="true"
+								value="#{cadProjetoBean.newProjeto.ano}">
+								<p:watermark value="Ano do projeto" for="ano" />
+							</p:inputText>
+
+
+							<h:outputText for="segmento" value="Segmento:" />
+							<p:selectOneMenu id="segmento"
+								value="#{cadProjetoBean.newProjeto.segmento}"
+								style="width: 150px;">
+								<f:selectItem itemLabel="Cenários" itemValue="Cenario" />
+								<f:selectItem itemLabel="Displays" itemValue="Displays" />
+								<f:selectItem itemLabel="Estandes" itemValue="Estandes" />
+								<f:selectItem itemLabel="Ambientalmente Correto"
+									itemValue="Ambientalmente Correto" />
+							</p:selectOneMenu>
+
+
+
+							<p:commandButton value="Adicionar novo projeto"
+								icon="ui-icon-plusthick"
+								update="projList :cadProjForm noprojects"
+								actionListener="#{cadProjetoBean.criarProjeto}" />
+
+
+
+						</h:panelGrid>
+
+
+
+					</div>
+
+
+					<div class="Container50 Responsive50">
+						<h3>Lista de Projetos</h3>
+						<div class="Separator"></div>
+
+
+						<sub><b>Clique no nome do projeto para visualizar suas
+								versões</b></sub>
+						<p:dataTable id="projList"
+							emptyMessage="Não há projetos desse cliente"
+							value="#{cadProjetoBean.projetos}" var="projs">
+							<p:column>
+								<p:commandLink
+									value="Projeto #{projs.nome} -- Código: #{projs.codigo}]"
+									process="@this" action="#{cadProjetoBean.viewVersoes}"
+									update=":cadVerForm :cadVerForm:versionList :versiondlgs"
+									oncomplete="PF('versionDlg').show()">
+									<f:setPropertyActionListener value="#{projs}"
+										target="#{cadProjetoBean.projetoSelecionado}" />
+								</p:commandLink>
+							</p:column>
+
+							<p:column>
+								<p:commandLink value="Remover" update=":cadProjForm"
+									action="#{cadProjetoBean.excluirProjeto}" process="@this">
+									<f:setPropertyActionListener value="#{projs}"
+										target="#{cadProjetoBean.projetoSelecionado}" />
+								</p:commandLink>
+							</p:column>
+
+						</p:dataTable>
+
+
+
+
+
+					</div>
+
+
+					<!-- Fim form Cadastro -->
+				</h:form>
+
+
+
+				<!-- Version Dialog	 -->
+				<p:dialog widgetVar="versionDlg" resizable="false" modal="true"
+					id="versiondlgs"
+					header="Versões do projeto  #{cadProjetoBean.projetoSelecionado.nome}">
+					
+			
+					<h3>Adicionar nova versão de projeto</h3>
+					<div class = "Separator"></div>
+					<h:form id="cadVerForm">
+						<h:panelGrid columns="2" >
+
+							
+							<p:inputText id="versao" required="true"
+								value="#{cadProjetoBean.newVersao.versao}" >
+								<p:watermark value="Versão (Construída / Não construída)"
+									for="versao" />
+							</p:inputText>
+
+							<p:commandButton id="criarVersao"
+								action="#{cadProjetoBean.criarVersao}"
+								value="Adicionar nova versão do projeto"
+								icon="ui-icon-plusthick"
+								update=":cadVerForm :cadVerForm:versionList" process="@form" />
+						</h:panelGrid>
+
+	
+
+	
+						<h3>Versões do Projeto</h3>
+						<sub>Selecione uma versão para fazer upload das suas fotos</sub>
+						<p:dataTable id="versionList" var="ver"
+							value="#{cadProjetoBean.versoes}"
+							emptyMessage="Nenhuma versão foi adicionada à esse projeto">
+
+							<p:column headerText="Versão">
+								<p:commandLink value="#{ver.versao}"
+									action="#{cadProjetoBean.viewFotosProjeto}" process="@this"
+									update=":cadFotoForm" oncomplete="PF('fotoDlg').show()">
+									<f:setPropertyActionListener value="#{ver}"
+										target="#{cadProjetoBean.versaoSelecionada}" />
+								</p:commandLink>
+							</p:column>
+
+							<p:column>
+								<p:commandLink value="Remover"
+									action="#{cadProjetoBean.excluirVersao()}" process="@this"
+									update=":cadVerForm">
+									<f:setPropertyActionListener value="#{ver}"
+										target="#{cadProjetoBean.versaoSelecionada}" />
+								</p:commandLink>
+							</p:column>
+
+						</p:dataTable>
+
+					</h:form>
+
+				
+
+				</p:dialog>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+
+				<p:dialog widgetVar="fotoDlg"
+					header="Fotos da Versão #{cadProjetoBean.versaoSelecionada.versao}"
+					resizable="false" styleClass="dialogGeral" modal="true" width="850"
+					height="500">
+					<h:form  id="cadFotoForm">
+
+
+						<h3>Fotos dessa versão</h3>
+						
+
+						<h:outputText value="Não há fotos nessa versão"
+							rendered="#{empty cadProjetoBean.fotosProjeto}" />
+
+						<p:carousel value="#{cadProjetoBean.fotosProjeto}" var="fots"
+							responsive="true">
+
+							<p:panel>
+
+
+								<p:graphicImage value="#{fots.urlImagem}"
+									style="max-width:50%; height: auto;"></p:graphicImage>
+							</p:panel>
+						</p:carousel>
+
+						<div class ="Separator"></div>
+						<h2>Faça o upload das fotos para essa versão</h2>
+					
+						
+						<ul>
+							<li>Utilize o botão <b>Escolher fotos</b> para selecionar as fotos referentes à essa versão</li>
+							<li>Clique em <b>Adicionar todas fotos</b> ou selecione individualmente quais fotos serão inseridas
+							</li>
+							<li>Clique em <b>Inserir fotos nessa versão do projeto</b> para relacionar as fotos com essa versão de projeto</li>
+						</ul>
+						
+						<p:growl id="fotogrowl" showDetail="true" />
+						<p:fileUpload sizeLimit="12204800" widgetVar="uploaderf"
+							label="Escolher fotos..." auto="false" mode="advanced"
+							uploadLabel="Adicionar todas as fotos" cancelLabel="Cancelar"
+							fileUploadListener="#{cadProjetoBean.handleFotoUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="fotogrowl" multiple="true" customUI="true"
+							invalidSizeMessage="O tamanho da imagem é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+
+
+
+
+						<p:commandButton actionListener="#{cadProjetoBean.criarListFotos}"
+							update="fotogrowl" icon="ui-icon-disk" oncomplete="PF('fotoDlg').hide()"
+							value="Inserir fotos nessa versão do projeto" />
+
+					</h:form>
+
+
+				</p:dialog>
+
+
+
+	<h:form>
+					<p:commandButton icon="ui-icon-disk" iconPos="left"
+						action="#{cadProjetoBean.cadastrarProjetos}" ajax="true"
+						update=":cadProjForm"
+						value="Finalizar e Cadastrar Briefings"
+						title="Clique para cadastrar os projetos do cliente" />
+
+				</h:form>
+
+					<p:ajaxStatus
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+				
+				<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

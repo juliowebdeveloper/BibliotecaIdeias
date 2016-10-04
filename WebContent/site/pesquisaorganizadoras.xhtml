@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Organizadoras</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            <h:graphicImage alt="organizadoraicon" value="/site/images/icons/organizadoraicon.png" width="30" height="30" />	Cadastros/<b> Cadastrar Organizadora</b>
+            </div>
+            
+            
+            
+            
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+ <section class="bordas main degrade-horizontal">
+              <section class="inner">
+
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca por nome de Organizadoras</h2>
+<hr></hr>
+<sub>A BI possui atualmente #{orgBean.totalOrganizadoras} organizadoras cadastradas</sub>
+
+
+
+<h:form id ="buscaOrganizadora">
+<p:panel>
+Buscar por nome:
+<p:inputText value ="#{orgBean.paramBusca}" id="nomeorg" size="30">
+<p:watermark value="Digite o nome da organizadora" for="nomeorg"></p:watermark>
+</p:inputText>
+<p:commandButton icon="ui-icon-search" ajax ="true" update=":gridForm:grid" value ="Buscar Organizadoras" actionListener="#{orgBean.buscarOrganizadorasPorNome()}"></p:commandButton>
+</p:panel>
+</h:form>
+
+			&nbsp;
+			<h:form id ="gridForm">
+<p:dataGrid var="org" value="#{orgBean.organizadoras}" style="margin:0 auto;" columns="3"  id ="grid" emptyMessage="Nenhuma Organizadora Encontrada"
+        rows="9" paginator="true"  paginatorPosition="top"
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        rowsPerPageTemplate="10,20,30"  > 
+        
+        <p:panel>
+        <h2>#{org.razaoSocial}</h2>
+       
+            <h:panelGrid columns="1" cellspacing="5" style="" styleClass="funcFormCadastro">  
+                <p:graphicImage alt="#{org.razaoSocial}" value="#{org.logourl}" width ="120" height="80"/>   
+  
+                <h:outputText value="#{org.endereco}  - #{org.numero} - #{org.bairro}" />  
+  				<h:outputText value="#{org.cidade.nome}" />
+        <h2>Contato</h2>
+         	<hr/>
+         	
+     <h:panelGrid columns="1"  cellpadding="2" style="text-align:left;" styleClass="funcFormCadastro">  
+     
+     <h:outputLabel for="telefone" value="Telefone:" styleClass="label"/>
+            <h:outputText value="#{org.telefone}" id ="telefone"/>
+       
+      <h:outputLabel value="E-mail:" styleClass="label" for="email"/>
+
+            <h:outputText value="#{org.email}" id ="email"/>
+              
+        		</h:panelGrid>  
+         	
+         
+         	
+     </h:panelGrid>  
+            
+              <h2>Opções</h2>
+            	<hr/>
+            	
+            <f:facet name="footer">
+            <p:commandButton value ="Alterar dados" update=":editOrg"  icon="ui-icon-pencil" oncomplete="PF('orgeditdlg').show();">
+            
+                          <f:setPropertyActionListener value="#{org}" target="#{orgBean.orgaSelecionada}" />
+            
+            </p:commandButton>
+            
+  <p:commandButton value ="Visualizar" action="#{orgBean.preencherFeirasOrgSelecionada}"   update=":gridForm:display :gridForm:feirasOrg" icon="ui-icon-search" oncomplete="PF('orgdlg').show();">
+  
+              <f:setPropertyActionListener value="#{org}" target="#{orgBean.orgaSelecionada}" />
+            </p:commandButton>
+            </f:facet>
+            
+        </p:panel>  
+        
+
+        </p:dataGrid>
+        
+        
+        
+        
+        
+        <p:dialog widgetVar="orgdlg" header="Detalhes da Organizadora" resizable="false"  
+              width="950" showEffect="clip" hideEffect="fold" height="500" modal="true" styleClass="dialogGeral">  
+   
+					
+		<h:panelGroup id="display" >  
+  
+          <p:graphicImage alt="#{orgBean.orgaSelecionada.razaoSocial}" value="#{orgBean.orgaSelecionada.logourl}" 
+                url="#{orgBean.orgaSelecionada.logourl}" style = "float:left;"/>  
+           
+             
+
+						<h:panelGrid columns="2" styleClass="funcFormCadastro" style="float:left;" >
+							<h:outputLabel value="Razão Social" styleClass="label" for="razaosocialvisu" />
+            							<h:outputText value="#{orgBean.orgaSelecionada.razaoSocial}" id ="razaosocialvisu"/>
+            
+  			<h:outputLabel value="Nome Fantasia" styleClass="label" for ="nomefantasiavisu"/>
+							<h:outputText value="#{orgBean.orgaSelecionada.nomeFantasia}" id ="nomefantasiavisu" />
+
+							<h:outputLabel value="Endereço:" styleClass="label" for="ende" />
+							<h:outputText id ="ende"
+								value="#{orgBean.orgaSelecionada.endereco} - #{orgBean.orgaSelecionada.numero}" />
+
+							<h:outputLabel value="Complemento:" styleClass="label"  for="comp"/>
+							<h:outputText value="#{orgBean.orgaSelecionada.complemento}"  id ="comp"/>
+
+
+							<h:outputLabel value="Bairro:" styleClass="label" for ="bair" />
+
+							<h:outputText value="#{orgBean.orgaSelecionada.bairro}" id ="bair"/>
+
+							<h:outputLabel value="CEP:" styleClass="label" for ="cep"/>
+
+							<h:outputText value="#{orgBean.orgaSelecionada.cep}" id ="cep" />
+
+							<h:outputLabel value="Cidade:" styleClass="label" for="cid"/>
+
+							<h:outputText value="#{orgBean.orgaSelecionada.cidade.nome}" id ="cid"/>
+
+						</h:panelGrid>
+
+					<h2>Contato</h2>
+						<hr/>
+							<h:panelGrid columns="2" style ="float:left;">
+
+								<h:outputLabel value="E-mail:" styleClass="label" for="emai"/>
+								<h:outputText value="#{orgBean.orgaSelecionada.email}" id ="emai"/>
+
+								<h:outputLabel value="Telefone:" styleClass="label" for ="tel"/>
+								<h:outputText value="#{orgBean.orgaSelecionada.telefone}" id ="tel"/>
+
+
+								<h:outputLabel value="Telefone 2 / Celular:" styleClass="label" for="tel2"/>
+								<h:outputText value="#{orgBean.orgaSelecionada.celular}" id ="tel2"/>
+
+								<h:outputLabel value="Skype:" styleClass="label" for ="sky"/>
+								<h:outputText value="#{orgBean.orgaSelecionada.skype}" id ="sky"/>
+
+								<h:outputLabel value="Nome do Contato:" styleClass="label" for ="ncont" />
+								<h:outputText value="#{orgBean.orgaSelecionada.nomeContato}" id ="ncont" />
+
+								<h:outputLabel value="Cargo:" styleClass="label" for= "carg"/>
+								<h:outputText value="#{orgBean.orgaSelecionada.cargo}" id ="carg"/>
+							
+
+							</h:panelGrid>
+
+					
+
+
+					</h:panelGroup>  
+					<h2>Feiras dessa organizadora</h2>
+				<hr/>
+				
+				<p:dataGrid id="feirasOrg" columns="3" rows="2" paginator="true" paginatorPosition="top" emptyMessage="Nenhuma feira dessa organizadora."
+         value="#{orgBean.feirasOrganizadora}" var="feira"
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        rowsPerPageTemplate="10,20,50"  > 
+				 <p:panel>
+  
+       
+            <h:panelGrid columns="1" cellspacing="0"  styleClass="funcFormCadastro"> 
+            <h:link outcome="feiradetails" target="blank" >
+                <p:graphicImage alt="#{feira.nomeFeira}" value="#{feira.urlLogo}" width ="80" height="60"/>   
+  					
+  					<f:param name="feiraid" value="#{feira.idFeira}" />
+  					
+               <h:outputText value="#{feira.nomeFeira}" title="#{feira.anotacoes}" />
+  				
+  					</h:link> 	
+  					<p:column>
+  					<br/>
+  					<h:outputText value="Edição:" styleClass="searchLabel" />
+  					<h:outputText value="#{feira.edicao}" />
+  					<br/>
+  					<h:outputText value="Ano:" styleClass="searchLabel" />
+  					<h:outputText value="#{feira.edicao}" />	
+  					</p:column>		
+  				</h:panelGrid>
+  				
+  				</p:panel>
+				
+				</p:dataGrid>
+
+				</p:dialog>
+			
+        
+        
+</h:form>
+			
+			
+			   <p:growl id ="growl" />	
+	<!-- ************************** Painel de Edição ************************************************************* -->		
+		  
+  <h:form id ="editOrg">				
+<p:dialog widgetVar="orgeditdlg" header="Editar Organizadora" resizable="false"  
+              width="900" showEffect="clip" hideEffect="fold" height="500" modal="true" styleClass="dialogGeral">  
+              
+           
+
+		<h:panelGrid id="display"  cellpadding="4">  
+  
+   
+
+<p:growl id ="avatargrowl" showDetail="true" showSummary="true" />
+				
+				<p>Selecione um novo logo para essa organizadora e ele será alterada automáticamente.</p>
+				<p:graphicImage alt="#{orgBean.orgaSelecionada.razaoSocial}" value="#{orgBean.orgaSelecionada.logourl}" id="imagem" cache="false" />
+  					<br />
+  						<p:fileUpload sizeLimit="2204800" widgetVar="uploader"
+							label="Alterar Logo..." auto="true" mode ="advanced" 
+							fileUploadListener="#{orgBean.upload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem avatargrowl" multiple="false" customUI="true" invalidSizeMessage="O tamanho da imagem é muito grande" invalidFileMessage="Esse tipo de arquivo não é suportado"/>
+  					
+
+						<p:panelGrid columns="2">
+							<h:outputLabel value="Razão Social" styleClass="label" for="razaoedit"/>
+							
+           <p:inputText value="#{orgBean.orgaSelecionada.razaoSocial}" disabled="true" rendered="#{!funcBean.admin}" size="70" id ="razaoedita" />
+                       <p:inputText value="#{orgBean.orgaSelecionada.razaoSocial}" disabled="false" rendered="#{funcBean.admin}" size="70" id ="razaoedit" />
+            
+  			<h:outputLabel value="Nome Fantasia" styleClass="label" for="nomeedit"/>
+							<p:inputText value="#{orgBean.orgaSelecionada.nomeFantasia}" size="40" id ="nomeedit" />
+
+							<h:outputLabel value="Endereço:" styleClass="label" for="enderecoedit"/>
+							<p:inputText
+								value="#{orgBean.orgaSelecionada.endereco}" size="70" id ="enderecoedit"/>
+								
+							<h:outputLabel value="Número:" styleClass="label" for="numeroedit"/>
+								<p:inputText
+								value="#{orgBean.orgaSelecionada.numero}" size="10" id ="numeroedit"/>
+							
+
+							<h:outputLabel value="Complemento:" styleClass="label" for="compedit"/>
+							<p:inputText value="#{orgBean.orgaSelecionada.complemento}" id ="compedit" />
+
+
+							<h:outputLabel value="Bairro:" styleClass="label" for="bairroedit"/>
+
+							<p:inputText value="#{orgBean.orgaSelecionada.bairro}" id ="bairroedit"/>
+
+							<h:outputLabel value="CEP:" styleClass="label" for="cepedit" />
+
+							<p:inputText value="#{orgBean.orgaSelecionada.cep}" id= "cepedit"/>
+
+							<h:outputLabel value="Cidade:" styleClass="label" for = "cidadedit" />
+
+							<h:outputText value="#{orgBean.orgaSelecionada.cidade.nome}" id ="cidadedit" />
+
+							<h:outputLabel value="Se deseja alterar a cidade, escolha outra:" for ="cidades" />
+
+							<p:selectOneMenu
+								style="width: 190px; border-radius: 3px; font-size: 16px;"
+								value="#{orgBean.idCidade}" id="cidades">
+								<f:selectItem itemLabel=" Selecione uma cidade " itemValue="0" />
+								<f:selectItems value="#{orgBean.cidades}" var="cidade" itemDescription="#{cidade.distrito}"
+									itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />
+
+							</p:selectOneMenu>
+
+
+							<h:outputLabel value="País:" for="paises"/>
+
+							<p:selectOneMenu
+								style="width: 190px; border-radius: 3px; font-size: 16px;"
+								valueChangeListener="#{orgBean.stateChangeListener}"
+								value="#{orgBean.codPais}" id="paises">
+								<f:selectItem itemLabel=" Selecione um país " itemValue="0" />
+								<f:selectItems value="#{orgBean.paises}" var="pais"
+									itemValue="#{pais.codigo}" itemLabel="#{pais.nome}" />
+								<f:ajax event="change" render=":editOrg:cidades" />
+
+							</p:selectOneMenu>
+
+
+						</p:panelGrid>
+
+						<h2>Contato</h2>
+						<hr/>
+							<p:panelGrid columns="2">
+
+								<h:outputLabel value="E-mail:" styleClass="label" for="emailedit"/>
+								<p:inputText value="#{orgBean.orgaSelecionada.email}" id ="emailedit"/>
+
+								<h:outputLabel value="Telefone:" styleClass="label" for="teledit"/>
+								<p:inputText value="#{orgBean.orgaSelecionada.telefone}" id ="teledit"/>
+
+
+								<h:outputLabel value="Telefone 2 / Celular:" styleClass="label" for ="celedit" />
+								<p:inputText value="#{orgBean.orgaSelecionada.celular}" id ="celedit"/>
+
+								<h:outputLabel value="Skype:" styleClass="label" for="skypedit" />
+								<p:inputText value="#{orgBean.orgaSelecionada.skype}" id ="skypedit"/>
+
+								<h:outputLabel value="Nome do Contato:" styleClass="label" for="nomecontedit"/>
+								<p:inputText value="#{orgBean.orgaSelecionada.nomeContato}" id ="nomecontedit" />
+
+								<h:outputLabel value="Cargo:" styleClass="label" for="cargoedit"/>
+								<p:inputText value="#{orgBean.orgaSelecionada.cargo}"  id ="cargoedit"/>
+							
+
+							</p:panelGrid>
+
+						
+
+					</h:panelGrid>  
+				
+	
+			<p:commandButton value = "Alterar dados" styleClass="saveButton" icon ="ui-icon-disk"
+						actionListener="#{orgBean.alterarOrganizadora}" update=":growl :gridForm:grid" oncomplete="PF('orgeditdlg').hide()" />
+				
+
+
+		
+				</p:dialog>
+			
+			
+				</h:form>
+			
+</section>
+
+</section>
+            
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

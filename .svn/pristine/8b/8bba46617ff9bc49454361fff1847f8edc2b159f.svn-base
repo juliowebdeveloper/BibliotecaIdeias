@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos_cadcli.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Cadastro Cliente</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="cadastro cadastro-cliente">
+    
+			   <ui:include src="/WEB-INF/headertemplate.xhtml" />
+			   
+			   
+            <div class="wrapper">
+            
+            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+            
+             <div class="breadcrumbs bordas degrade-horizontal arredondado">
+            	 
+            <h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" /> Cadastros / <b>Cadastro de Clientes</b> 
+            </div>
+            
+            <div class="notificacao bordas degrade-horizontal arredondado">
+            <b>Para cadastrar um novo cliente basta preencher os formulários abaixo.</b><br/>
+Para pesquisar dados completos de clientes já cadastrados acesse a área de pesquisa.
+<br/>
+<strong>Os campos com * são obrigatórios</strong>
+            </div>
+            
+            <section class="bordas main degrade-horizontal section-cadastro-cliente">
+              <section class="inner">
+                    
+                            
+
+       
+            
+                                 
+   <h:form id ="cadastro" styleClass="form-cadastro inner"> 
+   
+    <h2><h:graphicImage alt="avatarclienteicon" value="/site/images/icons/avatarclienteicon.png" width="50" height="20" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Inserir Imagem</h2>
+                 <hr/>
+             
+             
+           <p:messages id = "msgs" showDetail="true" /> 
+              <p:graphicImage alt="Cartão de Visita" value="#{cadastroCliBean.imagem}" id="imagem" cache="false" width="230" height="125" />
+  					<br />
+  						<p:fileUpload title="Insira um logo ou cartão de visita" sizeLimit="2204800" widgetVar="uploader" 
+							label="Adicionar Imagem" auto="true" mode ="advanced" 
+							fileUploadListener="#{cadastroCliBean.handleFileUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem" multiple="false" customUI="true" invalidSizeMessage="O tamanho da imagem é muito grande" invalidFileMessage="Esse tipo de arquivo não é suportado" />
+  			
+          		<div id ="separadora" style ="margin-top: 50px; clear:both;"></div>
+        
+        
+ <h2> <h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />   Sobre a empresa</h2>
+                 <hr/>
+             
+
+<h:panelGrid columns ="2" styleClass ="funcFormCadastro">
+
+
+
+<h:outputLabel value="*Razão Social:" for ="razaosocial" />
+<p:inputText value ="#{cadastroCliBean.cliente.razaoSocial}" size ="70" required ="true" 
+style ="color: black;" id="razaosocial" requiredMessage="A razão social é obrigatória" tabindex="0"
+ styleClass="form-itens degrade-vertical2">
+
+<p:watermark value="Razão social" for="razaosocial"></p:watermark>
+
+
+</p:inputText>
+
+<h:outputLabel value="*Nome Fantasia:" for="nomefantasia" />
+<p:inputText id="nomefantasia" value ="#{cadastroCliBean.cliente.nomeFantasia}" maxlength="80" size ="70" required ="true" 
+style ="color: black;" requiredMessage="O nome fantasia é necessário"  styleClass="form-itens degrade-vertical2">
+
+<p:watermark value="Nome fantasia" for="nomefantasia"></p:watermark>
+
+</p:inputText>
+
+
+<h:outputLabel value="*Segmento:" for="segprincipal"/>
+<p:inputText id="segprincipal" value ="#{cadastroCliBean.cliente.segmentoPrincipal}" size ="20" required ="true" 
+style ="color: black;" maxlength="50" requiredMessage="O segmento principal é necessário" styleClass="form-itens degrade-vertical2">
+
+<p:watermark value="Segmento principal" for="segprincipal"></p:watermark>
+
+</p:inputText>
+
+<h:outputLabel value="Categoria:" for ="categoria" />
+<p:inputText value ="#{cadastroCliBean.cliente.categoria}" size ="30"  maxlength="20"
+style ="color: black;" id="categoria"  styleClass="form-itens degrade-vertical2">
+
+<p:watermark value="Categoria" for="categoria"></p:watermark>
+
+</p:inputText>
+
+ <h:outputLabel value="Site:" for="site"/>
+        <p:inputText value ="#{cadastroCliBean.cliente.site}" maxlength="200" size ="20" styleClass="form-itens degrade-vertical2" id="site">
+        
+         <p:watermark value="Site" for="site"></p:watermark>
+
+	</p:inputText>
+
+  <h:outputLabel value="Anotações:" for="anotacoes"/>
+  
+  <p:inputTextarea id="anotacoes" cols="40" rows="5" value ="#{cadastroCliBean.cliente.anotacoes}" styleClass="form-itens degrade-vertical2">
+  
+  <p:watermark value="Anotações" for="anotacoes"></p:watermark>
+
+	</p:inputTextarea>
+
+
+    </h:panelGrid >
+    
+      <h2> <h:graphicImage alt="funcionarioicon" value="/site/images/icons/funcionarioicon.png" width="30" height="30"  style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Atendimento</h2>
+         <hr/>
+    
+    <h:panelGrid columns ="2" styleClass ="funcFormCadastro">
+  <h:outputLabel value="Assinou contrato BI?" for="optionscli" />
+ 			<p:selectOneRadio id="optionscli" value="#{cadastroCliBean.cliente.client}" >  
+            <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            <f:selectItem itemLabel="Não" itemValue="false" />  
+            
+        </p:selectOneRadio>  
+
+  <h:outputLabel value="Recebeu trabalhos da BI?" for="options" />
+ 			<p:selectOneRadio id="options" value="#{cadastroCliBean.cliente.recebeuTrabalhos}" >  
+            <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            <f:selectItem itemLabel="Não" itemValue="false" />  
+            
+        </p:selectOneRadio>  
+        
+        <h:outputText value="Atendimento" title="Funcionário responsável pelo atendimento" for ="atendimento"/>  
+        <p:selectOneMenu id="atendimento" style="width: 250px;" value="#{cadastroCliBean.funcAtendimento}" effect="fade" converter="funcConverter"  title="Funcionário responsável pelo atendimento">  
+            <f:selectItems value="#{cadastroCliBean.funcionarios}" var="func" itemLabel="#{func.nomeCompleto}" itemValue="#{func}"/>  
+        </p:selectOneMenu>  
+        
+         
+	
+
+	
+</h:panelGrid>
+
+
+  <h2><h:graphicImage alt="enderecoicon" value="/site/images/icons/enderecoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Endereço</h2>
+         <hr/>
+<h:panelGrid columns="2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Endereço: " for="endereco" />
+<p:inputText value ="#{cadastroCliBean.cliente.rua}" size ="50"  maxlength="100"
+style ="color: black;"  id ="endereco" label="Endereço" styleClass="form-itens degrade-vertical2">
+
+  <p:watermark value="Endereço" for="endereco"></p:watermark>
+   </p:inputText>
+
+<h:outputLabel value="Número:" for="numero"/>
+<p:inputText value ="#{cadastroCliBean.cliente.numero}" size ="6" maxlength="10"
+style ="color: black;"  styleClass="form-itens degrade-vertical2" id="numero">
+
+  <p:watermark value="Número" for="numero"></p:watermark>
+
+	</p:inputText>
+
+<h:outputLabel value="Complemento:" for="complemento"/>
+<p:inputText value ="#{cadastroCliBean.cliente.complemento}" size ="20" 
+style ="color: black;"  styleClass="form-itens degrade-vertical2" id="complemento">
+
+  <p:watermark value="Complemento" for="complemento"></p:watermark>
+
+	</p:inputText>
+	
+
+<h:outputLabel value="Bairro:" for="bairro"/>
+<p:inputText value ="#{cadastroCliBean.cliente.bairro}" size ="15" maxlength="50"
+style ="color: black;"  styleClass="form-itens degrade-vertical2" id="bairro">
+
+
+  <p:watermark value="Bairro" for="bairro"></p:watermark>
+
+	</p:inputText>
+
+<h:outputLabel value="CEP:" for="cep"/>
+<p:inputText value ="#{cadastroCliBean.cliente.cep}" size ="10"  maxlength="20"
+style ="color: black;"  styleClass="form-itens degrade-vertical2" id="cep">
+
+
+  <p:watermark value="Cep" for="cep"></p:watermark>
+
+	</p:inputText>
+
+	
+			<h:outputLabel value="País:" for="paises" />
+
+					<p:selectOneMenu
+						style="width: 190px;"
+						valueChangeListener="#{cadastroCliBean.stateChangeListener}"
+						value="#{cadastroCliBean.codPais}" id="paises">
+						<f:selectItem itemLabel=" Selecione um país " itemValue="0" />
+						<f:selectItems value="#{cadastroCliBean.paises}" var="pais"
+							itemValue="#{pais.codigo}" itemLabel="#{pais.nome}" />
+						<f:ajax event="change" render=":cadastro:cidades" />
+
+					</p:selectOneMenu>
+					
+						<h:outputLabel value="Cidade:" for="cidades"/>
+					<p:selectOneMenu
+						style="width: 190px;"
+						value="#{cadastroCliBean.idCidade}" id="cidades">
+						<f:selectItem itemLabel=" Selecione uma cidade " itemValue="0" />
+						<f:selectItems value="#{cadastroCliBean.cidades}" var="cidade" itemDescription="#{cidade.distrito}"
+							itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />
+
+					</p:selectOneMenu>
+
+		 
+        	
+					 <h:form>
+<p:commandButton  icon="ui-icon-disk" iconPos="right" styleClass="btn-final" action="#{cadastroCliBean.cadastrarCliente}" ajax="true" 
+update =":cadastro:msgs" value ="Finalizar e Cadastrar Projetos" 
+title="Clique para cadastrar essas informações do cliente" />
+
+</h:form>	
+        </h:panelGrid>
+        
+				
+           
+        </h:form>  
+        
+        
+            
+                </section>
+            
+            </section>
+            
+            
+            
+           <aside class="cad-func aside degrade-vertical arredondado bordas" style ="overflow: auto;">
+            
+            <h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Contatos desse cliente</h2>
+ 					<hr/>
+ 
+
+	<h:form id ="contform" styleClass="funcFormCadastro">
+
+    <p:messages showDetail="true"/>
+    <h:panelGrid columns="2" id="grid" styleClass ="funcFormCadastro">  
+            <h:outputLabel value="*Nome do contato:" for="txt_nome"></h:outputLabel>  
+            <p:inputText id="txt_nome"  style ="color:black;" required="true" 
+                            value="#{cadastroCliBean.contato.nome}" styleClass="form-itens degrade-vertical2"/> 
+                             
+              <h:outputLabel value="*Telefone:" for="txt_tel"></h:outputLabel>  
+            <p:inputText id="txt_tel" required="true"   style ="color:black;"   
+                            value="#{cadastroCliBean.contato.telefone}"    styleClass="form-itens degrade-vertical2"/>  
+                            
+            <h:outputLabel value="Cargo:" for="txt_cargo"></h:outputLabel>  
+            <p:inputText id="txt_cargo"   
+                            value="#{cadastroCliBean.contato.cargo}" maxlength="30" styleClass="form-itens degrade-vertical2"/>  
+              
+               <h:outputLabel value="E-mail: " for="txt_email"></h:outputLabel>  
+            <p:inputText id="txt_email" 
+                            value="#{cadastroCliBean.contato.email}" maxlength="50"  styleClass="form-itens degrade-vertical2">
+                                          </p:inputText>
+            
+               <h:outputLabel value="Celular: " for="txt_cel"></h:outputLabel>  
+            <p:inputText id="txt_cel"   
+                            value="#{cadastroCliBean.contato.celular}"  maxlength="30"  styleClass="form-itens degrade-vertical2"/>  
+              
+                <h:outputLabel value="Skype: " for="txt_sky"></h:outputLabel>  
+            <p:inputText id="txt_sky"   
+                            value="#{cadastroCliBean.contato.skype}" maxlength="30" styleClass="form-itens degrade-vertical2"/>  
+              
+                <h:outputLabel value="Rede Social: " for="txt_rede"></h:outputLabel>  
+            <p:inputText id="txt_rede"  
+                            value="#{cadastroCliBean.contato.redeSocial}" maxlength="50" styleClass="form-itens degrade-vertical2"/>  
+              
+              
+            
+     <p:commandButton id="btn_add" value="Adicionar contato" icon="ui-icon-plusthick" update="contatosList contform"  
+                            actionListener="#{cadastroCliBean.inserirContato}"  /> 
+        </h:panelGrid>  
+        
+        
+        <h2>Lista de contatos</h2>
+	 <p:dataTable id="contatosList" emptyMessage="Nenhum contato adicionado" value="#{cadastroCliBean.contatos}" var="cont">  
+  	<p:column>  
+            
+                    <h:outputLabel value="Nome:" styleClass="searchLabel" />  
+               
+                <h:outputText value="#{cont.nome}" />  
+     			 <h:outputText value="#{cont.cargo}" /> 
+  						<br/>
+
+                    <h:outputLabel value="Telefones:" styleClass="searchLabel"/>  
+          
+                <h:outputText value="Tel: #{cont.telefone} / Cel: #{cont.celular} " />  
+  							<br />
+                
+                    <h:outputLabel value="Outros contatos:" styleClass="searchLabel"/>  
+         
+                <h:outputText value="E-mail: #{cont.email}" />  
+                <br />
+                <h:outputText value="Skype: #{cont.skype}" />  
+                 <br />
+                <h:outputText value="Rede social: #{cont.redeSocial}" />  
+           
+  		</p:column>
+            <p:column>  
+            
+                <p:commandLink value="Remover"  process="@this" action="#{cadastroCliBean.removerContato}" update =":contform" > 
+                <f:setPropertyActionListener value="#{cont}" target="#{cadastroCliBean.contatoSelecionado}" />
+                </p:commandLink> 
+            </p:column>  
+  
+  
+  </p:dataTable>
+ 
+ </h:form>
+            
+            
+            
+            <!-- 
+            	<h2 style="top: 0px;"> <h:graphicImage alt="cadastrosicon" value="/site/images/icons/ultimoscadastrosicon.png" width="30" height="30" /> Últimos Cadastros</h2>
+                
+                <hr/>
+                
+                <p:dataTable emptyMessage="Nenhum cliente cadastrado" value="#{cadastroCliBean.ultimosCadastrados}" var="ultimos">
+                <p:column >
+                 <h:link includeViewParams="true"   outcome="clientedetails" >
+  			 		<f:param name="clienteid" value="#{ultimos.idCliente}"></f:param>
+                  <p:graphicImage alt="#{ultimos.razaoSocial}" value="#{ultimos.urlCartao}" width="80" height="60"/>   
+  
+               </h:link>
+  					<br />
+  				 <h:link includeViewParams="true"   outcome="clientedetails" >
+  			 		<f:param name="clienteid" value="#{ultimos.idCliente}"></f:param>
+					<b><h:outputText value="#{ultimos.razaoSocial}" /></b>
+  					
+                            
+               </h:link>
+               	<br />
+               	<b><h:outputText value ="Cadastrado por: " /></b>
+					 	<h:outputText value="#{ultimos.cadastrador.nomeCompleto} no dia #{ultimos.dataCadastro.time.toLocaleString()}" />
+					<br />
+             <b>  <h:outputText value ="Atendimento por: " /></b>
+					 	<h:outputText value="#{ultimos.atendimento.nomeCompleto}" />
+					
+              
+               
+               
+                </p:column>
+                
+                 <hr />
+               
+                
+                
+                </p:dataTable>
+                 -->
+                
+                </aside>
+                
+
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

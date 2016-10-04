@@ -1,0 +1,233 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de Locais/Pavilhões
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+				<span class="Leaden" style="float: right;">
+				 <h:form id="ultimosForm">
+						<p:commandButton id="ultimosBtn" value="Últimos Cadastros"
+							type="button" style="font-size:10px" />
+						<p:overlayPanel id="ultimosPanel" for="ultimosBtn"
+							hideEffect="fade">
+							<p:dataTable scrollable="true" resizableColumns="true"
+								scrollHeight="500" value="#{pavBean.ultimosCadastrados}"
+								var="pav" widgetVar="pav" id="pavList">
+
+
+								<p:column width="10">
+
+									<h:outputText value="#{pav.nome}" styleClass="label" />
+									<br />
+									<h:outputText value="#{pav.endereco} #{pav.numero}"
+										styleClass="enderecolabel" />
+									<br />
+									<h:outputText value="#{pav.bairro}" styleClass="enderecolabel" />
+									<br />
+									<h:outputText value="#{pav.cidade.nome}" />
+									<br />
+
+
+								</p:column>
+
+							</p:dataTable>
+
+						</p:overlayPanel>
+
+					</h:form>
+
+				</span>
+
+				<div class="CardTopic Blue PosAbsolute">Cadastro de Locais/Pavilhões</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+				<span class="Leaden"> <strong>Os campos com * são obrigatórios</strong></span> <br />
+				<br />
+
+		<p:growl showDetail="true" showSummary="true" id ="messag" />
+		
+		<h:form id ="pavcadastro" >
+
+					<div class="Container50 Responsive50">
+						<h3>
+							<h:graphicImage alt="basicinfoicon"
+								name="/images/icons/basicinfoicon.png" width="30" height="30"
+								library="bibliotecaideias"
+								styleClass="h3ImageIcons" />
+							Sobre o Local/Pavilhão
+						</h3>
+						<div class="EmptyBox20"></div>
+
+						<h:panelGrid columns="1">
+							<p:inputText value="#{pavBean.newpavilhao.nome}" required="true"
+								requiredMessage="O nome do pavilhão é obrigatório" id="nome"
+								title="Verifique na lista se o pavilhão já não está cadastrado">
+								<p:tooltip for="nome" showEvent="focus" hideEvent="blur" />
+								<p:watermark value="*Nome do pavilhão" for="nome" />
+
+							</p:inputText>
+
+							<p:inputText value="#{pavBean.newpavilhao.endereco}"
+								id="endereco" required="true" style="color: black;"
+								requiredMessage="O endereço é obrigatório">
+								<p:watermark value="*Endereço" for="endereco" />
+
+							</p:inputText>
+
+							<p:inputText value="#{pavBean.newpavilhao.numero}" id="numero">
+								<p:watermark value="Número" for="numero" />
+
+							</p:inputText>
+
+
+							<p:inputText value="#{pavBean.newpavilhao.complemento}"
+								id="complemento">
+								<p:watermark value="Complemento" for="complemento" />
+
+							</p:inputText>
+
+							<p:inputText value="#{pavBean.newpavilhao.bairro}" id="bairro">
+								<p:watermark value="Bairro" for="bairro" />
+
+							</p:inputText>
+
+							<p:inputText value="#{pavBean.newpavilhao.cep}" id="cep">
+								<p:watermark value="Cep" for="cep" />
+
+							</p:inputText>
+
+
+
+							<h:outputLabel value="País:" for="paises" />
+
+							<p:selectOneMenu
+								valueChangeListener="#{pavBean.stateChangeListener}"
+								value="#{pavBean.codPais}" id="paises">
+								<f:selectItem itemLabel=" Selecione um país " itemValue="0" />
+								<f:selectItems value="#{pavBean.paises}" var="pais"
+									itemValue="#{pais.codigo}" itemLabel="#{pais.nome}" />
+								<f:ajax event="change" render=":pavcadastro:cidades" />
+
+							</p:selectOneMenu>
+
+
+							<h:outputLabel value="Cidade:" for="cidades" />
+							<p:selectOneMenu
+								style="width: 190px; border-radius: 3px; font-size: 16px;"
+								value="#{pavBean.idCidade}" id="cidades">
+								<f:selectItem itemLabel=" Selecione uma cidade " itemValue="0" />
+								<f:selectItems value="#{pavBean.cidades}" var="cidade"
+									itemDescription="#{cidade.distrito}" itemValue="#{cidade.id}"
+									itemLabel="#{cidade.nome}" />
+
+							</p:selectOneMenu>
+
+						</h:panelGrid>
+
+					</div>
+
+
+
+
+					<div class="Container50 Responsive50">
+						<h3>
+							<h:graphicImage alt="contatosicon" library="bibliotecaideias"
+								name="/images/icons/contatosicon.png" width="30" height="30" styleClass="h3ImageIcons" />
+							Formas de Contato
+						</h3>
+						<div class="EmptyBox20"></div>
+
+						<h:panelGrid columns="2">
+
+							<h:outputLabel value="*E-mail:" for="email" />
+							<p:inputText value="#{pavBean.newpavilhao.email}" required="true"
+								id="email"
+								requiredMessage="É necessário cadastrar um e-mail de contato">
+								<f:validator validatorId="validadorEmail" />
+								<p:watermark value="E-mail" for="email" />
+
+							</p:inputText>
+
+
+							<h:outputLabel value="*Telefone:" for="telefone" />
+							<p:inputText value="#{pavBean.newpavilhao.telefone}"
+								required="true"
+								requiredMessage="É necessário cadastrar o telefone de contato"
+								id="telefone">
+								<p:watermark value="Telefone" for="telefone" />
+
+							</p:inputText>
+
+							<h:outputLabel value="Nome do contato:" for="nomecontato" />
+							<p:inputText value="#{pavBean.newpavilhao.nomeContato}"
+								id="nomecontato">
+								<p:watermark value="Nome contato" for="nomecontato" />
+
+							</p:inputText>
+
+							<h:outputLabel value="Cargo do contato:" for="cargo" />
+							<p:inputText value="#{pavBean.newpavilhao.cargo}" id="cargo">
+								<p:watermark value="Cargo" for="cargo" />
+
+							</p:inputText>
+
+
+							<h:outputLabel value="Site:" for="site" />
+							<p:inputText value="#{pavBean.newpavilhao.site}" id="site">
+								<p:watermark value="Site" for="site" />
+
+							</p:inputText>
+						</h:panelGrid>
+
+
+						<div class="EmptyBox30"></div>
+						<p:commandButton style="float:right;" value="Cadastrar"
+							actionListener="#{pavBean.cadastrarPavilhao}"
+							update=":messag :ultimosForm:pavList pavcadastro"
+							icon="ui-icon-disk" iconPos="right" />
+							
+							 <div class ="EmptyBox10"></div>
+							
+<p:ajaxStatus style="float:right;"
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+
+					</div>
+
+
+				</h:form>
+
+
+
+
+
+
+
+
+			</div>
+			
+			
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

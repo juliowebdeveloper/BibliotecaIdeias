@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+
+	
+	  <lifecycle>
+      <phase-listener>br.com.bibideais.jsfutil.LoginErrorPhaseListener</phase-listener>
+   </lifecycle>
+   
+
+<navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>sucesso</from-outcome>
+            <to-view-id>/site/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>loginPage</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+      
+    </navigation-rule>
+
+
+
+	
+	
+	
+	<managed-bean>
+		<managed-bean-name>loginBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.LoginBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>funcBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.FuncionarioBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>pavBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.PavilhaoBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>orgBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.OrganizadoraBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+		<managed-bean>
+		<managed-bean-name>cadOrgBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.CadastroOrganizadoraBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	
+	<managed-bean>
+		<managed-bean-name>funcManagerBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.FuncManagerBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	
+	
+	
+		
+	<managed-bean>
+		<managed-bean-name>cadastroCliBean</managed-bean-name>
+		<managed-bean-class>br.com.bibideais.control.CadastroClienteBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+
+ <!-- **************************** Converters *******************************************************-->
+	<converter>
+<converter-id>pavConverter</converter-id>
+<converter-class>br.com.bibideais.converter.PavilhaoConverter</converter-class>
+</converter>
+		<converter>
+<converter-id>orgConverter</converter-id>
+<converter-class>br.com.bibideais.converter.OrgConverter</converter-class>
+</converter>
+	
+		<converter>
+<converter-id>anoConverter</converter-id>
+<converter-class>br.com.bibideais.converter.AnoConverter</converter-class>
+</converter>
+	
+		<converter>
+<converter-id>feiraConverter</converter-id>
+<converter-class>br.com.bibideais.converter.FeiraConverter</converter-class>
+</converter>
+ 
+ 
+ 
+ <converter>
+<converter-id>funcConverter</converter-id>
+<converter-class>br.com.bibideais.converter.FuncConverter</converter-class>
+</converter>
+ 
+ 
+ 	<converter>
+<converter-id>feirasTotaisConverter</converter-id>
+<converter-class>br.com.bibideais.converter.FeirasTotaisConverter</converter-class>
+</converter>
+ 
+ 
+ 
+ 
+ 	<!-- ************************* Validators ******************************************************* -->
+	
+ <validator>
+     <validator-id>validadorEmail</validator-id>
+     <validator-class>br.com.bibideais.jsfutil.EmailValidator</validator-class>
+ </validator>
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ <!-- Login da Index -->
+ <navigation-rule>
+ 		<from-view-id>/index.xhtml</from-view-id>
+ 
+<navigation-case>
+
+<from-outcome>LoginFunc</from-outcome>
+<to-view-id>/site/home.xhtml</to-view-id>
+<redirect></redirect>
+</navigation-case>
+<navigation-case>
+<from-outcome>LoginAdmin</from-outcome>
+<to-view-id>/site/admin/adminhome.xhtml</to-view-id>
+<redirect />
+</navigation-case>
+
+</navigation-rule>
+ 
+ 
+ <navigation-rule>
+	<from-view-id>/site/cadastrocliente.xhtml</from-view-id>
+	<navigation-case>
+		<from-outcome>CadastroSuccess</from-outcome>
+		<to-view-id>/site/cadastrardadoscliente.xhtml</to-view-id>
+		
+	</navigation-case>
+	
+	<navigation-case>
+		<from-outcome>CadastroCliFail</from-outcome>
+		<to-view-id>/site/cadastrocliente.xhtml</to-view-id>
+		
+	</navigation-case>
+	
+</navigation-rule>
+ 
+ 
+</faces-config>

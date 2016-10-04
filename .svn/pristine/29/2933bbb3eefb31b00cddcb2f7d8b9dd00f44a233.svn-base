@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Visualizar Cliente</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="cadastro">
+    
+							  <ui:include src="/WEB-INF/headertemplate.xhtml" />
+
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+             <h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" />	Cliente/ <b>Visualização do Cliente</b>
+            </div>
+            
+            
+            
+
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+
+
+<p:graphicImage alt="#{cliViewBean.cliente.razaoSocial}" value="#{cliViewBean.cliente.urlCartao}" width="200" height="120"/>
+<h:form id="alterar">
+	<p:messages id="messages" showDetail="true" />
+	<p:commandButton value="Editar esse cliente" icon="ui-icon-pencil" ajax="false" style="float:right;" action="#{cliViewBean.editarCliente()}"> 
+ </p:commandButton> 
+ 
+
+ 
+ </h:form>
+ 
+    
+
+    <h2><h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Informações básicas</h2>
+    <hr/>
+    
+<h:panelGrid columns ="2"  styleClass="form-cadastro inner">
+
+<h:outputLabel value ="Razão Social:" for="razao"/>
+<h:outputText value ="#{cliViewBean.cliente.razaoSocial}" id ="razao"/>
+<h:outputLabel value ="Nome Fantasia:" for ="nome"/>
+<h:outputText value ="#{cliViewBean.cliente.nomeFantasia}" id ="nome"/>
+<h:outputLabel value ="Categoria:" for="categoria"/>
+<h:outputText value ="#{cliViewBean.cliente.categoria}" id ="categoria"/>
+<h:outputLabel value ="Segmento: " for="segprin"/>
+<h:outputText value ="#{cliViewBean.cliente.segmentoPrincipal}" id ="segprin"/>
+<h:outputLabel value ="Funcionário cadastrador: " for="funatend"/>
+<h:outputText value ="#{cliViewBean.cliente.cadastrador.nomeCompleto}" id ="funcad" />
+<h:outputLabel value ="Data do cadastro: " for="datacad"/>
+<h:outputText value ="#{cliViewBean.cliente.dataCadastro.time}" id ="datacad">
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										</h:outputText>
+
+<h:outputLabel value ="Funcionário atendimento: " for="funatend"/>
+<h:outputText value ="#{cliViewBean.cliente.atendimento.nomeCompleto}" id ="funatend" />
+<h:outputLabel value ="Já recebeu trabalhos da BI? " for="receb"/>
+<h:outputText value ="Sim" rendered="#{cliViewBean.cliente.recebeuTrabalhos}"  id ="receb"/>
+<h:outputText value ="Não" rendered="#{!cliViewBean.cliente.recebeuTrabalhos}" />
+
+<h:outputLabel value ="Anotações: " for="anot"/>
+
+<h:form id ="anotform">
+<p:growl id ="anotgrowl" />
+<p:inplace id="anot" editor="true" saveLabel=""   >  
+            <p:ajax event="save" listener="#{cliViewBean.atualizarAnotacoes}" update=":anotform anotgrowl" />
+                <p:inputTextarea maxlength="2500" cols="40" rows="5" value="#{cliViewBean.cliente.anotacoes}"  
+                            label="anot" size = "50"/>  
+                            
+            </p:inplace>
+
+</h:form>
+</h:panelGrid>
+
+<div id ="separadora" style ="margin-top: 80px;"></div>
+
+<h2><h:graphicImage alt="infoicon" value="/site/images/icons/infoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Outras Informações</h2>
+<hr/>
+
+
+<!-- ********************************  Trabalhos  ***************************************************** -->
+
+
+<p:accordionPanel>  
+    <p:tab title="Anos que recebeu trabalhos">
+				
+				<p:dataList value="#{cliViewBean.anos}" var="anos" itemType="none" emptyMessage="Esse cliente não recebeu trabalhos em nenhum ano">
+					<p:column>
+						#{anos.ano}
+					</p:column>
+
+				</p:dataList>
+			</p:tab>  
+			 
+ </p:accordionPanel>
+			<!-- ******************************** Feiras  ***************************************************** -->
+	<h2>Feiras que participou</h2>		
+ <h4>
+					<h:outputText
+						value="Esse cliente não participou de nenhuma feira cadastrada"
+						rendered="#{empty cliViewBean.feirasCli}" />
+				</h4>
+				<p:dataTable value="#{cliViewBean.feirasCli}" var="feiras" itemType="none" scrollRows="20"  
+                    scrollable="true" liveScroll="true" scrollHeight="150" emptyMessage="Nenhuma feira desse cliente">
+					<p:column>
+					 <h:link includeViewParams="true"   outcome="feiradetails" >
+  			 		<f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+						<p:graphicImage alt="#{feiras.nomeFeira}" value="#{feiras.urlLogo}" width="98" height="50"/>
+						
+						</h:link>
+					
+					 <h:link includeViewParams="true"   outcome="feiradetails" >
+  			 		<f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+						<h:outputText value="#{feiras.nomeFeira}" title="#{feiras.nomeFeira}" />
+						</h:link>
+						<br/>
+							<h:outputText value="Edição: #{feiras.edicao}" />
+							<br/>
+							<h:outputText value="Ano: #{feiras.ano}"  />
+							
+					</p:column>
+				</p:dataTable>
+
+            </section>
+            
+            
+
+            
+            </section>
+           
+            
+            
+            
+            
+            
+            
+     <aside class="aside degrade-vertical arredondado bordas">
+
+
+
+<!-- ********************************Endereço ***************************************************** -->
+
+
+ <h2> <h:graphicImage alt="enderecoicon" value="/site/images/icons/enderecoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Endereço</h2>
+ <hr/>
+ <p:panelGrid columns ="1">
+
+  <h:outputText value ="Endereço não cadastrado" rendered="#{empty cliViewBean.cliente.rua}"/>
+ 
+ <h:outputText value ="#{cliViewBean.cliente.rua}  #{cliViewBean.cliente.numero}"  rendered="#{not empty cliViewBean.cliente.rua}"/>
+
+  <h:outputText value ="Bairro não cadastrado" rendered="#{empty cliViewBean.cliente.bairro}"/>
+
+  <h:outputText value ="#{cliViewBean.cliente.bairro}  #{cliViewBean.cliente.cep}" rendered="#{not empty cliViewBean.cliente.bairro}" />
+   <h:outputText value ="#{cliViewBean.cliente.cidade.nome}" />
+  
+ 
+</p:panelGrid>
+
+<div id ="separadora" style ="margin-top: 50px;"></div>
+
+
+<!-- ******************************** Contato ***************************************************** -->
+
+
+<h2> <h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Contatos</h2>
+
+<hr style ="margin-bottom:10px; margin-top:10px;" />
+
+<p:dataList  value ="#{cliViewBean.contatos}" var="conts" itemType="none" emptyMessage="Esse cliente não possui contatos">
+<br />
+<h:outputText value ="#{conts.nome}" /> 
+<br/>
+<h:outputText value ="#{conts.cargo}" />
+<br />
+<h:outputText value ="Tel: #{conts.telefone}         Celular: #{conts.celular}" /> 
+<br/>
+<h:outputText value ="#{conts.email}" rendered="#{not empty conts.email}"  /> 
+<br />
+<h:outputText value ="Skype: #{conts.skype}" rendered="#{not empty conts.skype}" /> 
+<br/>
+<h:outputText value ="Rede Social: #{conts.redeSocial}" rendered="#{not empty conts.redeSocial}"   /> 
+
+
+
+
+</p:dataList>
+
+
+<div id ="separadora" style ="margin-top: 30px;"></div>
+
+
+<!-- ********************************BRIEFINGS *************************************** -->
+
+<h2> <h:graphicImage alt="briefingicon" value="/site/images/icons/briefingicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Briefings</h2>
+		<hr style ="margin-bottom:10px; margin-top:10px;" />
+	<h4>
+			
+				</h4>
+				<p:dataList value="#{cliViewBean.briefings}" var="brifs" itemType="none" emptyMessage="Esse cliente não possui briefings" >
+					
+						<h:outputText value="Código do Briefing: " styleClass="searchLabel"/>
+						<h:outputText value="#{brifs.codigo}" styleClass="searchResults"/>
+						<br />
+						<h:outputText value="Status do Briefing: " styleClass="searchLabel"/>
+						<h:outputText value="#{brifs.status}" />
+						<br />
+						<h:outputText value="Planilha de custos: " styleClass="searchLabel" />
+						<h:panelGroup rendered="#{funcBean.admin and not empty brifs.urlPlanilhaCustos}">
+						<a href="#{brifs.urlPlanilhaCustos}"> Clique para baixar </a>	
+						</h:panelGroup>	
+							
+						<h:panelGroup rendered="#{!funcBean.admin and not empty brifs.urlPlanilhaCustos}">
+						<h:outputText value="Você não pode visualizar a planilha de custos" styleClass="searchLabel" />
+	
+						</h:panelGroup>	
+		
+						<br />
+						<h:outputText value="Anotações: " styleClass="searchLabel"/>
+						<br/>
+						<div style="width: 230px; overflow:auto;">
+						<h:outputText value="#{brifs.anotacoes}"  />
+						</div>
+						<br/>
+						<p:commandLink oncomplete="PF('filesDialog').show()" update=":fdlg" value="Ver arquivos desse briefing" action="#{cliViewBean.getBriefingFiles}" >
+							<f:setPropertyActionListener target="#{cliViewBean.briefingSelecionado}" value="#{brifs}" />
+						</p:commandLink>	
+							
+
+						<hr style ="margin-bottom:10px; margin-top:10px;" />
+				</p:dataList>
+
+		
+
+		<p:dialog header="Arquivos do briefing #{cliViewBean.briefingSelecionado.codigo}" id="fdlg" widgetVar="filesDialog" modal="true" styleClass="dialogGeral"  resizable="false" >
+			
+			<sub>Clique para fazer o download</sub>
+			<p:dataTable value="#{cliViewBean.brifiles}" var="brifiles" emptyMessage="Não há arquivos para esse briefing">
+				<p:column headerText="Nome arquivo" >
+				<a href="#{brifiles.urlFile}" target="blank"> #{brifiles.nomeArquivo} </a> 
+				</p:column>
+				<p:column headerText="Descrição" >
+				
+				#{brifiles.descricao}
+				
+				</p:column>
+				<br/>
+				<hr/>	
+				</p:dataTable >
+				
+		</p:dialog>
+
+
+
+
+</aside>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ******************************** Fichas  ***************************************************** -->
+
+                   
+    <div class="bordas main degrade-horizontal" style="width: 100%;">    
+ <h2><h:graphicImage alt="fichasicon" value="/site/images/icons/fichasicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Fichas</h2>
+<hr/>
+<h:outputText value="Esse cliente não possui fichas"  rendered="#{empty cliViewBean.fichas}"/>
+
+<p:galleria value="#{cliViewBean.fichas}" var="ficha" autoPlay="false" style="margin: 0 auto;" styleClass ="galeriaFotos" panelHeight="500" panelWidth="830"  showCaption="false" rendered="#{not empty cliViewBean.fichas}">  
+    <p:graphicImage alt="imagemficha" value="#{ficha.urlimagem}" style ="max-width:830px; max-height:500px; margin:0 auto;" title="#{ficha.nomeImagem}"/>  
+</p:galleria>  
+
+
+<div id ="separadora" style ="margin-top: 90px;"></div>
+
+
+<!-- ******************************** Fotos  ***************************************************** -->
+
+
+<h2><h:graphicImage alt="fotoicon" value="/site/images/icons/fotoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Fotos referência</h2>
+<hr/>
+<h:outputText value="Esse cliente não possui fotos"  rendered="#{empty cliViewBean.fotosCliente}"/>
+
+<p:galleria value="#{cliViewBean.fotosCliente}" autoPlay="false" var="foto" style="width:100%; margin: 0 auto;" styleClass ="galeriaFotos" panelHeight="500" panelWidth="830" showCaption="true" rendered="#{not empty cliViewBean.fotosCliente}">  
+    <p:graphicImage alt="#{foto.legenda}" value="#{foto.urlimagem}" title="#{foto.legenda}" style ="max-width:830px; max-height:500px; margin:0 auto;"  />  
+</p:galleria>  
+            
+
+<div id ="separadora" style ="margin-top: 90px;"></div>
+
+
+
+<!-- ******************************** Projetos ***************************************************** -->
+
+
+
+<h2><h:graphicImage alt="projetoicon" value="/site/images/icons/projetoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Projetos</h2>
+<hr/>
+
+<sub>Já foram desenvolvidos os seguintes projetos para esse cliente (Clique para exibir mais detalhes)</sub>
+
+<h:form id ="forma">
+<p:growl id="growl" showDetail="true"/>  
+<p:dataTable value="#{cliViewBean.projetos}" var ="proj" emptyMessage="Esse cliente não possui projetos cadastrados" >
+ 
+   <p:column style="width:5%">  
+           <p:commandButton id="selectButton" action="#{cliViewBean.getVersions}" update=":forma:display :forma:vertable" oncomplete="PF('verDialog').show()" icon="ui-icon-search" title="Ver Detalhes">  
+                <f:setPropertyActionListener value="#{proj}" target="#{cliViewBean.projetoSelecionado}"  />  
+            </p:commandButton> 
+        </p:column>  
+<p:column headerText="codigo"   >
+Código do projeto: #{proj.codigo}
+</p:column>
+<p:column headerText="nome"   >
+Nome: #{proj.nome}
+</p:column>
+<p:column headerText="evento"   >
+#{proj.evento}
+</p:column>
+<p:column headerText="Ano" >
+Ano: #{proj.ano}
+</p:column>
+<p:column headerText="Metragem" >
+Metragem: #{proj.metragem}
+</p:column>
+
+
+</p:dataTable>
+
+
+
+<p:dialog id="dialog" header="Detalhes Projeto" widgetVar="verDialog" resizable="false"  
+                showEffect="fade" hideEffect="explode" styleClass="dialogGeral">  
+  
+        <h:panelGrid id="display" columns="4" cellpadding="4">  
+  
+            <f:facet name="header">  
+                
+            </f:facet>  
+            
+            <h:outputText value="Código do projeto:" styleClass="searchLabel" />
+            <h:outputText value="#{cliViewBean.projetoSelecionado.codigo}" />
+            
+             <h:outputText value="Nome:" styleClass="searchLabel" />
+            <h:outputText value="#{cliViewBean.projetoSelecionado.nome}" />
+            
+             <h:outputText value="Evento:" styleClass="searchLabel" />
+            <h:outputText value="#{cliViewBean.projetoSelecionado.evento}" />
+            
+   			<h:outputText value="Metragem:" styleClass="searchLabel" />
+            <h:outputText value="#{cliViewBean.projetoSelecionado.metragem}" />
+  				
+  			 <h:outputText value="Ano:" styleClass="searchLabel" />
+            <h:outputText value="#{cliViewBean.projetoSelecionado.ano}" />
+  	
+  			 <h:outputText value="Segmento:" styleClass="searchLabel" />
+            <h:outputText value="#{cliViewBean.projetoSelecionado.segmento}" />
+  					
+            <h:outputText value="Arquiteto:" styleClass="searchLabel"  />  
+            <h:outputText value="#{cliViewBean.projetoSelecionado.arquiteto}" />  
+  			
+        </h:panelGrid>  
+        <hr/>
+        
+        <h2>Versões do projeto</h2>
+        <sub>Selecione uma versão para exibir suas fotos</sub>
+        <p:dataTable id ="vertable" var ="ver" value="#{cliViewBean.versoes}" >
+
+        	<p:column headerText="Versão">
+        		<p:commandLink value="#{ver.versao}" action="#{cliViewBean.getFotosVersao}" update=":forma:galeria" oncomplete="PF('projFotoDialog').show()" > 
+        	 <f:setPropertyActionListener value="#{ver}" target="#{cliViewBean.versaoSelecionada}"  /> 
+        		</p:commandLink>
+        	</p:column>
+        
+        </p:dataTable>
+        
+    </p:dialog>  
+    
+    
+    
+    <p:dialog widgetVar="projFotoDialog" id="galeria"  
+    header="Imagens da versão: #{cliViewBean.versaoSelecionada.versao}" resizable="false" width="990" height="500" modal="true" styleClass="dialogGeral">
+   
+   
+    <h:outputText value="Essa versão não possui nenhuma foto" rendered="#{empty cliViewBean.fotosProjetos}" />
+            <p:lightBox styleClass="imagebox" > 
+    
+    <ui:repeat style ="margin: 0 auto;"  var ="fotinhos" value="#{cliViewBean.fotosProjetos}">
+
+    
+ 	<h:outputLink value="#{fotinhos.urlImagem}" >  
+      		 <p:graphicImage  alt="imagem" value="#{fotinhos.urlImagem}" width="120" height="120"/>  
+    </h:outputLink>
+
+    
+    </ui:repeat>
+    
+    
+            </p:lightBox>
+  
+    
+    
+    </p:dialog>
+    
+    
+    
+    
+    
+
+
+
+
+</h:form>
+
+
+
+
+</div>
+
+
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

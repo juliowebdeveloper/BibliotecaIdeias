@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Editar as feiras do Cliente</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+		<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+             <h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" />	Cliente/ Edição de Cliente/ <b>Editar Feiras</b>
+            </div>
+            
+            
+            
+<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+              
+<p:dialog modal="true" widgetVar="statusDialog" header="Carregando"  
+        draggable="false" closable="false" styleClass="dialogGeral">  
+    <p:graphicImage value="/imagens/ajaxloadingbar.gif" alt="loadingbar" />  
+</p:dialog> 
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+
+<p:messages id ="msgs" showDetail="true"/>
+
+
+
+
+
+<h2><h:graphicImage alt="feiraicon" value="/site/images/icons/feiraicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Feiras que o cliente #{editCliBean.cliente.razaoSocial} participou </h2>
+<hr/>
+<h:form id ="feirasCliente" style ="width:100%">
+<p:growl id ="growl" showDetail="true" />
+<p:dataTable id ="feirasCli" var="fe" value ="#{editCliBean.feirasCliente}"  scrollRows="20"  
+                    scrollable="true" liveScroll="true" scrollHeight="150" emptyMessage="Nenhuma feira está relacionada à esse Cliente" >
+<p:column >
+<p:graphicImage alt="#{fe.nomeFeira}" value="#{fe.urlLogo}" width="90" height="40" />
+
+</p:column>
+<p:column>
+<h:outputText value="#{fe.nomeFeira}" />
+<br/>
+<h:outputText value ="Ano: #{fe.ano}" style ="font-weight: bold;" />
+<br/>
+<h:outputText value ="Edição: #{fe.edicao}" style ="font-weight: bold;" />
+
+</p:column>
+<p:column style = "width: 5%">
+<p:commandButton icon="ui-icon-close" onclick="PF('confirmation').show()" >
+<f:setPropertyActionListener target="#{editCliBean.selectedFeira}" value="#{fe}" />
+</p:commandButton>
+</p:column>
+
+</p:dataTable>
+
+<!-- ****************** Excluir Confirm Dlg **************************************** -->
+
+<p:confirmDialog id="confirmDialog" 
+							message="Tem certeza que deseja excluir essa feira do cliente? "
+							header="Remoção de Feira" severity="alert"
+							widgetVar="confirmation"  styleClass="dialogGeral">
+
+							<p:commandButton id="confirm" value="Sim"
+								oncomplete="PF('confirmation').hide()"
+								update="feirasCliente:growl :feirasCliente :feiraselect" actionListener ="#{editCliBean.excluirFeiraCliente}"  />
+							<p:commandButton id="decline" value="Não"
+								onclick="PF('confirmation').hide()" type="button" />
+
+						</p:confirmDialog>
+
+
+
+
+</h:form>
+
+<h2><h:graphicImage alt="feiraicon" value="/site/images/icons/feiraicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Todas as feiras que esse cliente não participou</h2>
+<hr/>
+
+<h:form id ="feiraselect">
+      <p:selectManyMenu id="scroll" value="#{editCliBean.selectedFeiras}" converter="feirasTotaisConverter" 
+      style="width:100%;height:350px;" var="f" showCheckbox="true" filter="true" filterMatchMode="startsWith" >  
+            <f:selectItems value="#{editCliBean.feirasTotais}" var="feira" itemLabel="#{feira.nomeFeira}" itemValue="#{feira}" />  
+  
+            <p:column>  
+                <p:graphicImage alt="#{f.nomeFeira}" value="#{f.urlLogo}" width="90" height="40"/>  
+            <br/> 
+            <h:outputText value="#{f.nomeFeira}" styleClass="searchLabel"/>
+                
+                <br/>
+                  <h:outputText value="Edição: " styleClass="searchLabel"/>
+                   <h:outputText value="#{f.edicao}" />
+               
+                <br/>
+                 <h:outputText value="Ano: " styleClass="searchLabel"/>
+                    <h:outputText value="#{f.ano}" />
+      
+                
+            </p:column>  
+        </p:selectManyMenu>  
+        
+    <p:commandButton value ="Relacionar feiras ao cliente" update=":feirasCliente:growl :feiraselect :feirasCliente" 
+     actionListener="#{editCliBean.relacionarFeirasCliente}" icon="ui-icon-disk"/>
+        
+  </h:form>
+
+
+
+
+</section>
+ <div style="width: 150px; float:right;">
+<p:button outcome="editcliente" icon = "ui-icon-arrowreturnthick-1-w" value ="Voltar para edição de cliente" />
+</div>
+</section>
+
+
+  
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

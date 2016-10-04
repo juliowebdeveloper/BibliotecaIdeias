@@ -1,0 +1,22 @@
+	
+	#conteudo{
+		height: auto;
+		width: 949px;
+		margin: 0 auto;
+	
+	}
+	
+	
+	#grid{
+	
+		width: 900px;
+		margin: 0 auto;
+		
+	
+	}
+	
+	.label{
+		font-weight: bold;
+	
+	}
+	

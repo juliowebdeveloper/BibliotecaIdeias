@@ -1,0 +1,448 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Editar Briefings</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+			
+			
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+             <h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" />	Cliente/ Edição/ <b>Editar Briefings do Cliente</b>
+            </div>
+            
+            
+            
+            
+            
+
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:inputHidden value="" /> 
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+<h2><h:graphicImage alt="briefingicon" value="/site/images/icons/briefingicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Briefings do Cliente #{editBriBean.cliente.razaoSocial}</h2>
+<hr/>
+<sub>Clique no código para editar os detalhes do briefing</sub>
+<p:messages id ="msgs" showDetail="true"/>
+<p:growl showDetail ="true" id ="growl" />
+
+<h:form id ="cadBriForm">
+
+<!-- ******************Novo Briefing **************************************** -->
+
+<p:growl showDetail ="true" id ="brigrowl" />
+                <h:panelGrid  columns="2" style="margin:0 auto;">
+
+						<h:outputLabel value="*Código:" for="codigo"/>
+						<p:inputText value="#{editBriBean.newBriefing.codigo}" id="codigo" />
+
+						<h:outputLabel value="Status:" for ="status" />
+						<p:selectOneMenu id="status" value="#{editBriBean.newBriefing.status}" >  
+           					<f:selectItem itemLabel="Aprovado" itemValue="Aprovado"  />  
+             				<f:selectItem itemLabel="Em andamento" itemValue="Em andamento"  />  
+ 			 				<f:selectItem itemLabel="Declinado" itemValue="Declinado"  />  
+            				<f:selectItem itemLabel="Perdido" itemValue="Perdido"  />  
+            
+        				</p:selectOneMenu>  
+           
+
+						<h:outputLabel value="*Anotações:" for="anotacoes" />
+						<p:inputTextarea value="#{editBriBean.newBriefing.anotacoes}" id="anotacoes" />
+
+						
+
+						<p:commandButton value ="Adicionar Briefing" icon="ui-icon-plusthick" actionListener="#{editBriBean.adicionarBriefing}"
+						update=":cadBriForm brigrowl briTable"  />
+					
+
+
+					</h:panelGrid>  
+
+
+
+<!-- **********Lista Briefings ******************* -->
+
+<p:dataTable id ="briTable" value="#{editBriBean.briefings}" var="brif" emptyMessage="Nenhum briefing cadastrado">
+<p:column headerText="Código">
+<h:outputText value ="Código: #{brif.codigo}" />
+
+
+
+</p:column>
+
+<p:column headerText="Editar arquivos">
+<p:commandLink value ="Editar arquivos" action="#{editBriBean.viewBriefing}" update=":cadBriForm :cadFilesForm:filesList" oncomplete="PF('filesDlg').show()"  >
+                <f:setPropertyActionListener value="#{brif}" target="#{editBriBean.briefingSelecionado}" />  
+
+</p:commandLink>
+
+
+</p:column>
+
+
+<p:column headerText="Status:">
+<h:outputText value ="Status: #{brif.status}" />
+</p:column>
+
+<p:column headerText="Planilha de Custos:" rendered="#{funcBean.admin}" >
+<p:commandLink value ="Editar Planilha de Custos" rendered="#{funcBean.admin}" update=":editPlanilhaForm" oncomplete="PF('planilhaDlg').show()"  >
+<f:setPropertyActionListener value="#{brif}" target="#{editBriBean.briefingSelecionado}" />  
+
+</p:commandLink>
+
+</p:column>
+
+
+<p:column headerText="Anotações">
+<h:outputText value="#{brif.anotacoes}" title="#{brif.anotacoes}" rendered="#{not empty brif.anotacoes}" />
+</p:column>
+   <p:column style="width:8%">  
+          <p:commandButton id="edibtn" update=":editBriForm"
+                 oncomplete="PF('editBriDialog').show()"  icon="ui-icon-pencil" title="Editar Briefing">  
+                <f:setPropertyActionListener value="#{brif}" target="#{editBriBean.briefingSelecionado}" />  
+            </p:commandButton>  
+       
+     
+                <p:commandButton id="removebtn" process="@this" action="#{editBriBean.viewBriefing}"
+                oncomplete="PF('briExcluDlg').show()" icon="ui-icon-trash" title="Excluir">  
+                <f:setPropertyActionListener value="#{brif}" target="#{editBriBean.briefingSelecionado}" />  
+            </p:commandButton>  
+        </p:column>  
+
+</p:dataTable>
+
+
+
+
+
+</h:form>
+
+
+
+
+<!-- ****************** Confirmar exclusão Briefing **************************************** -->
+   <p:confirmDialog id="confirmBriExcluDialog" appendToBody="true" 
+message="Tem certeza que deseja excluir esse briefing, assim como seus arquivos?"
+							header="Exclusão de Projetos" severity="alert" widgetVar="briExcluDlg"  >
+
+							<p:commandButton id="confirmA" value="Sim"
+							oncomplete="PF('briExcluDlg').hide()"
+							update=":cadBriForm :cadBriForm:briTable "
+							actionListener="#{editBriBean.excluirBriefing}" />
+								   
+							<p:commandButton id="declineB" value="Não" onclick="PF('briExcluDlg').hide()" type="button" />
+
+						</p:confirmDialog>
+	
+
+
+
+
+<!-- ****************** Alterar Briefing DLG **************************************** -->
+
+
+<p:dialog header="Alterar Briefing" widgetVar="editBriDialog" resizable="false" id="briDlg"  
+                showEffect="fade" hideEffect="explode" modal="true" width="620px" height="500px" styleClass="dialogGeral" >  
+  <h:form id ="editBriForm">
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+
+						<h:outputLabel value="Código:"  for="codigoedit"/>
+						<h:outputText value= "#{editBriBean.briefingSelecionado.codigo}" id ="codigoedit" />
+
+
+						<h:outputLabel value="Aprovado:" title="Clique duplo para alterar" for="statusoptions"/>
+						
+						  	<p:selectOneMenu id ="statusoptions" value="#{editBriBean.briefingSelecionado.status}" 
+						  	style ="width: 150px;">
+			  				<f:selectItem itemLabel="Aprovado" itemValue="Aprovado"  />  
+             				<f:selectItem itemLabel="Em andamento" itemValue="Em andamento"  />  
+ 			 				<f:selectItem itemLabel="Declinado" itemValue="Declinado"  />  
+            				<f:selectItem itemLabel="Perdido" itemValue="Perdido"  />  
+							</p:selectOneMenu>
+
+						<h:outputLabel value="Anotações:" for="anotacoesedit" />
+						<p:inputTextarea value="#{editBriBean.briefingSelecionado.anotacoes}" id ="anotacoesedit"/>
+						
+	
+						<p:commandButton value ="Alterar dados" icon="ui-icon-check"
+						 actionListener="#{editBriBean.atualizarBriefing}"
+						update=":cadBriForm :cadBriForm:brigrowl" oncomplete="PF('editBriDialog').hide()" />
+						
+
+
+					</h:panelGrid>  
+					
+						
+  				</h:form>
+    </p:dialog>  
+    
+    
+    
+    
+    
+    
+    
+    
+    	<!-- ***********************Planilha Briefing Dialog************************************************************** -->
+
+<p:dialog widgetVar="planilhaDlg" resizable="false" header="Editar Planilha de custo" styleClass="dialogGeral" modal="true">
+<h:form id = "editPlanilhaForm">
+<p:growl id ="planilhaGrowl" showDetail="true" />
+    		<h:outputText value="Não insira arquivos cujos nomes contenham  caracteres acentuados (Ex: ã,á,é,ò) ou 'ç' " styleClass="ui-messages-error" />
+
+<h2>Planilha de Custos</h2>
+	<hr/>
+<h:outputText value ="Você não possui permissão para visualizar a planilha de custos" rendered="#{!funcBean.admin}" />
+
+
+<h:panelGroup rendered="#{funcBean.admin and not empty editBriBean.briefingSelecionado.urlPlanilhaCustos}">
+						<a href="#{editBriBean.briefingSelecionado.urlPlanilhaCustos}"> Clique para baixar 
+
+</a>	
+						</h:panelGroup>		
+<h2>Adicionar nova planilha</h2>
+<sub>Ao selecionar uma nova planilha, a antiga será substituída automaticamente.</sub>
+	<p:fileUpload sizeLimit="12204800" widgetVar="uploaderf" update="planilhaGrowl"
+							label="Adicionar Planilha..." auto="true"  
+							mode ="advanced"   cancelLabel="Cancelar"
+							fileUploadListener="#{editBriBean.handlePlanilhaUpload}"
+							allowTypes="/(\.|\/)(xls|xlsx)$/" 
+							description="Planilhas" oncomplete="PF('planilhaDlg').hide()"
+							 multiple="false" 
+							customUI="true" invalidSizeMessage="O tamanho da planilha é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado, formatos aceitos: xls e xlsx"/>
+        	
+        	<br/>
+
+
+
+
+</h:form>
+
+
+</p:dialog>
+    
+    
+    
+    
+    
+    
+
+		<!-- ***********************Ver Arquivos do Briefing Dialog************************************************************** -->
+
+<p:dialog widgetVar="filesDlg" resizable="false" header="Editar arquivos do Briefing" styleClass="dialogGeral" modal="true">
+<h:form id = "cadFilesForm">
+<p:growl id ="filesGrowl" showDetail="true" />
+
+<h2>Arquivos do Briefing</h2>
+	<hr/>
+	<sub>Clique na descrição para altera-la</sub>
+
+<p:dataTable  editable="true" editMode="cell" id ="filesList" var="brifiles" value="#{editBriBean.briFiles}" emptyMessage="Esse briefing não possui arquivos">
+<p:ajax event="cellEdit" listener="#{editBriBean.atualizarFile}" update=":cadFilesForm" />  
+
+<p:column headerText="Nome arquivo" >
+				<a href="#{brifiles.urlFile}" target="blank"> #{brifiles.nomeArquivo} </a> 
+				</p:column>
+				
+				
+				<p:column headerText="Descrição" >
+		
+			<p:cellEditor> 
+			 <f:facet name="output"><h:outputText value="#{brifiles.descricao}"  /></f:facet>  
+             <f:facet name="input"><p:inputText value="#{brifiles.descricao}"  required="true" label="text"  /> </f:facet>  
+				  
+				</p:cellEditor>
+                
+            
+				
+				</p:column>
+				
+				
+					<p:column>
+					
+                <p:commandButton id="removeBriFilebtn" process="@this" 
+                 icon="ui-icon-trash" title="Excluir" oncomplete="PF('fileExcluDlg').show()">  
+                <f:setPropertyActionListener value="#{brifiles}" target="#{editBriBean.briFileSelecionado}" />  
+            </p:commandButton>  
+					</p:column>
+
+</p:dataTable>
+            	<div id ="separadora" style ="margin-top: 40px;"></div>
+            	
+<h2>Adicionar arquivos ao Briefing</h2>
+    				<hr/>
+  <h:outputText value="Não insira arquivos cujos nomes contenham  caracteres acentuados (Ex: ã,á,é,ò) ou 'ç' " styleClass="ui-messages-error" />
+    				
+    				
+<p:fileUpload sizeLimit="12204800" widgetVar="uploaderfa" update="filesGrowl"
+							label="Selecionar arquivos..." auto="false"  
+							mode ="advanced"   cancelLabel="Cancelar" uploadLabel="Adicionar Arquivos"
+							fileUploadListener="#{editBriBean.handleFilesUpload}"
+							allowTypes="/(\.|\/)(xls|xlsx|gif|jpe?g|png|doc|docx|pdf)$/" 
+							description="Arquivos" 
+							 multiple="true" 
+							customUI="true" invalidSizeMessage="O tamanho do arquivo é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado"/>
+   
+      				<div id ="separadora" style ="margin-top: 40px;"></div>
+    
+    <p:commandButton actionListener="#{editBriBean.criarListaBriefingFiles}" update="filesGrowl filesList"  value="Inserir arquivos ao briefing" />
+
+
+
+</h:form>
+
+
+</p:dialog>
+
+
+
+<!-- ****************** Confirmar exclusão Arquivo  **************************************** -->
+   <p:confirmDialog id="confirmFileExcluDialog" appendToBody="true" 
+message="Tem certeza que deseja excluir esse briefing, assim como seus arquivos?"
+							header="Exclusão de Arquivo" severity="alert" widgetVar="fileExcluDlg"  >
+
+							<p:commandButton id="confirmAr" value="Sim"
+							oncomplete="PF('fileExcluDlg').hide()"
+							update=":cadFilesForm :cadFilesForm:filesList "
+							actionListener="#{editBriBean.excluirBriefingFile}" />
+								   
+							<p:commandButton id="declineBr" value="Não" onclick="PF('fileExcluDlg').hide()" type="button" />
+
+						</p:confirmDialog>
+	
+
+
+
+
+
+
+
+
+
+
+
+</section>
+ <div style="width: 150px; float:right;">
+<p:button outcome="editcliente" icon = "ui-icon-arrowreturnthick-1-w" value ="Voltar para edição de cliente" />
+</div>
+</section>
+
+
+
+
+
+
+            
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

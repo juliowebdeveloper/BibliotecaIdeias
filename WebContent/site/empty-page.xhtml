@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="subheader">
+        Page Header
+    </ui:define>
+    
+    <ui:define name="content">
+        
+        <div class="Container100">
+            <div class="Card TexAlCenter">
+                <div class="CardTopic Blue">Página Principal</div>
+                <div class="Separator"></div>
+                <span class="Leaden">Você está responsável pelo atendimento dos seguinte clientes</span>
+                <br/><br/>
+                
+                <p:dataGrid var="cli" value="#{funcBean.clientes}" columns="2"  emptyMessage="Você não está responsável pelo atendimento de nenhum cliente"
+        rows="4" paginator="true" paginatorPosition="top" 
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        rowsPerPageTemplate="9,12,15" style="width:700px; margin: 0 auto;" > 
+                        	
+                        	
+
+                        	
+                        	<h:panelGrid columns="1" style="width:100%;"  >  
+  			<h:link includeViewParams="true"   outcome="clientedetails" >
+  			 <f:param name="clienteid" value="#{cli.idCliente}"></f:param>
+                  <p:graphicImage alt="#{cli.razaoSocial}" value="#{cli.urlCartao}" width="80" height="60" id ="img"/>   
+  
+               </h:link>
+               
+               
+               
+            </h:panelGrid>  
+            
+            <h:panelGrid cellspacing="20"  columns="2" style="width:100%; " styleClass ="funcFormCadastro"> 
+            
+           
+            <h:link includeViewParams="true"   outcome="clientedetails" >
+  			 <f:param name="clienteid" value="#{cli.idCliente}"></f:param>
+  
+            	<h:outputText value="#{cli.razaoSocial}" id="razaosocial" title="#{cli.anotacoes}"/> 
+            	
+            	</h:link>
+            	
+            	<br/>
+            	
+        
+            	<h:outputLabel value ="Categoria: " for ="categoria" style ="width: 204px;" styleClass = "searchLabel"/>
+            	<br/>
+            	 <h:outputText value="#{cli.categoria}" id ="categoria"/> 
+            	<br/>
+            	<h:outputLabel value ="Segmento Principal: " for="segmentoprinc" style ="width: 204px;" styleClass = "searchLabel"/>
+            	
+            	<br/>
+            
+            	 <h:outputText value="#{cli.segmentoPrincipal}" id = "segmentoprinc"/> 
+				<br/>
+            	 <h:outputLabel value ="Anotações: " for="anot" style ="width: 204px;" styleClass = "searchLabel"/>
+            	 <br/>
+            	  <h:outputText value="#{cli.anotacoes}" id = "anot" style ="width: 200px;"/> 
+            	
+            	
+            </h:panelGrid>
+            
+                        	
+                        	</p:dataGrid>
+                        	
+                
+                
+                
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

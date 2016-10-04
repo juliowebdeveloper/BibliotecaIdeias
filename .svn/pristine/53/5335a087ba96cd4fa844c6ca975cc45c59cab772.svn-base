@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+     
+ 	<h:head>
+		<title>Biblioteca Idéias - Login</title>
+
+	<link type="text/css" rel="stylesheet" href="CSS/default.css" />
+	<link type="text/css" rel="stylesheet" href="CSS/bibdefault.css" />
+	<link type="text/css" rel="stylesheet" href="CSS/index.css" />
+	<link rel="shortcut icon" href="imagens/favicon.ico" />
+	
+	</h:head>
+    
+   <h:body>  
+ 
+       <h:form prependId="false" styleClass="meuform">
+        
+            
+                <center>   
+                      
+                    <p:messages id="mensagens" showDetail="true" showSummary="false" />                    
+                          
+                    <h:panelGrid columns="2">         
+                 
+                        <h:outputLabel value="Login" />
+                        <h:inputText id="j_username" size="15" value="#{loginBean.func.username}" />
+         
+                        <h:outputLabel value="Senha" />
+                        <h:inputSecret id="j_password" size="15" value="#{loginBean.func.password}"  />
+                                         
+                    </h:panelGrid>
+                     
+                    <br />    
+         
+                    <h:commandButton value="Ok" action="#{loginBean.logar}" />      
+                     
+                </center>
+                     
+           
+                 
+        </h:form>
+     
+    </h:body>
+  
+</html>

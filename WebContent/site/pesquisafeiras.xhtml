@@ -1,0 +1,642 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100 Resposive100">
+			<div class="Card TexAlCenter">
+				<div class="CardTopic Blue">Pesquisa de Feiras</div>
+				<div class="Separator"></div>
+				<br />
+
+
+<!-- *************************Buscar por nome *****************************************  -->
+
+<p:tabView id="tabview">
+<p:tab title="Buscar feiras pelo nome"> 
+
+<h:form id ="buscanomeform" >
+<p:growl id ="growlbusca" showDetail="true" />
+<h3><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" styleClass="h3ImageIcons"  />
+Buscar feiras pelo nome</h3>
+<div class ="Separator"></div>
+
+<h:panelGrid columns="2" >
+<h:outputLabel value="Nome da feira:" for="nomefeira" />
+<p:inputText id ="nomefeira" value ="#{feiraBean.buscanomeFeira}" 
+required ="false" requiredMessage="Você precisa preencher o campo 'Nome da feira'">
+<p:watermark value="Nome da feira" for="nomefeira" />
+</p:inputText>
+        </h:panelGrid>
+        
+     
+<p:commandButton value ="Buscar por nome" icon="ui-icon-search" actionListener="#{feiraBean.buscarPorNome}" 
+update="listanome growlbusca" />	
+     <div class ="EmptyBox10"></div>
+     <p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+     
+        
+<p:dataTable emptyMessage="Nenhum Resultado" value ="#{feiraBean.feirasByName}" var ="feiras" id ="listanome"  >
+
+<f:facet name ="header">
+<h:outputText value="#{feiraBean.feirasByName.size()} resultados encontrados" rendered="#{not empty feiraBean.feirasByName}"  />
+</f:facet>
+
+
+
+
+<p:column headerText="Logo">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+   <p:graphicImage alt="#{feiras.nomeFeira}" value ="#{feiras.urlLogo}" width="98" height="54"  />
+</h:link>
+</p:column>
+
+<p:column headerText="Dados da Feira">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+<h:outputText value="#{feiras.nomeFeira}" title="#{feiras.nomeFeira}" styleClass="FontVoltBold"/>
+</h:link>
+<br />
+<h:outputText value="Ano: " styleClass="FontVoltSemiBold" />
+<h:outputText value="#{feiras.ano}" styleClass="FontVoltSemiBold" />
+<br />
+<h:outputText value="#{feiras.edicao}" styleClass="FontVoltSemiBold" /> 
+<h:outputText value=" Edição" styleClass="FontVoltSemiBold" />
+
+<br />
+<h:outputText value="A BI não construiu nessa feira" rendered="#{!feiras.biConstruiu}" style ="color:red;" styleClass="FontVoltSemiBold" />
+<h:outputText value="A BI construiu nessa feira" rendered="#{feiras.biConstruiu}"  style ="color:green;" styleClass="FontVoltSemiBold"/>
+
+</p:column>
+
+<p:column headerText="Local">
+<h:outputText value="#{feiras.local.nome}" />
+<br />
+<h:outputText value="#{feiras.local.endereco} , #{feiras.local.numero} - #{feiras.local.cep}"  />
+<br />
+<h:outputText value="#{feiras.local.bairro} - #{feiras.local.cidade.nome}"  />
+<br />
+</p:column>
+
+<p:column headerText="Organizadora">
+<h:outputText value="#{feiras.organizadora.razaoSocial}" />
+
+</p:column>
+
+<p:column headerText="E-mails">
+<p:commandButton  action="#{feiraBean.verEmailClientesFeira}" value="E-mails dos clientes participantes" 
+oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+<f:setPropertyActionListener value="#{feiras}" target="#{feiraBean.feiraSelecionada}" />
+</p:commandButton>
+</p:column>
+
+
+</p:dataTable>
+</h:form>
+</p:tab>
+
+
+
+
+ 
+
+
+
+<!-- *************************Buscar por ano *****************************************  -->
+
+<p:tab title="Buscar pelo Ano">
+<h:form id ="buscaanoform">
+
+<p:messages id ="msg" showDetail="true" />
+<h3><h:graphicImage alt="searchicon" 
+value="/site/images/icons/searchicon.png" width="30" height="30" styleClass="h3ImageIcons"  />
+Buscar Feiras pelo ano</h3>
+<div class ="Separator"> </div>
+
+<h:panelGrid columns="2" >
+<h:outputLabel value="Digite o ano:" for="anosearch" />
+<p:inputText value ="#{feiraBean.anoBusca}" required ="true" id ="anosearch" requiredMessage="Preencha o ano"/>
+</h:panelGrid>
+
+     
+<p:commandButton value ="Buscar por ano"  icon="ui-icon-search" actionListener="#{feiraBean.buscarPorAno}" 
+update="listaano msg" />	
+        <div class ="EmptyBox10"></div>
+        <p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+				
+<p:dataTable emptyMessage="Nenhum Resultado"  value ="#{feiraBean.feirasByAno}" var ="feiras" id ="listaano" >
+<f:facet name ="header">
+<h:outputText value="#{feiraBean.feirasByAno.size()} resultados encontrados" rendered="#{not empty feiraBean.feirasByAno}" />
+</f:facet>
+
+<p:column headerText="Logo">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+   <p:graphicImage alt="#{feiras.nomeFeira}" value ="#{feiras.urlLogo}" width="98" height="54"  />
+</h:link>
+</p:column>
+
+<p:column headerText="Dados da Feira">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+<h:outputText value="#{feiras.nomeFeira}" title="#{feiras.nomeFeira}" styleClass="FontVoltBold"/>
+</h:link>
+<br />
+<h:outputText value="Ano: " styleClass="FontVoltSemiBold" />
+<h:outputText value="#{feiras.ano}" styleClass="FontBold" />
+<br />
+<h:outputText value="#{feiras.edicao}" styleClass="FontVoltSemiBold" /> 
+<h:outputText value=" Edição" styleClass="FontVoltSemiBold" />
+
+<br />
+<h:outputText value="A BI não construiu nessa feira" rendered="#{!feiras.biConstruiu}" style ="color:red;" styleClass="FontVoltSemiBold" />
+<h:outputText value="A BI construiu nessa feira" rendered="#{feiras.biConstruiu}"  style ="color:green;" styleClass="FontVoltSemiBold"/>
+
+</p:column>
+
+<p:column headerText="Local">
+<h:outputText value="#{feiras.local.nome}" />
+<br />
+<h:outputText value="#{feiras.local.endereco} , #{feiras.local.numero} - #{feiras.local.cep}"  />
+<br />
+<h:outputText value="#{feiras.local.bairro} - #{feiras.local.cidade.nome}"  />
+<br />
+</p:column>
+
+<p:column headerText="Organizadora">
+<h:outputText value="#{feiras.organizadora.razaoSocial}"  />
+
+</p:column>
+
+<p:column headerText="E-mails">
+<p:commandButton  action="#{feiraBean.verEmailClientesFeira}" value="E-mails dos clientes participantes" 
+oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+<f:setPropertyActionListener value="#{feiras}" target="#{feiraBean.feiraSelecionada}" />
+</p:commandButton>
+</p:column>
+
+
+</p:dataTable>
+        
+        
+
+</h:form>
+
+
+
+
+
+
+
+
+</p:tab>
+
+
+
+<p:tab title="Buscar pela Organizadora">
+
+
+<!-- *************************Buscar pela organizadora *****************************************  -->
+
+
+
+<h:form id ="buscaorgform">
+
+<h3><h:graphicImage  alt="searchicon" value="/site/images/icons/searchicon.png"
+ width="30" height="30" styleClass ="h3ImageIcons"  />
+Buscar Feiras pela Organizadora</h3>
+<div class ="Separator"> </div>
+
+<p:messages id ="msgorg" showDetail="true" />
+<h:panelGrid columns="2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Organizadora:" for ="orgsearch" />
+ <p:selectOneMenu value="#{feiraBean.orgaSelecionada}" converter="orgConverter" 
+               id ="orgsearch"    effect="fade" var="o"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione uma organizadora"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{feiraBean.organizadoras}" var="orgs" itemLabel="#{orgs.razaoSocial}" itemValue="#{orgs}"/>  
+       			<p:column>
+<p:graphicImage alt="#{o.razaoSocial}" value="#{o.logourl}"  width="100" height="60"/>
+<br/>
+
+
+#{o.razaoSocial}
+</p:column>
+</p:selectOneMenu>
+
+
+        </h:panelGrid>
+     
+<p:commandButton value ="Buscar pela Organizadora" icon="ui-icon-search" actionListener="#{feiraBean.buscarPorOrganizadora}" 
+update="listaorg msgorg" />	
+        <div class ="EmptyBox10"></div>
+        <p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+				
+<p:dataTable emptyMessage="Nenhum Resultado" value ="#{feiraBean.feirasByOrg}" var ="feiras" id ="listaorg"  >
+<f:facet name ="header">
+<h:outputText value="#{feiraBean.feirasByOrg.size()} resultados encontrados" rendered="#{not empty feiraBean.feirasByOrg}"  />
+</f:facet>
+
+
+
+<p:column headerText="Logo">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+   <p:graphicImage alt="#{feiras.nomeFeira}" value ="#{feiras.urlLogo}" width="98" height="54"  />
+</h:link>
+</p:column>
+
+<p:column headerText="Dados da Feira">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+<h:outputText value="#{feiras.nomeFeira}" title="#{feiras.nomeFeira}" styleClass="FontVoltBold"/>
+</h:link>
+<br />
+<h:outputText value="Ano: " styleClass="FontVoltSemiBold" />
+<h:outputText value="#{feiras.ano}" styleClass="FontVoltSemiBold" />
+<br />
+<h:outputText value="#{feiras.edicao}" styleClass="FontVoltSemiBold" /> 
+<h:outputText value=" Edição" styleClass="FontVoltSemiBold" />
+
+<br />
+<h:outputText value="A BI não construiu nessa feira" rendered="#{!feiras.biConstruiu}" style ="color:red;" styleClass="FontVoltSemiBold" />
+<h:outputText value="A BI construiu nessa feira" rendered="#{feiras.biConstruiu}"  style ="color:green;" styleClass="FontVoltSemiBold"/>
+
+</p:column>
+
+<p:column headerText="Local">
+<h:outputText value="#{feiras.local.nome}" />
+<br />
+<h:outputText value="#{feiras.local.endereco} , #{feiras.local.numero} - #{feiras.local.cep}"  />
+<br />
+<h:outputText value="#{feiras.local.bairro} - #{feiras.local.cidade.nome}"  />
+<br />
+</p:column>
+
+<p:column headerText="Organizadora">
+<h:outputText value="#{feiras.organizadora.razaoSocial}" styleClass="FontBold" />
+
+</p:column>
+
+<p:column headerText="E-mails">
+<p:commandButton  action="#{feiraBean.verEmailClientesFeira}" value="E-mails dos clientes participantes" 
+oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+<f:setPropertyActionListener value="#{feiras}" target="#{feiraBean.feiraSelecionada}" />
+</p:commandButton>
+</p:column>
+
+
+</p:dataTable>
+        
+        
+
+</h:form>
+
+
+
+</p:tab>
+
+
+
+<!-- *************************Buscar Pelo pavilhão *****************************************  -->
+
+<p:tab title="Buscar pelo Local/Pavilhão" >
+
+<h:form id ="buscapavform">
+<h3><h:graphicImage alt="searchicon" name ="/images/icons/searchicon.png" library="bibliotecaideias"
+ width="30" height="30" styleClass="h3ImageIcons" />
+ Buscar feiras pelo local/pavilhão </h3>
+<div class ="Separator"> </div>
+
+
+<p:messages id ="msgpav" showDetail="true" />
+<h:panelGrid columns="2" >
+<h:outputLabel value="Local:" for ="pavsearch"/>
+
+					
+		 <p:selectOneMenu id ="pavsearch" value="#{feiraBean.pavSelecionado}" converter="pavConverter" 
+                   effect="fade" var="p" filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione um local/pavilhão"  itemValue="" noSelectionOption="true" />  
+            <f:selectItems value="#{feiraBean.pavilhoes}" var="pavs" itemLabel="#{pavs.nome}" itemValue="#{pavs}"/>  
+       			<p:column>
+<h:outputText value="#{p.nome}" />
+<br/>
+<h:outputText value ="Endereço:" />
+<br/>
+<h:outputText value="#{p.endereco}, #{p.numero} - #{p.bairro} - #{p.cidade.nome}" />
+
+</p:column>
+</p:selectOneMenu>
+
+
+        
+        </h:panelGrid>
+     
+<p:commandButton value ="Buscar pelo local" icon="ui-icon-search" actionListener="#{feiraBean.buscarPorLocal}" 
+update="listapav msgpav" />	
+
+<div class ="EmptyBox10"></div>
+<p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+
+        
+<p:dataTable emptyMessage="Nenhum Resultado" 
+ value ="#{feiraBean.feirasByLocal}" var ="feiras" id ="listapav" >
+<f:facet name ="header">
+<h:outputText value="#{feiraBean.feirasByLocal.size()} resultados encontrados" 
+rendered="#{not empty feiraBean.feirasByLocal}" />
+</f:facet>
+
+<p:column headerText="Logo">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+   <p:graphicImage alt="#{feiras.nomeFeira}" value ="#{feiras.urlLogo}" width="98" height="54"  />
+</h:link>
+</p:column>
+
+<p:column headerText="Dados da Feira">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+<h:outputText value="#{feiras.nomeFeira}" title="#{feiras.nomeFeira}" styleClass="FontVoltBold"/>
+</h:link>
+<br />
+<h:outputText value="Ano: " styleClass="FontVoltSemiBold" />
+<h:outputText value="#{feiras.ano}" styleClass="FontVoltSemiBold" />
+<br />
+<h:outputText value="#{feiras.edicao}" styleClass="FontVoltSemiBold" /> 
+<h:outputText value=" Edição" styleClass="FontVoltSemiBold" />
+
+<br />
+<h:outputText value="A BI não construiu nessa feira" rendered="#{!feiras.biConstruiu}" style ="color:red;" styleClass="FontVoltSemiBold" />
+<h:outputText value="A BI construiu nessa feira" rendered="#{feiras.biConstruiu}"  style ="color:green;" styleClass="FontVoltSemiBold"/>
+
+</p:column>
+
+<p:column headerText="Local">
+<h:outputText value="#{feiras.local.nome}" styleClass ="FontBold"/>
+<br />
+<h:outputText value="#{feiras.local.endereco} , #{feiras.local.numero} - #{feiras.local.cep}"  />
+<br />
+<h:outputText value="#{feiras.local.bairro} - #{feiras.local.cidade.nome}"  />
+<br />
+</p:column>
+
+<p:column headerText="Organizadora">
+<h:outputText value="#{feiras.organizadora.razaoSocial}" />
+
+
+</p:column>
+
+<p:column headerText="E-mails">
+<p:commandButton  action="#{feiraBean.verEmailClientesFeira}" value="E-mails dos clientes participantes" 
+oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+<f:setPropertyActionListener value="#{feiras}" target="#{feiraBean.feiraSelecionada}" />
+</p:commandButton>
+</p:column>
+
+</p:dataTable>
+        
+        
+
+</h:form>
+
+
+</p:tab>
+
+
+<p:tab title="Busca Detalhada">
+
+
+<h3>
+<h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" 
+styleClass="h3ImageIcons" />
+Busca detalhada: Preencha todos os campos para fazer uma busca completa, 
+listando apenas as feiras que se encaixam nesse filtro</h3>
+<strong>Atenção: Você deve preencher todos os parametros.</strong>
+
+<div class ="Separator"></div>
+
+<h:form id ="buscadetform">
+
+<p:messages id ="msgdet" showDetail="true" />
+
+<h:panelGrid columns="2" >
+<h:outputLabel value="Nome da feira:" for ="nomefeiracomp"/>
+<p:inputText value ="#{feiraBean.nomefeira}" id ="nomefeiracomp"/>
+
+<h:outputLabel value="A Bi já construiu nessa feira?" for ="options3" />
+ <p:selectOneRadio id="options3" value="#{feiraBean.construiu}" >  
+            <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            <f:selectItem itemLabel="Não" itemValue="false" />  
+            
+        </p:selectOneRadio>  
+        
+        
+<h:outputLabel value ="* Ano: " for ="anoscomp"/>
+
+<p:selectOneMenu value="#{feiraBean.anoSelecionado}" id ="anoscomp"  >  
+            <f:selectItem itemLabel="Selecione um ano"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{feiraBean.anos}" var="anos" itemLabel="#{anos}" itemValue="#{anos}"/>  
+            
+            </p:selectOneMenu>
+
+	<h:outputLabel value="*Organizadora:" for ="orgcomp"/>
+
+					
+		 <p:selectOneMenu id ="orgcomp" value="#{feiraBean.organizadoraSelecionada}"
+		  converter="orgConverter" 
+                       effect="fade" var="o"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione uma organizadora"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{feiraBean.organizadoras}" var="orgs" itemLabel="#{orgs.razaoSocial}" itemValue="#{orgs}"/>  
+       			<p:column>
+<p:graphicImage alt="#{o.razaoSocial}" value="#{o.logourl}"  width="100" height="60"/>
+<br/>
+
+
+#{o.razaoSocial}
+</p:column>
+</p:selectOneMenu>
+
+
+<h:outputLabel value ="*Local/Pavilhão:" for ="pavcomp"/>
+					
+		 <p:selectOneMenu id ="pavcomp" value="#{feiraBean.pavilhaoSelecionado}" converter="pavConverter" 
+                    effect="fade" var="p"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione um local/pavilhão"  itemValue="" noSelectionOption="true" />  
+            <f:selectItems value="#{feiraBean.pavilhoes}" var="pavs" itemLabel="#{pavs.nome}" itemValue="#{pavs}"/>  
+       			<p:column>
+<h:outputText value="#{p.nome}" />
+<br/>
+<h:outputText value ="Endereço:" />
+<br/>
+<h:outputText value="#{p.endereco}, #{p.numero} - #{p.bairro} - #{p.cidade.nome}" />
+
+</p:column>
+</p:selectOneMenu>
+
+
+<p:commandButton value ="Buscar Feiras" icon="ui-icon-search" actionListener="#{feiraBean.filteredSearch()}" 
+update="lista msgdet" >	
+
+</p:commandButton>	
+							
+</h:panelGrid>
+<div class ="EmptyBox10"></div>
+<p:ajaxStatus id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+
+<p:dataTable emptyMessage="Nenhum Resultado" value ="#{feiraBean.feiraSearch}" var ="feiras" id ="lista" >
+<f:facet name ="header">
+<h:outputText value="#{feiraBean.feiraSearch.size()} resultados encontrados" rendered="#{not empty feiraBean.feiraSearch}"  />
+</f:facet>
+
+
+<p:column headerText="Logo">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+   <p:graphicImage alt="#{feiras.nomeFeira}" value ="#{feiras.urlLogo}" width="98" height="54"  />
+</h:link>
+</p:column>
+
+<p:column headerText="Dados da Feira">
+ <h:link includeViewParams="true"   outcome="feiradetails" >
+   <f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+<h:outputText value="#{feiras.nomeFeira}" title="#{feiras.nomeFeira}" styleClass="FontVoltBold"/>
+</h:link>
+<br />
+<h:outputText value="Ano: " styleClass="FontVoltSemiBold" />
+<h:outputText value="#{feiras.ano}" styleClass="FontVoltSemiBold" />
+<br />
+<h:outputText value="#{feiras.edicao}" styleClass="FontVoltSemiBold" /> 
+<h:outputText value=" Edição" styleClass="FontVoltSemiBold" />
+
+<br />
+<h:outputText value="A BI não construiu nessa feira" rendered="#{!feiras.biConstruiu}" style ="color:red;" styleClass="FontVoltSemiBold" />
+<h:outputText value="A BI construiu nessa feira" rendered="#{feiras.biConstruiu}"  style ="color:green;" styleClass="FontVoltSemiBold"/>
+
+</p:column>
+
+<p:column headerText="Local">
+<h:outputText value="#{feiras.local.nome}" />
+<br />
+<h:outputText value="#{feiras.local.endereco} , #{feiras.local.numero} - #{feiras.local.cep}"  />
+<br />
+<h:outputText value="#{feiras.local.bairro} - #{feiras.local.cidade.nome}"  />
+<br />
+</p:column>
+
+<p:column headerText="Organizadora">
+<h:outputText value="#{feiras.organizadora.razaoSocial}"  />
+
+</p:column>
+
+<p:column headerText="E-mails">
+<p:commandButton  action="#{feiraBean.verEmailClientesFeira}" value="E-mails dos clientes participantes" 
+oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+<f:setPropertyActionListener value="#{feiras}" target="#{feiraBean.feiraSelecionada}" />
+</p:commandButton>
+</p:column>
+
+
+</p:dataTable>
+
+
+
+</h:form>
+
+
+
+</p:tab>
+
+
+
+
+
+
+</p:tabView>
+
+
+<p:dialog header="E-mails dos clientes que participaram dessa feira" height="500" widgetVar="emailDlg" styleClass="dialogGeral" resizable="false">
+
+
+
+<h:panelGroup id="display" style="overflow:auto;">
+<h:outputText value=" Nenhum e-mail encontrado" rendered="#{empty feiraBean.contatosCliente}" /> 
+<ui:repeat value="#{feiraBean.contatosCliente}" var = "email" id="emailslist">
+#{email.email}
+<br/>
+
+
+</ui:repeat>
+</h:panelGroup>
+</p:dialog>
+
+
+			<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

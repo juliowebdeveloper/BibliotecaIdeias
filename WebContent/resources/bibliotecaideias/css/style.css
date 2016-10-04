@@ -1,0 +1,80 @@
+
+//Tamanhos de form inputs
+.input100{
+	width: 100%;
+}
+
+.input50{
+	width: 50%;
+}
+
+.input60{
+	width: 60%;
+}
+
+.input40{
+	width: 40%;
+}
+
+
+//Float
+
+.floatLeft{
+	float: left;
+}
+
+.floatRight{
+	float: right;
+}
+
+
+//IMG
+
+.maxImage50{
+	max-width: 50%;
+	max-height: 50%;
+	width: 20%;
+}
+
+.maxImageHeight50{
+	max-height:50%;
+	max-width: auto;
+}
+
+.maxImageWidth50{
+	max-width: 50%;
+	max-height: auto;
+}
+
+//Espaçamento horizontal
+
+.horizontalSpace{
+	margin-top: 2%;
+	
+}
+
+.horizontalSpace10{
+	margin-top:10%;
+}
+
+
+//Icones das páginas (Sobre a empresa, formas de contato, etc)
+
+.h3ImageIcons{
+	clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0; width: 30px; height: 30px;
+}
+
+
+
+//Pre loading Gif
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('images/ajaxloadingbar.gif'') center no-repeat #fff;
+}

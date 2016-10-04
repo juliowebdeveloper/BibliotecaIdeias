@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Busca por Projetos</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            	<h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" /> Cliente/ <b>Pesquisar Clientes</b>
+            </div>
+            
+            
+
+
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+
+
+
+<p:tabView orientation="left" id ="tabview">
+<p:tab title="Busca por Metragem"> 
+<h:form id ="metragemForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pela Metragem do projeto </h2> 
+<hr/>
+
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Metragem:" for="metragem" />
+<p:selectOneMenu value="#{projSearchBean.metragem}" id ="metragem" style ="width: 150px;">
+			  <f:selectItem itemLabel="Até 20m²" itemValue="Até 20m²" />  
+            <f:selectItem itemLabel="Até 50m²" itemValue="Até 50m²" />  
+            <f:selectItem itemLabel="Até 100m²" itemValue="Até 100m²" /> 
+            <f:selectItem itemLabel="Acima 100m²" itemValue="Acima 100m²" /> 
+        </p:selectOneMenu> 
+
+ 
+        
+    <p:commandButton value="Buscar Projetos"  icon="ui-icon-search"  update= "metragemSearch" 
+    actionListener="#{projSearchBean.buscarPorMetragem}" />    
+        
+
+</h:panelGrid>
+
+
+
+<p:dataTable id ="metragemSearch" var="proj" value = "#{projSearchBean.projetosMetragem}" 
+emptyMessage="Nenhum projeto encontrado" >
+<f:facet name ="header">
+<h:outputText value="#{projSearchBean.projetosMetragem.size()} projetos encontrados"  />
+</f:facet>
+
+
+  <p:column style="width:5%">  
+           <p:commandButton id="selectButton" update=":tabview:metragemForm:display :tabview:metragemForm:vertable" action="#{projSearchBean.getVersions}" 
+           oncomplete="PF('verDialog').show()" icon="ui-icon-search" title="Ver Detalhes">  
+                <f:setPropertyActionListener value="#{proj}" target="#{projSearchBean.projetoSelecionado}"  />  
+            </p:commandButton> 
+        </p:column>  
+
+
+
+
+<p:column>
+<h:outputText value="Arquiteto:"  styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.arquiteto}" />
+
+</p:column>
+
+<p:column>
+<h:outputText value="Ano:"  styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.ano}" />
+
+</p:column>
+
+<p:column>
+<h:outputText value="Metragem:" styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.metragem}" />
+
+</p:column>
+
+
+<p:column>
+<h:outputText value="Segmento:"  styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.segmento}" />
+</p:column>
+
+
+<p:column>
+
+<h:link outcome="clientedetails" includeViewParams="true" >
+<h:outputText value="Cliente:"  styleClass="searchLabel"/>
+<f:param name="clienteid" value="#{proj.cliente.idCliente}" />
+<h:graphicImage alt="#{proj.cliente.razaoSocial}" value="#{proj.cliente.urlCartao}" width="100" height="60" />
+<br/>
+<h:outputText value="#{proj.cliente.razaoSocial}" styleClass="clientResults" />
+</h:link>
+</p:column>
+
+
+
+</p:dataTable>
+
+
+<p:dialog  header="Detalhes Projeto" widgetVar="verDialog" resizable="false"  
+                showEffect="fade" hideEffect="explode" styleClass="dialogGeral">  
+  
+        <h:panelGrid id ="display" columns="4" cellpadding="4">  
+  
+            <f:facet name="header">  
+                
+            </f:facet>  
+            
+            <h:outputText value="Código:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.idProjeto}" />
+            
+   			<h:outputText value="Metragem:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.metragem}" />
+  				
+  			 <h:outputText value="Ano:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.ano}" />
+  	
+  			 <h:outputText value="Segmento:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.segmento}" />
+  					
+            <h:outputText value="Arquiteto:" styleClass="searchLabel"  />  
+            <h:outputText value="#{projSearchBean.projetoSelecionado.arquiteto}" />  
+  			
+        </h:panelGrid>  
+        <hr/>
+       
+        <h2>Versões do projeto</h2>
+        <sub>Selecione uma versão para exibir suas fotos</sub>
+        <p:dataTable id ="vertable" var ="ver" value="#{projSearchBean.versoes}" >
+
+        	<p:column headerText="Versão">
+        		<p:commandLink value="#{ver.versao}" action="#{projSearchBean.getFotosVersao}" update=":tabview:metragemForm:galeria"  oncomplete="PF('projFotoDialog').show()" > 
+        	 <f:setPropertyActionListener value="#{ver}" target="#{projSearchBean.versaoSelecionada}"  /> 
+        		</p:commandLink>
+        	</p:column>
+        
+        </p:dataTable>
+        
+    </p:dialog>  
+
+
+<p:dialog widgetVar="projFotoDialog" id="galeria"  
+    header="Imagens da versão: #{projSearchBean.versaoSelecionada.versao}" resizable="false" width="990" height="500" modal="true" styleClass="dialogGeral">
+   
+   
+    <h:outputText value="Essa versão não possui nenhuma foto" rendered="#{empty projSearchBean.fotosProjetos}" />
+            <p:lightBox styleClass="imagebox" > 
+    
+    <ui:repeat style ="margin: 0 auto;"  var ="fotinhos" value="#{projSearchBean.fotosProjetos}">
+
+    
+ 	<h:outputLink value="#{fotinhos.urlImagem}" >  
+      		 <p:graphicImage  alt="imagem" value="#{fotinhos.urlImagem}" width="120" height="120"/>  
+    </h:outputLink>
+
+    
+    </ui:repeat>
+    
+    
+            </p:lightBox>
+  
+    
+    
+    </p:dialog>
+
+
+
+</h:form>
+
+
+    
+    
+    
+
+</p:tab>
+
+<!-- ******************Busca por ano *********************************************************** -->
+
+<p:tab title="Busca por Ano"> 
+<h:form id ="anoForm">
+
+<h2><h:graphicImage alt="searchicon" value="/site/images/icons/searchicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Busca pela Metragem do projeto </h2> 
+<hr/>
+
+<h:panelGrid columns = "2" styleClass ="funcFormCadastro">
+<h:outputLabel value="Ano:" for ="ano" />
+<p:inputText value ="#{projSearchBean.ano}" id="ano" />
+ 
+        
+    <p:commandButton value="Buscar Projetos"  icon="ui-icon-search"  update= "anoSearch" 
+    actionListener="#{projSearchBean.buscarPorAno}" />    
+        
+
+</h:panelGrid>
+
+
+
+<p:dataTable id ="anoSearch" var="proj" value = "#{projSearchBean.projetosAno}" 
+emptyMessage="Nenhum projeto encontrado" >
+<f:facet name ="header">
+<h:outputText value="#{projSearchBean.projetosAno.size()} projetos encontrados"  />
+</f:facet>
+
+
+  <p:column style="width:5%">  
+           <p:commandButton id="selectButton" update=":tabview:anoForm:display1 :tabview:anoForm:vertable1" action="#{projSearchBean.getVersions}" 
+           oncomplete="PF('verDialog1').show()" icon="ui-icon-search" title="Ver Detalhes">  
+                <f:setPropertyActionListener value="#{proj}" target="#{projSearchBean.projetoSelecionado}"  />  
+            </p:commandButton> 
+        </p:column>  
+
+
+
+
+<p:column>
+<h:outputText value="Arquiteto:"  styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.arquiteto}" />
+
+</p:column>
+
+<p:column>
+<h:outputText value="Ano:"  styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.ano}" />
+
+</p:column>
+
+<p:column>
+<h:outputText value="Metragem:" styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.metragem}" />
+
+</p:column>
+
+
+<p:column>
+<h:outputText value="Segmento:"  styleClass="searchLabel"/>
+<br/>
+<h:outputText value="#{proj.segmento}" />
+</p:column>
+
+
+<p:column>
+
+<h:link outcome="clientedetails" includeViewParams="true" >
+<h:outputText value="Cliente:"  styleClass="searchLabel"/>
+<f:param name="clienteid" value="#{proj.cliente.idCliente}" />
+<h:graphicImage alt="#{proj.cliente.razaoSocial}" value="#{proj.cliente.urlCartao}" width="100" height="60" />
+<br/>
+<h:outputText value="#{proj.cliente.razaoSocial}" styleClass="clientResults" />
+</h:link>
+</p:column>
+
+
+
+</p:dataTable>
+
+<p:dialog  header="Detalhes Projeto" widgetVar="verDialog1" resizable="false"  
+                showEffect="fade" hideEffect="explode" styleClass="dialogGeral">  
+  
+        <h:panelGrid id ="display1" columns="4" cellpadding="4">  
+  
+            <f:facet name="header">  
+                
+            </f:facet>  
+            
+            <h:outputText value="Código:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.idProjeto}" />
+            
+   			<h:outputText value="Metragem:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.metragem}" />
+  				
+  			 <h:outputText value="Ano:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.ano}" />
+  	
+  			 <h:outputText value="Segmento:" styleClass="searchLabel" />
+            <h:outputText value="#{projSearchBean.projetoSelecionado.segmento}" />
+  					
+            <h:outputText value="Arquiteto:" styleClass="searchLabel"  />  
+            <h:outputText value="#{projSearchBean.projetoSelecionado.arquiteto}" />  
+  			
+        </h:panelGrid>  
+        <hr/>
+       
+        <h2>Versões do projeto</h2>
+        <sub>Selecione uma versão para exibir suas fotos</sub>
+        <p:dataTable id ="vertable1" var ="ver" value="#{projSearchBean.versoes}" >
+
+        	<p:column headerText="Versão">
+        		<p:commandLink value="#{ver.versao}" action="#{projSearchBean.getFotosVersao}" update=":tabview:anoForm:galeria1"  oncomplete="PF('projFotoDialog').show()" > 
+        	 <f:setPropertyActionListener value="#{ver}" target="#{projSearchBean.versaoSelecionada}"  /> 
+        		</p:commandLink>
+        	</p:column>
+        
+        </p:dataTable>
+        
+    </p:dialog>  
+
+
+<p:dialog widgetVar="projFotoDialog" id="galeria1"  
+    header="Imagens da versão: #{projSearchBean.versaoSelecionada.versao}" resizable="false" width="990" height="500" modal="true" styleClass="dialogGeral">
+   
+   
+    <h:outputText value="Essa versão não possui nenhuma foto" rendered="#{empty projSearchBean.fotosProjetos}" />
+            <p:lightBox styleClass="imagebox" > 
+    
+    <ui:repeat style ="margin: 0 auto;"  var ="fotinhos" value="#{projSearchBean.fotosProjetos}">
+
+    
+ 	<h:outputLink value="#{fotinhos.urlImagem}" >  
+      		 <p:graphicImage  alt="imagem" value="#{fotinhos.urlImagem}" width="120" height="120"/>  
+    </h:outputLink>
+
+    
+    </ui:repeat>
+    
+    
+            </p:lightBox>
+  
+    
+    
+    </p:dialog>
+
+
+
+</h:form>
+
+</p:tab>
+
+
+
+</p:tabView>
+
+</section>
+
+</section>
+
+
+
+
+  <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Cadastrar Organizadoras</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="feiras cadastro cadastro-feira">
+    
+				  <ui:include src="/WEB-INF/headertemplate.xhtml" />
+
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+             <h:graphicImage alt="organizadoraicon" value="/site/images/icons/organizadoraicon.png" width="30" height="30" />	Cadastros / <b>Cadastro de Organizadoras</b>
+            </div>
+            
+              <div class="notificacao bordas degrade-horizontal arredondado">
+            	<b>Para cadastrar uma nova basta preencher o formulário abaixo.</b><br/>
+<br/>
+<strong>Os campos com * são obrigatórios</strong>
+            </div>
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+	<h:form id="cadastro" styleClass="form-cadastro inner">
+    <h2>Inserir Imagem</h2>
+                 <hr/>
+		<p:growl id ="gmessages" showDetail="true" />
+		<p:messages id="messages" showDetail="true" />
+	
+				
+		<p:graphicImage alt="Logo da Organizadora" value="#{cadOrgBean.imagem}" id="imagem" cache="false" width="230" height="125"  />
+  					<br />
+  						<p:fileUpload sizeLimit="2204800" widgetVar="uploader" 
+							label="Adicionar Logo..." auto="true" mode ="advanced" 
+							fileUploadListener="#{cadOrgBean.handleFileUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem" multiple="false" 
+							customUI="true" 
+							invalidSizeMessage="O tamanho da imagem é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+  			
+                    
+  			
+
+
+		    <h2><h:graphicImage alt="basicinfo" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Sobre a Organizadora</h2>
+                 <hr/>
+	
+<h:panelGrid columns ="2" styleClass ="funcFormCadastro">					
+
+					<h:outputLabel value="*Razão Social" styleClass="label" for ="razaosocial"/>
+
+					<p:inputText value="#{cadOrgBean.neworganizadora.razaoSocial}"
+					 size="70" required ="true"  style ="color:black;" requiredMessage="A razão social é necessária" 
+					 id="razaosocial" styleClass="form-itens degrade-vertical2">
+					
+					<p:watermark value="Razão social" for="razaosocial"></p:watermark>
+
+					</p:inputText>
+					
+					<h:outputLabel value="Nome Fantasia" styleClass="label" for="nomefantasia" />
+					<p:inputText id="nomefantasia" value="#{cadOrgBean.neworganizadora.nomeFantasia}"
+					 styleClass="form-itens degrade-vertical2" >
+						
+					<p:watermark value="Nome Fantasia" for="nomefantasia" />
+
+					</p:inputText>
+
+					<h:outputLabel value="*Endereço:" styleClass="label" for="endereco"/>
+					<p:inputText id="endereco" value="#{cadOrgBean.neworganizadora.endereco}" 
+					styleClass="form-itens degrade-vertical2" required="true" requiredMessage="O Endereço é obrigatório">
+						
+					<p:watermark value="Endereço" for="endereco" />
+
+					</p:inputText>
+						
+					<h:outputLabel value="Número:" styleClass="label" for ="numero" />
+					<p:inputText value="#{cadOrgBean.neworganizadora.numero}" id="numero" styleClass="form-itens degrade-vertical2">
+
+					<p:watermark value="Número" for="numero"></p:watermark>
+
+					</p:inputText>
+
+					<h:outputLabel value="Complemento:" styleClass="label" for="complemento" />
+					<p:inputText id="complemento" value="#{cadOrgBean.neworganizadora.complemento}" 
+					 styleClass="form-itens degrade-vertical2">
+					
+					<p:watermark value="Complemento" for="complemento"></p:watermark>
+
+					</p:inputText>
+
+					<h:outputLabel value="Bairro:" styleClass="label" for="bairro" />
+
+					<p:inputText value="#{cadOrgBean.neworganizadora.bairro}" id="bairro" styleClass="form-itens degrade-vertical2">
+
+					<p:watermark value="Bairro" for="bairro"></p:watermark>
+
+					</p:inputText>
+					
+
+					<h:outputLabel value="CEP:" styleClass="label" for="cep" />
+
+					<p:inputText id="cep" value="#{cadOrgBean.neworganizadora.cep}" styleClass="form-itens degrade-vertical2">
+
+					<p:watermark value="Cep" for="cep"></p:watermark>
+
+					</p:inputText>
+					
+					
+				
+			<h:outputLabel value="País:" for="paises" />
+
+					<p:selectOneMenu
+						style="width: 190px;"
+						valueChangeListener="#{cadOrgBean.stateChangeListener}"
+						value="#{cadOrgBean.codPais}" id="paises">
+						<f:selectItem itemLabel=" Selecione um país " itemValue="0" />
+						<f:selectItems value="#{cadOrgBean.paises}" var="pais"
+							itemValue="#{pais.codigo}" itemLabel="#{pais.nome}" />
+						<f:ajax event="change" render=":cadastro:cidades" />
+
+					</p:selectOneMenu>
+					
+						<h:outputLabel value="Cidade:" for="cidades" />
+					<p:selectOneMenu
+						style="width: 190px;"
+						value="#{cadOrgBean.idCidade}" id="cidades">
+						<f:selectItem itemLabel=" Selecione uma cidade " itemValue="0" />
+						<f:selectItems value="#{cadOrgBean.cidades}" var="cidade" itemDescription="#{cidade.distrito}"
+							itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />
+
+					</p:selectOneMenu>
+
+
+					
+
+
+				</h:panelGrid>
+
+				 <h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Contato</h2>
+                 <hr/>
+                 
+					<h:panelGrid columns="2" styleClass ="funcFormCadastro">
+
+						<h:outputLabel value="*E-mail:" styleClass="label" for="email"/>
+						<p:inputText id="email" value="#{cadOrgBean.neworganizadora.email}" style ="color:black;" required="true" 
+						requiredMessage="O e-mail é necessário" styleClass="form-itens degrade-vertical2">
+                            <f:validator validatorId="validadorEmail" />
+                            <p:watermark value="E-mail" for="email"></p:watermark>
+  
+                         </p:inputText>
+                         
+						<h:outputLabel value="Telefone:" styleClass="label" for="telefone"/>
+						<p:inputText id="telefone" 
+						value="#{cadOrgBean.neworganizadora.telefone}"   styleClass="form-itens degrade-vertical2">
+						<p:watermark value="Telefone" for="telefone"></p:watermark>
+						</p:inputText>
+
+						<h:outputLabel value="Telefone 2 / Celular:" styleClass="label"  for="telefone2" />
+						<p:inputText id="telefone2"   value="#{cadOrgBean.neworganizadora.celular}" styleClass="form-itens degrade-vertical2">
+						<p:watermark value="Telefone 2" for="telefone2"></p:watermark>
+						</p:inputText>
+						
+						<h:outputLabel value="Skype:" styleClass="label"  for="skype"/>
+						<p:inputText id="skype" value="#{cadOrgBean.neworganizadora.skype}" styleClass="form-itens degrade-vertical2">
+						<p:watermark value="Skype" for="skype"></p:watermark>
+						</p:inputText>
+
+						<h:outputLabel value="Nome do Contato:" styleClass="label" for="nomeContato" />
+						<p:inputText value="#{cadOrgBean.neworganizadora.nomeContato}" id="nomeContato" styleClass="form-itens degrade-vertical2">
+						<p:watermark value="Nome Contato" for="nomeContato"></p:watermark>
+						</p:inputText>
+
+						<h:outputLabel value="Cargo:" styleClass="label" for="cargo" />
+						<p:inputText value="#{cadOrgBean.neworganizadora.cargo}" id="cargo" styleClass="form-itens degrade-vertical2">
+						<p:watermark value="cargo" for="cargo"></p:watermark>
+						</p:inputText>
+
+
+					</h:panelGrid>
+
+
+
+				<p:commandButton value="Cadastrar" styleClass="saveButton"
+					icon="ui-icon-disk"
+					actionListener="#{cadOrgBean.cadastrarOrganizadora}"
+					update=":cadastro :cadastro:imagem :ultimascad" />
+
+
+
+
+
+			</h:form>
+
+</section>
+
+</section>
+
+
+  
+            <aside class="aside degrade-vertical arredondado bordas">
+            
+            <h2><h:graphicImage alt="cadastrosicon" value="/site/images/icons/ultimoscadastrosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Ultimos Cadastros</h2><hr/>
+            <p:dataTable  id ="ultimascad" var="org" value="#{cadOrgBean.ultimasCadastradas}">
+            <p:column>
+            
+             <h:outputText value="#{org.razaoSocial}" />
+             <br/>
+            <p:graphicImage alt="#{org.razaoSocial}" value="#{org.logourl}" width ="70" height="50"/>   
+            <br/>
+            
+             <h:outputText value="#{org.endereco}  - #{org.numero} - #{org.bairro}" />  
+              <br/>
+  				<h:outputText value="#{org.cidade.nome}" />
+            </p:column>
+            
+            </p:dataTable>
+            
+            </aside>
+
+
+
+
+
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

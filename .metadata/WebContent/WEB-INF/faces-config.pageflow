@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14645365158250" configfile="/BibliotecaIdeias/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf14645368736521" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14645368736522 pf14645368736523 pf14645368736524" inlinks="pf14645368736525" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="site/home.xhtml" x="554" y="178" id="pf14645368736526" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf14645368736522 pf14645368736523" path="/site/home.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="562" id="pf14645368736527" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14645368736525" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="site/admin/adminhome.xhtml" x="554" y="562" id="pf146453687365210" referenceLink="//@navigationRule.2/@navigationCase.1/@toViewId|" inlinks="pf14645368736524" path="/site/admin/adminhome.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="site/cadastrocliente.xhtml" x="122" y="1330" id="pf146453687365211" referenceLink="//@navigationRule.3/@navigationCase.1/@toViewId|" outlinks="pf146453687365212 pf146453687365213" inlinks="pf146453687365213" path="/site/cadastrocliente.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="site/cadastrardadoscliente.xhtml" x="338" y="1330" id="pf146453687365214" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf146453687365212" path="/site/cadastrardadoscliente.xhtml"/>
+  <links id="pf14645368736522" target="pf14645368736526" source="pf14645368736521" outcome="sucesso"/>
+  <links id="pf14645368736525" target="pf14645368736521" source="pf14645368736527" outcome="loginPage"/>
+  <links id="pf14645368736523" target="pf14645368736526" source="pf14645368736521" outcome="LoginFunc" redirect="true"/>
+  <links id="pf14645368736524" target="pf146453687365210" source="pf14645368736521" outcome="LoginAdmin" redirect="true"/>
+  <links id="pf146453687365212" target="pf146453687365214" source="pf146453687365211" outcome="CadastroSuccess"/>
+  <links id="pf146453687365213" target="pf146453687365211" source="pf146453687365211" outcome="CadastroCliFail">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+</pageflow:Pageflow>

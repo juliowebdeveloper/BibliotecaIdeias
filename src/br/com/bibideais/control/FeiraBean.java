@@ -1,0 +1,541 @@
+package br.com.bibideais.control;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+import br.com.bibideais.converter.OrgConverter;
+import br.com.bibideais.converter.PavilhaoConverter;
+import br.com.bibideais.entity.Cliente;
+import br.com.bibideais.entity.ContatoCliente;
+import br.com.bibideais.entity.Feira;
+import br.com.bibideais.entity.Organizadora;
+import br.com.bibideais.entity.Pavilhao;
+import br.com.bibideais.jsfutil.MessageUtil;
+import br.com.bibideais.service.ClienteBO;
+import br.com.bibideais.service.FeiraBO;
+
+
+/**
+ * 
+ * @author Shido
+ * Trata a busca das feiras - pesquisafeiras.xhtml
+ */
+@ManagedBean(name ="feiraBean")
+@SessionScoped
+public class FeiraBean implements Serializable {
+
+	
+	private static final long serialVersionUID = 1L;
+
+	private List<Feira> feiras;
+	
+	private List<Feira> feiraSearch;
+	
+	
+	private List<Organizadora> organizadoras;
+	
+	private List<Pavilhao> pavilhoes;
+	
+	//Busca por locais, por biconstruiu, por nome, por ano, por organizadora
+	
+	private String searchParam;
+	
+	private List<Cliente> clientesFeira;
+	
+	private Feira feiraSelecionada;
+	
+	//Hashmap para montar os parametors
+	private HashMap<String, String> parametros = new HashMap<String, String>();
+	
+	private FeiraBO bo;
+	
+	
+	//Parametros de busca
+	private String nomefeira;
+	
+	private String ano;
+	
+	private Organizadora organizadoraSelecionada;
+	
+	private int orgId;
+	
+	
+	
+	private Pavilhao pavilhaoSelecionado;
+	
+	private boolean construiu;
+	
+	private List<String> anos;
+	
+	private String anoSelecionado;
+	
+	
+	
+	
+
+	
+	/* **********Atributos da busca pelo nome **************************/
+	
+	private String buscanomeFeira;
+	
+	private boolean buscaconstruiu;
+	
+	private List<Feira> feirasByName;
+	
+	/* **********Atributos da busca por organizadora **************************/
+	
+
+	private Organizadora orgaSelecionada;
+	
+	private boolean orgaconstruiu;
+	
+	private List<Feira> feirasByOrg;
+
+	
+	
+	/* **********Atributos da busca por local **************************/
+
+
+	private Pavilhao pavSelecionado;
+	
+	private boolean locconstruiu;
+	
+	private List<Feira> feirasByLocal;
+	
+
+	/* **********Atributos da busca por Ano **************************/
+	private String anoBusca;
+	
+	private boolean anoConstruiu;
+	
+	private List<Feira> feirasByAno;
+
+	
+	/******************************************** */
+	
+	private List<ContatoCliente> contatosCliente;
+	
+	private List<String> emailClientesFeira;
+	
+	
+	
+	
+	
+	@PostConstruct
+	public void init(){
+		organizadoras = OrgConverter.organizadoras;
+		pavilhoes = PavilhaoConverter.pavilhoes;
+		feirasByName = new ArrayList<Feira>();
+		feirasByLocal = new ArrayList<Feira>();
+		feirasByOrg = new ArrayList<Feira>();
+		feirasByAno = new ArrayList<Feira>();
+		
+		anos = new ArrayList<String>();
+		organizadoraSelecionada = new Organizadora();
+		pavilhaoSelecionado = new Pavilhao();
+		
+		for(int i = 1998; i<2025; i++){
+			anos.add(Integer.toString(i));
+		}
+	}
+
+	
+	
+	
+	public void filteredSearch(){
+
+		if(nomefeira != null){
+			parametros.put("nome", nomefeira);
+		}
+		
+		if(anoSelecionado != null || !anoSelecionado.equalsIgnoreCase("")){
+			parametros.put("ano", anoSelecionado);
+		}
+		
+		
+		if(organizadoraSelecionada != null || !organizadoraSelecionada.getRazaoSocial().equalsIgnoreCase("")){
+			parametros.put("organizadora", Integer.toString(organizadoraSelecionada.getIdOrganizadora()));
+		}
+		
+		
+		if(pavilhaoSelecionado != null || !pavilhaoSelecionado.getNome().equalsIgnoreCase("")){
+			parametros.put("local", Integer.toString(pavilhaoSelecionado.getIdPavilhao()));
+		}
+	
+
+		
+		bo = new FeiraBO();
+		feiraSearch = bo.filteredSearch(parametros, construiu);
+		parametros = new HashMap<String, String>();
+		
+		
+		
+	}
+	
+	
+	
+	public void buscarPorNome(){
+		bo = new FeiraBO();
+		if(buscanomeFeira !=null & !buscanomeFeira.equals("")){
+			feirasByName = bo.buscarPorNome(buscanomeFeira);
+			
+			if(feirasByName.size() >50){
+				MessageUtil mu = new MessageUtil();
+				mu.sendWarnMessageToUser("Atenção", "O resultado da sua busca retornou mais de 50 registros, refine um pouco mais para melhores resultados");
+			}
+
+		}else{
+			MessageUtil mu = new MessageUtil();
+			mu.sendErrorMessageToUser("Atenção", "O nome da feira é necessário");
+		}
+		buscanomeFeira = new String();
+	
+		
+	}
+	
+	
+	public void verEmailClientesFeira(){
+		ClienteBO bo = new ClienteBO();
+		contatosCliente = new ArrayList<ContatoCliente>();
+		List<Cliente> clientesfeira = bo.buscarClientesFeiraAndIsClient(feiraSelecionada);
+		for (Cliente cliente : clientesfeira) {
+	//System.out.println("Clientes da feira " + feiraSelecionada.getNomeFeira());
+	
+	//System.out.println(cliente.getRazaoSocial());
+			List<ContatoCliente> c = bo.buscarContatos(cliente);
+			if(!c.isEmpty()){
+				for (ContatoCliente contatoCliente : c) {
+					contatosCliente.add(contatoCliente);
+				}
+			}
+		
+		}
+		
+	}
+	
+	
+	
+	public void buscarPorOrganizadora(){
+		bo = new FeiraBO();
+		feirasByOrg = bo.buscarPorOrganizadora(orgaSelecionada);
+		
+	}
+	
+	public void buscarPorLocal(){
+		bo = new FeiraBO();
+		feirasByLocal = bo.buscarPorLocal(pavSelecionado);
+		
+	}
+	
+	
+	public void buscarPorAno(){
+		bo = new FeiraBO();
+		feirasByAno = bo.buscarPorAno(anoBusca);
+		
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	public List<Feira> getFeiras() {
+		return feiras;
+	}
+
+
+	public void setFeiras(List<Feira> feiras) {
+		this.feiras = feiras;
+	}
+
+
+	public String getSearchParam() {
+		return searchParam;
+	}
+
+
+	public void setSearchParam(String searchParam) {
+		this.searchParam = searchParam;
+	}
+
+
+	public List<Cliente> getClientesFeira() {
+		return clientesFeira;
+	}
+
+
+	public void setClientesFeira(List<Cliente> clientesFeira) {
+		this.clientesFeira = clientesFeira;
+	}
+
+
+	public Feira getFeiraSelecionada() {
+		return feiraSelecionada;
+	}
+
+
+	public void setFeiraSelecionada(Feira feiraSelecionada) {
+		this.feiraSelecionada = feiraSelecionada;
+	}
+
+
+	public HashMap<String, String> getParametros() {
+		return parametros;
+	}
+
+
+	public void setParametros(HashMap<String, String> parametros) {
+		this.parametros = parametros;
+	}
+
+	public List<Organizadora> getOrganizadoras() {
+		return organizadoras;
+	}
+
+	public void setOrganizadoras(List<Organizadora> organizadoras) {
+		this.organizadoras = organizadoras;
+	}
+
+	public String getNomefeira() {
+		return nomefeira;
+	}
+
+	public void setNomefeira(String nomefeira) {
+		this.nomefeira = nomefeira;
+	}
+
+	public String getAno() {
+		return ano;
+	}
+
+	public void setAno(String ano) {
+		this.ano = ano;
+	}
+
+	public Organizadora getOrganizadoraSelecionada() {
+		return organizadoraSelecionada;
+	}
+
+	public void setOrganizadoraSelecionada(Organizadora organizadoraSelecionada) {
+		this.organizadoraSelecionada = organizadoraSelecionada;
+	}
+
+	public Pavilhao getPavilhaoSelecionado() {
+		return pavilhaoSelecionado;
+	}
+
+	public void setPavilhaoSelecionado(Pavilhao pavilhaoSelecionado) {
+		this.pavilhaoSelecionado = pavilhaoSelecionado;
+	}
+
+	public boolean isConstruiu() {
+		return construiu;
+	}
+
+	public void setConstruiu(boolean construiu) {
+		this.construiu = construiu;
+	}
+
+	public List<Pavilhao> getPavilhoes() {
+		return pavilhoes;
+	}
+
+	public void setPavilhoes(List<Pavilhao> pavilhoes) {
+		this.pavilhoes = pavilhoes;
+	}
+
+	public List<String> getAnos() {
+		return anos;
+	}
+
+	public void setAnos(List<String> anos) {
+		this.anos = anos;
+	}
+
+	public String getAnoSelecionado() {
+		return anoSelecionado;
+	}
+
+	public void setAnoSelecionado(String anoSelecionado) {
+		this.anoSelecionado = anoSelecionado;
+	}
+
+	public List<Feira> getFeiraSearch() {
+		return feiraSearch;
+	}
+
+	public void setFeiraSearch(List<Feira> feiraSearch) {
+		this.feiraSearch = feiraSearch;
+	}
+
+	public FeiraBO getBo() {
+		return bo;
+	}
+
+	public void setBo(FeiraBO bo) {
+		this.bo = bo;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public int getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(int orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getBuscanomeFeira() {
+		return buscanomeFeira;
+	}
+
+	public void setBuscanomeFeira(String buscanomeFeira) {
+		this.buscanomeFeira = buscanomeFeira;
+	}
+
+	public boolean isBuscaconstruiu() {
+		return buscaconstruiu;
+	}
+
+	public void setBuscaconstruiu(boolean buscaconstruiu) {
+		this.buscaconstruiu = buscaconstruiu;
+	}
+
+	public List<Feira> getFeirasByName() {
+		return feirasByName;
+	}
+
+	public void setFeirasByName(List<Feira> feirasByName) {
+		this.feirasByName = feirasByName;
+	}
+
+
+
+	public Organizadora getOrgaSelecionada() {
+		return orgaSelecionada;
+	}
+
+	public void setOrgaSelecionada(Organizadora orgaSelecionada) {
+		this.orgaSelecionada = orgaSelecionada;
+	}
+
+	public boolean isOrgaconstruiu() {
+		return orgaconstruiu;
+	}
+
+	public void setOrgaconstruiu(boolean orgaconstruiu) {
+		this.orgaconstruiu = orgaconstruiu;
+	}
+
+	public List<Feira> getFeirasByOrg() {
+		return feirasByOrg;
+	}
+
+	public void setFeirasByOrg(List<Feira> feirasByOrg) {
+		this.feirasByOrg = feirasByOrg;
+	}
+
+
+
+	public Pavilhao getPavSelecionado() {
+		return pavSelecionado;
+	}
+
+	public void setPavSelecionado(Pavilhao pavSelecionado) {
+		this.pavSelecionado = pavSelecionado;
+	}
+
+	public boolean isLocconstruiu() {
+		return locconstruiu;
+	}
+
+	public void setLocconstruiu(boolean locconstruiu) {
+		this.locconstruiu = locconstruiu;
+	}
+
+	public List<Feira> getFeirasByLocal() {
+		return feirasByLocal;
+	}
+
+	public void setFeirasByLocal(List<Feira> feirasByLocal) {
+		this.feirasByLocal = feirasByLocal;
+	}
+
+
+
+
+	public boolean isAnoConstruiu() {
+		return anoConstruiu;
+	}
+
+	public void setAnoConstruiu(boolean anoConstruiu) {
+		this.anoConstruiu = anoConstruiu;
+	}
+
+	public List<Feira> getFeirasByAno() {
+		return feirasByAno;
+	}
+
+	public void setFeirasByAno(List<Feira> feirasByAno) {
+		this.feirasByAno = feirasByAno;
+	}
+
+
+
+
+	public String getAnoBusca() {
+		return anoBusca;
+	}
+
+
+
+
+	public void setAnoBusca(String anoBusca) {
+		this.anoBusca = anoBusca;
+	}
+
+
+
+
+	public List<String> getEmailClientesFeira() {
+		return emailClientesFeira;
+	}
+
+
+
+
+	public void setEmailClientesFeira(List<String> emailClientesFeira) {
+		this.emailClientesFeira = emailClientesFeira;
+	}
+
+
+
+
+	public List<ContatoCliente> getContatosCliente() {
+		return contatosCliente;
+	}
+
+
+
+
+	public void setContatosCliente(List<ContatoCliente> contatosCliente) {
+		this.contatosCliente = contatosCliente;
+	}
+	
+	
+	
+	
+	
+}

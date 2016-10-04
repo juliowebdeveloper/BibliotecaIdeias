@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Editar Projetos do Cliente</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+			
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+             <h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" />	Cliente/ Edição/ <b>Editar Projetos do Cliente</b>
+            </div>
+            
+            
+            
+            
+            
+
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:inputHidden value="" /> 
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+
+<h2><h:graphicImage alt="projetoicon" value="/site/images/icons/projetoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Projetos do Cliente #{editProjBean.cliente.razaoSocial}</h2>
+<hr/>
+<p:messages id ="msgs" showDetail="true"/>
+
+  				<div id ="separadora" style ="margin-top: 40px;"></div>
+
+
+
+<p:growl id ="growl" showDetail="true" />
+
+
+
+
+<!-- *********************************** Projetos (Cadastro e Lista) **************************************** -->
+
+
+<h:form  id ="cadProjForm">
+ 			
+
+
+		
+		 <p:growl showDetail ="true" id ="projgrowl" />
+				
+				<h2>Cadastrar novo projeto</h2>
+						<hr/>
+		<h:panelGrid >
+		
+				<h:outputText for = "codigo" value="Código Projeto:" />
+		<p:inputText id="codigo" required="true" value = "#{editProjBean.newProjeto.codigo}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Código do projeto" for="codigo"  />
+		</p:inputText>
+		
+			<h:outputText for = "nome" value="Nome do Projeto:" />
+		<p:inputText id="nome" required="true" value = "#{editProjBean.newProjeto.nome}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Nome do projeto" for="nome"  />
+		</p:inputText>
+		
+		<h:outputText for = "evento" value="Evento:" />
+		<p:inputText id="evento" required="false" value = "#{editProjBean.newProjeto.evento}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Evento" for="evento"  />
+		</p:inputText>
+		
+		<h:outputText for = "arquiteto" value="Arquiteto:" />
+		<p:inputText id="arquiteto" required="true" value = "#{editProjBean.newProjeto.arquiteto}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Arquiteto do projeto" for="arquiteto"  />
+		</p:inputText>
+		
+		<h:outputText for = "metragem" value="Metragem:" />
+		<p:selectOneMenu id ="metragem" value="#{editProjBean.newProjeto.metragem}" style ="width: 150px;">
+			  <f:selectItem itemLabel="Até 20m²" itemValue="Até 20m²" />  
+            <f:selectItem itemLabel="Até 50m²" itemValue="Até 50m²" />  
+            <f:selectItem itemLabel="Até 100m²" itemValue="Até 100m²" /> 
+            <f:selectItem itemLabel="Acima 100m²" itemValue="Acima 100m²" /> 
+		</p:selectOneMenu>
+
+				
+				
+				<h:outputText for = "ano" value="Ano:" />
+				<p:inputText id="ano" required="true" value = "#{editProjBean.newProjeto.ano}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Ano do projeto" for="ano"  />
+		</p:inputText>
+				
+	
+				<h:outputText for = "segmento" value="Segmento:" />
+				<p:selectOneMenu id ="segmento" value="#{editProjBean.newProjeto.segmento}" style ="width: 150px;">
+			  <f:selectItem itemLabel="Cenários" itemValue="Cenario" />  
+            <f:selectItem itemLabel="Displays" itemValue="Displays" />  
+            <f:selectItem itemLabel="Estandes" itemValue="Estandes" /> 
+             <f:selectItem itemLabel="Ambientalmente Correto" itemValue="Ambientalmente Correto" />  
+            
+		</p:selectOneMenu>
+				
+
+
+	<p:commandButton value ="Adicionar novo projeto" icon="ui-icon-plusthick" update="projList :cadProjForm projgrowl" 
+	actionListener="#{editProjBean.criarProjeto}" />
+	
+		</h:panelGrid>
+		
+		
+		
+	<h2>Projetos Cadastrados</h2>
+	<hr/>
+	<sub><b>Clique no nome do projeto para editar suas versões</b></sub>
+	<p:dataTable id ="projList" emptyMessage="Não há projetos desse cliente" value ="#{editProjBean.projetos}" var="projs" >
+	<p:column>
+	<p:commandLink value="Projeto #{projs.nome} -- Código #{projs.codigo}" process="@this"
+	action="#{editProjBean.viewVersoes}" update=":cadVerForm :cadVerForm:versionList" oncomplete="PF('versionDlg').show()" > 
+       <f:setPropertyActionListener value="#{projs}" target="#{editProjBean.projetoSelecionado}"  /> 
+       </p:commandLink>
+	</p:column>
+	
+	<p:column>
+        	<p:commandLink value="Editar" process="@this"   update=":cadProjForm :editProj" 
+        	  oncomplete="PF('projEditDlg').show()"  > 
+        	 <f:setPropertyActionListener value="#{projs}" target="#{editProjBean.projetoSelecionado}"  /> 
+        	 
+        		</p:commandLink>
+        	</p:column>
+	
+	
+	<p:column>
+        	<p:commandLink value="Remover" process="@this"   update=":cadProjForm  :cadProjForm:projgrowl :confirmProjExcluDialog" 
+        	  oncomplete="PF('confirmProjExclu').show()"  > 
+        	 <f:setPropertyActionListener value="#{projs}" target="#{editProjBean.projetoSelecionado}"  /> 
+        	 
+        		</p:commandLink>
+        	</p:column>
+	
+	</p:dataTable>
+	
+	
+	
+	
+	
+	
+	</h:form>
+	
+	
+		<!-- ******Confirmação de exclusao de projeto***************** -->
+	
+       <p:confirmDialog id="confirmProjExcluDialog" appendToBody="true" 
+							message="Tem certeza que deseja excluir esse projeto, assim como suas versões e fotos?"
+							header="Exclusão de Projetos" severity="alert"
+							widgetVar="confirmProjExclu"  >
+
+							<p:commandButton id="confirm" value="Sim"
+							oncomplete="PF('confirmProjExclu').hide()"
+							update=":cadProjForm :cadProjForm:projList :cadProjForm:projgrowl"
+							actionListener="#{editProjBean.excluirProjeto}" />
+								   
+							<p:commandButton id="declineB" value="Não"
+								onclick="PF('confirmProjExclu').hide()" type="button" />
+
+						</p:confirmDialog>
+	
+	
+	
+	
+	<!-- ************************Editar Projeto DIALOG******************************************************************** -->
+	<p:dialog widgetVar="projEditDlg" resizable="false" id="editProj" modal="true" header="Editar Projeto #{editProjBean.projetoSelecionado.idProjeto}" styleClass="dialogGeral">
+	<h:form id ="editProjForm">
+	<h:panelGrid columns="2">
+	<h:outputText for = "codigoedit" value="Código Projeto:" />
+		<p:inputText id="codigoedit" required="true" value = "#{editProjBean.projetoSelecionado.codigo}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Código projeto" for="codigoedit"  />
+		</p:inputText>
+		
+	<h:outputText for = "nomeedit" value="Nome:" />
+		<p:inputText id="nomeedit" required="true" value = "#{editProjBean.projetoSelecionado.nome}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Nome do projeto" for="nomeedit"  />
+		</p:inputText>
+		
+		<h:outputText for = "eventoedit" value="Evento:" />
+		<p:inputText id="eventoedit" required="true" value = "#{editProjBean.projetoSelecionado.evento}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Evento" for="eventoedit"  />
+		</p:inputText>
+		
+	<h:outputText for = "arquiteto" value="Arquiteto:" />
+		<p:inputText id="arquiteto" required="true" value = "#{editProjBean.projetoSelecionado.arquiteto}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Arquiteto do projeto" for="arquiteto"  />
+		</p:inputText>
+		
+		<h:outputText for = "metragem" value="Metragem:" />
+		<p:selectOneMenu id ="metragem" value="#{editProjBean.projetoSelecionado.metragem}" style ="width: 150px;">
+			  <f:selectItem itemLabel="Até 20m²" itemValue="Até 20m²" />  
+            <f:selectItem itemLabel="Até 50m²" itemValue="Até 50m²" />  
+            <f:selectItem itemLabel="Até 100m²" itemValue="Até 100m²" /> 
+            <f:selectItem itemLabel="Acima 100m²" itemValue="Acima 100m²" /> 
+		</p:selectOneMenu>
+
+				
+				
+				<h:outputText for = "ano" value="Ano:" />
+				<p:inputText id="ano" required="true" value = "#{editProjBean.projetoSelecionado.ano}" styleClass="form-itens degrade-vertical2" >
+		<p:watermark value="Ano do projeto" for="ano"  />
+		</p:inputText>
+				
+	
+				<h:outputText for = "segmento" value="Segmento:" />
+				<p:selectOneMenu id ="segmento" value="#{editProjBean.projetoSelecionado.segmento}" style ="width: 150px;">
+			  <f:selectItem itemLabel="Cenários" itemValue="Cenario" />  
+            <f:selectItem itemLabel="Displays" itemValue="Displays" />  
+            <f:selectItem itemLabel="Estandes" itemValue="Estandes" /> 
+		</p:selectOneMenu>
+		
+		
+		
+	<p:commandButton value ="Alterar Informações do projeto" icon="ui-icon-disk" update=":cadProjForm:projList :cadProjForm:projgrowl" 
+	actionListener="#{editProjBean.alterarProjeto}" oncomplete="PF('projEditDlg').hide()" />
+		</h:panelGrid>
+				</h:form>
+	
+	</p:dialog>
+	
+	
+	
+	
+	
+	
+		<!-- ***********************Ver versões (E criar nova versao) do  Projeto DIALOG******************************************************************** -->
+	
+
+<p:dialog widgetVar="versionDlg" resizable="false" header="Versões do projeto" styleClass="dialogGeral" modal="true">
+<h2>Criar nova versão</h2>
+	<hr/>
+	<h:form styleClass="form-cadastro inner" id ="cadVerForm">
+	<h:panelGrid columns="1" styleClass="funcFormCadastro">
+	
+	<h:outputText for = "versao" value="Versão:" />
+		<p:inputText id="versao" required="true" value = "#{editProjBean.newVersao.versao}" styleClass="form-itens degrade-vertical2"  style="color:black;">
+		<p:watermark value="Versão construída / Versão não construída" for="versao"  />
+		</p:inputText>
+		
+		<p:commandButton id ="criarVersao" action="#{editProjBean.criarVersao}" value ="Adicionar nova Versão do projeto" 
+		icon="ui-icon-plusthick"
+		 update=":cadVerForm :cadVerForm:versionList" process="@form" />
+		</h:panelGrid>
+
+
+	<h2>Versões do Projeto #{editProjBean.projetoSelecionado.nome}</h2>
+	   <sub><b>Clique no nome da versão para altera-lo</b></sub>
+	
+      <sub><b>Clique em ver fotos para fazer upload das suas fotos ou visualizaar as fotos já inseridas</b></sub>
+        <p:dataTable editable="true" editMode="cell"
+        id ="versionList" var ="ver" value="#{editProjBean.versoes}" emptyMessage="Nenhuma versão foi adicionada à esse projeto">
+     
+        <p:ajax event="cellEdit" listener="#{editProjBean.onCellEdit}"  />  
+
+        	<p:column headerText="Versão">
+
+            <p:cellEditor>  
+                   <f:facet name="output"><h:outputText value="#{ver.versao}" /></f:facet>  
+                   <f:facet name="input"><p:inputText id="modelInput" value="#{ver.versao}" /></f:facet>  
+               </p:cellEditor>  
+            
+        	</p:column>
+        	
+        	<p:column headerText="Fotos">
+        <p:commandLink value="Ver fotos dessa versão" action="#{editProjBean.viewFotosProjeto}" process="@this" 
+        update=":cadFotoForm :fotoverdlg" oncomplete="PF('fotoDlg').show()"  > 
+        	 <f:setPropertyActionListener value="#{ver}" target="#{editProjBean.versaoSelecionada}"  /> 
+        		</p:commandLink>
+        	</p:column>
+        	
+        	
+        	
+        	<p:column>
+        	<p:commandLink value="Remover" action="#{editProjBean.excluirVersao()}" process="@this"  update=":cadVerForm" > 
+        	 <f:setPropertyActionListener value="#{ver}" target="#{editProjBean.versaoSelecionada}"  /> 
+        		</p:commandLink>
+        	</p:column>
+        
+        </p:dataTable>
+
+</h:form>
+
+</p:dialog>
+
+
+
+
+	<!-- ***********************Ver fotos da versão (E adicionar novas fotos) DIALOG******************************************************************** -->
+
+
+
+<p:dialog widgetVar="fotoDlg" header="Fotos da Versão #{editProjBean.versaoSelecionada.versao}" 
+resizable="false" styleClass="dialogGeral" modal="true" width="850" height="500" id ="fotoverdlg">
+<h:outputText value="Não há fotos nessa versão" rendered="#{empty editProjBean.fotosProjeto}" />
+
+<h:form styleClass="form-cadastro inner" id ="cadFotoForm">
+
+
+<h2>Fotos dessa versão</h2>
+<hr />
+
+
+    
+
+
+	<ui:repeat value="#{editProjBean.fotosProjeto}" var="fots" id ="listfots" >
+
+
+		<p:graphicImage alt="imagemprojeto" value ="#{fots.urlImagem}" width="150" height = "150" id="img" />
+		
+			<p:commandButton  icon="ui-icon-trash" action="#{editProjBean.excluirFoto}" update=":cadFotoForm listfots" style ="clear:both;">
+			
+			<f:setPropertyActionListener target="#{editProjBean.fotoSelecionada}" value="#{fots}" />
+			</p:commandButton>
+			
+	</ui:repeat>
+	
+
+
+
+
+    
+	<h2>Faça o upload das fotos para essa versão</h2>
+	<hr></hr>
+	<ul>
+	<li>Escolha as fotos dessa versão</li>
+	<li>Clique em <b>Adicionar todas fotos</b> ou selecione individualmente quais fotos serão inseridas</li>
+	<li>Clique em "Inserir fotos nessa versão do projeto" para relacionar as fotos com essa versão de projeto</li>
+	</ul>
+	<p:growl id ="fotogrowl" showDetail="true" />
+	<p:fileUpload sizeLimit="12204800" widgetVar="uploaderf"
+							label="Escolher fotos..." auto="false"  
+							mode ="advanced"  uploadLabel="Adicionar todas as fotos" cancelLabel="Cancelar"
+							fileUploadListener="#{editProjBean.handleFotoUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+							description="Images" update="fotogrowl"
+							 multiple="true" 
+							customUI="true" invalidSizeMessage="O tamanho da imagem é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado"/>
+  				
+  				
+  				<div id ="separadora" style ="margin-top: 40px;"></div>
+
+  			<p:commandButton actionListener="#{editProjBean.criarListFotos}" update="fotogrowl" oncomplete="PF('fotoDlg').hide()" value="Inserir fotos nessa versão do projeto" />
+
+</h:form>
+
+
+</p:dialog>
+
+
+
+
+
+</section>
+   <div style="width: 150px; float:right;">
+<p:button outcome="editcliente" icon = "ui-icon-arrowreturnthick-1-w" value ="Voltar para edição de cliente" />
+	</div>
+</section>
+
+
+
+
+
+
+            
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

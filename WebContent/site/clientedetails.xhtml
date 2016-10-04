@@ -1,0 +1,535 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+<h:head>
+
+</h:head>
+
+	<ui:define name="subheader">
+        Detalhes Cliente
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100 Resposive100">
+			<div class="Card TexAlCenter">
+				<span class= "Leaden" style="float:right;">
+			<h:form>
+			<p:commandButton value="Editar esse Cliente" icon="ui-icon-pencil" ajax="false"   action="#{cliViewBean.editarCliente()}" /> 
+ 
+			</h:form>
+			</span>
+			
+				<div class="CardTopic Blue PosAbsolute">Detalhes do Cliente </div>
+		
+				<div class ="EmptyBox5"></div>
+				
+					<div class="Separator"></div>
+			
+			
+	
+    
+    
+    
+    <div class ="Container50 Responsive50">
+    <h3>Logo</h3>
+    <p:graphicImage alt="#{cliViewBean.cliente.razaoSocial}" 
+    value="#{cliViewBean.cliente.urlCartao}" width="50%" height="40%"/>
+    
+    
+    </div>
+    
+        <div class ="Container50 Responsive50">
+    	<h3><h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" 
+		width="30" height="30" styleClass="h3ImageIcons"  /> Informações básicas</h3>
+    <div class ="EmptyBox10"></div>
+    
+<h:panelGrid columns ="1"  >
+
+<h:outputText value ="#{cliViewBean.cliente.razaoSocial}" id ="razao" styleClass="FontVoltBold"/>
+<h:outputText value ="Nome Fantasia: #{cliViewBean.cliente.nomeFantasia}" />
+<h:outputText value ="Categoria: #{cliViewBean.cliente.categoria}" />
+<h:outputText value ="Segmento: #{cliViewBean.cliente.segmentoPrincipal}" />
+<h:outputText value ="Funcionário cadastrador: #{cliViewBean.cliente.cadastrador.nomeCompleto}" />
+
+
+<h:outputText value ="Atendimento: #{cliViewBean.cliente.atendimento.nomeCompleto}" />
+
+<h:outputText value ="Data do cadastro: #{cliViewBean.cliente.dataCadastro.time}" >
+
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+</h:outputText>
+
+
+
+<h:outputText value ="Já recebeu trabalho da BI" style ="color:green;" styleClass="FontBold" rendered="#{cliViewBean.cliente.recebeuTrabalhos}"  id ="receb"/>
+<h:outputText value ="Não recebeu trabalho da BI" style ="color:red;" styleClass="FontBold" rendered="#{!cliViewBean.cliente.recebeuTrabalhos}" />
+
+<h:outputLabel value ="Anotações: " for="anot"/>
+
+<h:form id ="anotform">
+<p:growl id ="anotgrowl" />
+<p:inplace id="anot" editor="true" saveLabel=""   >  
+            <p:ajax event="save" listener="#{cliViewBean.atualizarAnotacoes}" update=":anotform anotgrowl" />
+                <p:inputTextarea maxlength="2500" cols="40" rows="5" value="#{cliViewBean.cliente.anotacoes}"  
+                            label="anot" size = "50"/>  
+                            
+            </p:inplace>
+
+</h:form>
+</h:panelGrid>
+
+</div>
+
+<div class="Separator"></div>
+
+
+<div class="Container50 Responsive50">
+ <h3> <h:graphicImage alt="enderecoicon" value="/site/images/icons/enderecoicon.png" 
+ width="30" height="30" styleClass="h3ImageIcons"/> Endereço</h3>
+ 
+ <div class ="EmptyBox10"> </div>
+ 
+ <p:panel>
+ <h:panelGrid columns ="4">
+ 
+  <h:outputText value ="Endereço não cadastrado" rendered="#{empty cliViewBean.cliente.rua}"/>
+
+<h:outputLabel value ="Rua:" />
+ <h:outputText value ="#{cliViewBean.cliente.rua}  #{cliViewBean.cliente.numero}"  rendered="#{not empty cliViewBean.cliente.rua}"/>
+
+<h:outputLabel value = "CEP:" rendered="#{not empty cliViewBean.cliente.cep}" />
+  <h:outputText value ="#{cliViewBean.cliente.cep}" rendered="#{not empty cliViewBean.cliente.cep}" />
+
+<br/>
+  <h:outputText value ="Bairro não cadastrado" rendered="#{empty cliViewBean.cliente.bairro}"/>
+#{cliViewBean.cliente.bairro}  
+
+  <br/>
+   <h:outputText value ="#{cliViewBean.cliente.cidade.nome}" />
+  
+ 
+</h:panelGrid>
+</p:panel>
+</div>
+
+
+<div class="Container50 Responsive50">
+
+<h3> <h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" 
+width="30" height="30" styleClass="h3ImageIcons" /> Contatos</h3>
+
+<div class= "EmptyBox10"></div>
+
+<p:dataList  value ="#{cliViewBean.contatos}" var="conts" itemType="none" emptyMessage="Esse cliente não possui contatos">
+<br />
+<h:outputText value ="#{conts.nome}" /> 
+<br/>
+<h:outputText value ="#{conts.cargo}" />
+<br />
+<h:outputText value ="Tel: #{conts.telefone} / Celular: #{conts.celular}" /> 
+<br/>
+<h:outputText value ="#{conts.email}" rendered="#{not empty conts.email}"  /> 
+<br />
+<h:outputText value ="Skype: #{conts.skype}" rendered="#{not empty conts.skype}" /> 
+<br/>
+<h:outputText value ="Rede Social: #{conts.redeSocial}" rendered="#{not empty conts.redeSocial}"   /> 
+<div class = "EmptyBox10"></div>
+
+
+
+</p:dataList>
+</div>
+
+
+
+
+
+
+<h3><h:graphicImage alt="infoicon" value="/site/images/icons/infoicon.png" 
+width="30" height="30" styleClass="h3ImageIcons"  /> 
+Outras Informações</h3>
+<div class ="Separator"></div>
+
+
+
+<!-- ********************************  Trabalhos  ***************************************************** -->
+
+<div class="Container50 Responsive50">
+<h3>Trabalhos</h3>	
+					<div class ="EmptyBox10"> </div>
+
+<p:accordionPanel>  
+    <p:tab title="Anos que recebeu trabalhos">
+				
+				<p:dataList value="#{cliViewBean.anos}" var="anos"
+				 itemType="none" emptyMessage="Esse cliente não recebeu trabalhos em nenhum ano">
+					<p:column>
+						#{anos.ano}
+					</p:column>
+
+				</p:dataList>
+			</p:tab>  
+			 
+ </p:accordionPanel>
+ </div>
+ 
+ <div class ="Container50 Responsive50">
+ 
+ 		<!-- ******************************** Feiras  ***************************************************** -->
+	<h3>Feiras que participou</h3>		
+							<div class ="EmptyBox10"> </div>
+		
+				<p:dataTable value="#{cliViewBean.feirasCli}" var="feiras" itemType="none" scrollRows="20"  
+                    scrollable="true" 
+                    liveScroll="true" scrollHeight="150" emptyMessage="Não participou de nenhuma feira">
+                    
+					<p:column>
+					 <h:link includeViewParams="true"   outcome="feiradetails" >
+  			 		<f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+						<p:graphicImage alt="#{feiras.nomeFeira}" value="#{feiras.urlLogo}" width="30%" height="30%"/>
+						
+						</h:link>
+						
+					<br/>
+					
+					 <h:link includeViewParams="true"   outcome="feiradetails" >
+  			 		<f:param name="feiraid" value="#{feiras.idFeira}"></f:param>
+						<h:outputText value="#{feiras.nomeFeira}" styleClass="FontBold" title="#{feiras.nomeFeira}" />
+						</h:link>
+						<br/>
+							<h:outputText value="Edição: #{feiras.edicao}" />
+							<br/>
+							<h:outputText value="Ano: #{feiras.ano}"  />
+							
+					</p:column>
+				</p:dataTable>
+ </div>
+ 
+ 
+ <div class ="Separator"></div>
+ 
+ <div class ="Container50 Responsive50">
+ 
+<!-- ********************************BRIEFINGS *************************************** -->
+
+<h3> <h:graphicImage alt="briefingicon" value="/site/images/icons/briefingicon.png"
+ width="30" height="30" styleClass="h3Im"  /> Briefings</h3>
+
+<div class ="EmptyBox10"></div>
+
+				<p:dataTable value="#{cliViewBean.briefings}" var="brifs" itemType="none" scrollRows="100"  
+                    scrollable="true" 
+                    liveScroll="true" scrollHeight="150" 
+				emptyMessage="Esse cliente não possui briefings" >
+					
+					<p:column>
+					<p:panel header="#{brifs.codigo}">
+						
+						<h:outputText value="Status do Briefing: " />
+						<h:outputText value="#{brifs.status}" />
+						<br />
+						<h:outputText value="Planilha de custos: "  />
+						<h:panelGroup rendered="#{funcBean.admin and not empty brifs.urlPlanilhaCustos}">
+						<a href="#{brifs.urlPlanilhaCustos}"> Clique para baixar </a>	
+						</h:panelGroup>	
+							
+						<h:panelGroup rendered="#{!funcBean.admin and not empty brifs.urlPlanilhaCustos}">
+						<h:outputText value="Você não pode visualizar a planilha de custos"  />
+						
+						
+						
+						</h:panelGroup>	
+						
+						
+
+						<br />
+							<p:commandLink styleClass="FontVoltLight" oncomplete="PF('filesDialog').show()" update=":fdlg"
+						 value="Ver arquivos desse briefing" action="#{cliViewBean.getBriefingFiles}" >
+							<f:setPropertyActionListener target="#{cliViewBean.briefingSelecionado}" value="#{brifs}" />
+			
+						</p:commandLink>
+						
+					<p:fieldset legend="Anotações" toggleable="true" toggleSpeed="500">
+					
+							<h:outputText value="#{brifs.anotacoes}" id="anot" />
+
+						</p:fieldset>
+						
+					
+			
+						
+							
+						</p:panel>
+						
+						</p:column>
+				</p:dataTable>
+
+		
+
+		<p:dialog header="Arquivos do briefing #{cliViewBean.briefingSelecionado.codigo}" 
+		id="fdlg" widgetVar="filesDialog" modal="true"  resizable="false" >
+			
+			<sub>Clique para fazer o download</sub>
+			<p:dataTable value="#{cliViewBean.brifiles}" var="brifiles" emptyMessage="Não há arquivos para esse briefing">
+				<p:column headerText="Nome arquivo" >
+				<a href="#{brifiles.urlFile}" target="blank"> #{brifiles.nomeArquivo} </a> 
+				</p:column>
+				<p:column headerText="Descrição" >
+				
+				#{brifiles.descricao}
+				
+				</p:column>
+				
+				
+				</p:dataTable >
+				
+		</p:dialog>
+
+ </div>
+
+
+
+				<div class="Container50 Responsive50">
+
+					<!-- ******************************** Projetos ***************************************************** -->
+
+
+
+					<h3>
+						<h:graphicImage alt="projetoicon" library="bibliotecaideias"
+							name="/images/icons/projetoicon.png" width="30" height="30"
+							styleClass="h3ImageIcons"/>
+						Projetos
+					</h3>
+					<div class ="EmptyBox10"> </div>
+
+					<h:form id="forma">
+						<p:growl id="growl" showDetail="true" />
+						<p:dataTable value="#{cliViewBean.projetos}" var="proj"
+							emptyMessage="Esse cliente não possui projetos cadastrados">
+
+							<p:column>
+								<p:commandButton id="selectButton" alt="Clique para ver detalhes"
+									action="#{cliViewBean.getVersions}"
+									update=":forma:display :forma:vertable"
+									oncomplete="PF('verDialog').show()" icon="ui-icon-search"
+									title="Ver Detalhes">
+									<f:setPropertyActionListener value="#{proj}"
+										target="#{cliViewBean.projetoSelecionado}" />
+								</p:commandButton>
+							</p:column>
+							<p:column headerText="Código">
+#{proj.codigo}
+</p:column>
+							<p:column headerText="Nome">
+#{proj.nome}
+</p:column>
+							<p:column headerText="Evento">
+#{proj.evento}
+</p:column>
+							<p:column headerText="Ano">
+ #{proj.ano}
+</p:column>
+							<p:column headerText="Metragem">
+#{proj.metragem}
+</p:column>
+
+
+						</p:dataTable>
+
+
+
+						<p:dialog id="dialog" modal="true" header="Detalhes Projeto"
+							widgetVar="verDialog" resizable="false" showEffect="fade"
+							hideEffect="explode" >
+
+
+
+					<p:panel>
+							<h:panelGrid id="display" columns="4" cellpadding="10">
+
+								<f:facet name="header">
+
+								</f:facet>
+
+								<h:outputText value="Código do projeto:" styleClass="FontVoltSemiBold" />
+								<h:outputText value="#{cliViewBean.projetoSelecionado.codigo}" />
+
+								<h:outputText value="Nome:" styleClass="FontVoltSemiBold"/>
+								<h:outputText value="#{cliViewBean.projetoSelecionado.nome}" />
+
+								<h:outputText value="Evento:"  styleClass="FontVoltSemiBold"/>
+								<h:outputText value="#{cliViewBean.projetoSelecionado.evento}" />
+
+								<h:outputText value="Metragem:" styleClass="FontVoltSemiBold" />
+								<h:outputText value="#{cliViewBean.projetoSelecionado.metragem}" />
+
+								<h:outputText value="Ano:" styleClass="FontVoltSemiBold"/>
+								<h:outputText value="#{cliViewBean.projetoSelecionado.ano}" />
+
+								<h:outputText value="Segmento:"  styleClass="FontVoltSemiBold"/>
+								<h:outputText value="#{cliViewBean.projetoSelecionado.segmento}" />
+
+								<h:outputText value="Arquiteto:"  styleClass="FontVoltSemiBold"/>
+								<h:outputText
+									value="#{cliViewBean.projetoSelecionado.arquiteto}" />
+
+							</h:panelGrid>
+							
+							
+							</p:panel>
+							
+							
+							<div class ="Separator"></div>
+
+							<h3>Versões do projeto</h3>
+							<sub>Selecione uma versão para exibir suas fotos</sub>
+							<p:dataTable id="vertable" var="ver"
+								value="#{cliViewBean.versoes}">
+
+								<p:column headerText="Versão">
+									<p:commandLink value="#{ver.versao}"
+										action="#{cliViewBean.getFotosVersao}" update=":forma:galeria"
+										oncomplete="PF('projFotoDialog').show()">
+										<f:setPropertyActionListener value="#{ver}"
+											target="#{cliViewBean.versaoSelecionada}" />
+									</p:commandLink>
+								</p:column>
+
+							</p:dataTable>
+
+						</p:dialog>
+
+
+
+						<p:dialog widgetVar="projFotoDialog" id="galeria"
+							header="Imagens da versão: #{cliViewBean.versaoSelecionada.versao}"
+							resizable="false" modal="true"
+							>
+
+
+							<h:outputText value="Essa versão não possui nenhuma foto"
+								rendered="#{empty cliViewBean.fotosProjetos}" />
+							<p:lightBox styleClass="imagebox">
+
+								<ui:repeat style="margin: 0 auto;" var="fotinhos"
+									value="#{cliViewBean.fotosProjetos}">
+
+
+									<h:outputLink value="#{fotinhos.urlImagem}">
+										<p:graphicImage alt="imagem" value="#{fotinhos.urlImagem}"
+											width="120" height="120" />
+									</h:outputLink>
+
+
+								</ui:repeat>
+
+
+							</p:lightBox>
+
+
+
+						</p:dialog>
+
+
+
+					</h:form>
+
+
+	</div>
+
+
+
+<div class ="Separator"></div>
+<!-- Fichas -->
+
+ <h3><h:graphicImage alt="fichasicon" library="bibliotecaideias" name ="/images/icons/fichasicon.png" width="30" height="30" 
+ styleClass="h3ImageIcons"  /> Fichas</h3>
+<div class ="EmptyBox10"> </div>
+ 
+
+<h:outputText value="Esse cliente não possui fichas"  rendered="#{empty cliViewBean.fichas}"/>
+
+<p:dataGrid columns="2" emptyMessage="Esse cliente não possui fichas"
+					rows="4" paginator="true" paginatorPosition="top" layout="grid"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,18"  value="#{cliViewBean.fichas}" var="ficha">
+					
+<p:column headerText="#{ficha.nomePath}">
+
+<p:lightBox styleClass="imagebox">
+<h:outputLink value="#{ficha.urlimagem}" >
+    <p:graphicImage alt="imagemficha" value="#{ficha.urlimagem}" height="80%" width="80%" title="#{ficha.nomeImagem}"/>  
+
+</h:outputLink>
+
+</p:lightBox>
+</p:column>
+
+</p:dataGrid> 
+
+
+
+
+<div class ="Separator"></div>
+<!-- Fotos -->
+
+
+
+<h3><h:graphicImage alt="fotoicon" value="/site/images/icons/fotoicon.png" width="30" height="30" 
+styleClass="h3ImageIcons"  />Fotos referência</h3>
+<div class="EmptyBox10"> </div>
+
+<h:outputText value="Esse cliente não possui fotos"  rendered="#{empty cliViewBean.fotosCliente}"/>
+
+
+<p:dataGrid columns="2" emptyMessage="Esse cliente não possui fotos"
+					rows="4" paginator="true" paginatorPosition="top" layout="grid"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,18"  value="#{cliViewBean.fotosCliente}" var="foto">
+					
+<p:column headerText="#{foto.legenda}">
+
+<p:lightBox styleClass="imagebox">
+<h:outputLink value="#{foto.urlimagem}" >
+ <p:graphicImage alt="#{foto.legenda}" value="#{foto.urlimagem}" 
+    title="#{foto.legenda}" width="80%" height="80%"   />  
+    
+    </h:outputLink>
+    </p:lightBox>
+</p:column>
+
+</p:dataGrid>
+
+
+
+
+
+
+
+
+
+
+				<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

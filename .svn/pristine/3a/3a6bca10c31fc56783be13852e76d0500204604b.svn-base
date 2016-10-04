@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Editar Feira</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+		<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+             <h:graphicImage alt="feiraicon" value="/site/images/icons/feiraicon.png" width="30" height="30" />	Feiras/ <b>Editar Feira</b>
+            </div>
+            
+            
+
+<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage alt="loader" value="../site/images/ajax-loader.gif" />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+
+
+  <h:form id ="editFeira">	
+		<h:panelGrid id="display" columns="0" cellpadding="4">  
+  
+      <p:growl id ="growl" />	
+<h:form>
+<p:growl id ="avatargrowl" showDetail="true" showSummary="true" />
+				<h2>Imagem de Logo</h2>
+				<hr/>
+				
+				
+				<p>Selecione um novo logo para essa feira e ele será alterado automáticamente.</p>
+				<p:graphicImage alt="logofeira" value="#{editFeiraBean.feira.urlLogo}" id="imagem" cache="false" />
+  					<br />
+  						<p:fileUpload sizeLimit="2204800" widgetVar="uploader"
+							label="Alterar Logo..." auto="true" mode ="advanced" 
+							fileUploadListener="#{editFeiraBean.upload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem avatargrowl" multiple="false" customUI="true"
+							 invalidSizeMessage="O tamanho da imagem é muito grande" 
+							 invalidFileMessage="Esse tipo de arquivo não é suportado"/>
+  				</h:form>	
+  				
+  			<div id ="separadora" style ="margin-top: 50px;"></div>
+  				
+<h2><h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Informações básicas</h2>
+				<hr/>
+				
+						<h:panelGrid columns="2">
+			<h:outputLabel value="Nome da feira:" styleClass="label" for="nome" />
+							
+           <p:inputText value="#{editFeiraBean.feira.nomeFeira}" id ="nome" disabled="true" rendered="#{!funcBean.admin}"  size="70" styleClass="form-itens degrade-vertical2" />
+            <p:inputText value="#{editFeiraBean.feira.nomeFeira}" id ="nomeedit" disabled="false"  rendered="#{funcBean.admin}" size="70" styleClass="form-itens degrade-vertical2" />
+            
+  			<h:outputLabel value="* Ano: " styleClass="label" for="ano" />
+					
+					<p:inputText value="#{editFeiraBean.feira.ano}" style="color: black;" id ="ano"
+					 size="4" required="true" requiredMessage="O ano que a feira ocorreu é necessário" maxlength="4" styleClass="form-itens degrade-vertical2"/>
+					
+					<h:outputLabel value="Período: " styleClass="label" for="periodo"/>
+
+					 <p:inputText value="#{editFeiraBean.feira.periodo}" 
+					 size="20" id ="periodo" title="Ex: 22 à 25 de setembro" styleClass="form-itens degrade-vertical2">
+					<p:tooltip for="periodo" showEvent="focus" hideEvent="blur" />  
+					</p:inputText>
+					
+					<h:outputLabel value="*Edição: " styleClass="label" for="edicao" />
+					
+					
+					<p:inputText value="#{editFeiraBean.feira.edicao}" style="color: black;" id ="edicao"
+					 size="3" required="true" requiredMessage="O edição da feira é necessária" styleClass="form-itens degrade-vertical2"/>
+					 
+					
+					<h:outputLabel value="Frequência: " styleClass="label" for="frequencia"/>
+					
+					<p:inputText value="#{editFeiraBean.feira.frequencia}" id="frequencia" style="color: black;" styleClass="form-itens degrade-vertical2"
+					 size="10" />
+					
+					<h:outputLabel value="Bi construiu nessa feira? " for="options"  styleClass="label" />
+					
+					 <p:selectOneRadio id="options" value="#{editFeiraBean.feira.biConstruiu}" >  
+           			 <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            				<f:selectItem itemLabel="Não" itemValue="false" />  
+            
+      						  </p:selectOneRadio>  
+      						  
+      				<h:outputLabel value="Número expositores nacionais: " for="expositores_nacionais" styleClass="label" />
+					
+					<p:inputText value="#{editFeiraBean.feira.expositoresNac}" 
+					 size="10" id ="expositores_nacionais" style="color: black;" styleClass="form-itens degrade-vertical2" >
+						<f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+				 <p:ajax update="total_expositores" listener="#{editFeiraBean.preencherExpositoresTotais()}" event="blur" />
+							 
+					</p:inputText>
+					
+					<h:outputLabel value="Número expositores internacionais: " for="expositores_internacionais" styleClass="label" />
+
+					
+					<p:inputText value="#{editFeiraBean.feira.expositoresInt}" 
+					 size="10" style="color: black;" id ="expositores_internacionais" styleClass="form-itens degrade-vertical2">
+							<f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+							 
+				 <p:ajax update="total_expositores" listener="#{editFeiraBean.preencherExpositoresTotais()}" event="blur" />
+							 
+						</p:inputText>
+					<h:outputLabel value="Número total de expositores: " for="total_expositores" styleClass="label" />
+					
+					<h:outputText value="#{editFeiraBean.feira.totalExpositores}" 
+					 size="10" style="color: black;" id ="total_expositores" styleClass="form-itens degrade-vertical2">
+					 <f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+					 </h:outputText>
+					 
+					 
+				<h:outputLabel value="Metro construído: " styleClass="label" for="metro_construido" />
+						
+					<p:inputText value="#{editFeiraBean.feira.metroConstruido}" 
+					 size="7" style="color: black;" id ="metro_construido" styleClass="form-itens degrade-vertical2"/>
+					 
+					 
+				<h:outputLabel value="Número de visitantes: " styleClass="label" for="visitantes" />
+					 
+					 <p:inputText value="#{editFeiraBean.feira.numeroVisitantes}" id ="visitantes"
+					 size="7" style="color: black;"  styleClass="form-itens degrade-vertical2">
+					  <f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+					 </p:inputText>
+				
+
+						</h:panelGrid>
+						
+					
+<h:panelGrid columns="2">
+
+
+	<h:outputLabel value="Anotações: " styleClass="label" for="anotacoes" />
+					 
+					 <p:inputTextarea cols="35" rows="7" maxlength="2500" id ="anotacoes" value="#{editFeiraBean.feira.anotacoes}" 
+					 size="7" style="color: black;" styleClass="form-itens degrade-vertical2" />
+
+				</h:panelGrid >	
+							
+						
+
+<h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Contato</h2>							
+<hr/>
+
+<h:panelGrid columns="2" styleClass="funcFormCadastro">
+
+								<h:outputLabel value="E-mail:" styleClass="label" for="email" />
+								<p:inputText value="#{editFeiraBean.feira.email}" id ="email" style ="color:black;" styleClass="form-itens degrade-vertical2">
+                            <f:validator validatorId="validadorEmail"/>  
+              </p:inputText>
+								<h:outputLabel value="Telefone:" styleClass="label" for="tel" />
+								<p:inputText value="#{editFeiraBean.feira.telefone}"    id ="tel" styleClass="form-itens degrade-vertical2"/>
+
+									
+								<h:outputLabel value="Site:" styleClass="label" for="site" />
+								<p:inputText value="#{editFeiraBean.feira.site}" id ="site" styleClass="form-itens degrade-vertical2"/>
+
+									
+
+							</h:panelGrid>
+
+
+					
+
+					</h:panelGrid>  
+				
+	
+			<p:commandButton value = "Alterar dados" icon ="ui-icon-disk" styleClass="saveButton" update=":editFeira"
+						actionListener="#{editFeiraBean.atualizarFeira}" />
+				
+</h:form>
+
+
+
+
+</section>
+
+<div style="width: 150px; float:right;">
+<h2><h:graphicImage alt="opcoesicon" value="/site/images/icons/opcoesicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Opções</h2>
+<hr/>
+			
+	<p:button outcome="feiradetails" includeViewParams="true" value ="Visualizar Feira" icon="ui-icon-star"  >
+<f:param name="feiraid" value="#{editFeiraBean.feira.idFeira}" />
+</p:button>		
+<br/>
+<p:button outcome="editmapafeira"  value="Editar mapa" icon="ui-icon-suitcase"  />
+<br/>
+<p:button outcome="editmanualfeira"  value="Editar manual" icon="ui-icon-clipboard"  />
+<br/>
+<p:button outcome="editlocalfeira"  value="Editar Organizadora/ Local" icon="ui-icon-clipboard"  />
+
+	</div>
+</section>
+            
+					
+            
+            
+            
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

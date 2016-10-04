@@ -1,0 +1,240 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+			<span class= "Leaden" style="float:right;">
+			<!-- Ultimos cadastros -->
+			
+			<h:form id="ultimosForm">          
+    			<p:commandButton id="ultimosBtn" value="Últimos Cadastros" type="button" style="font-size:10px" />
+    				<p:overlayPanel id="ultimosPanel" for="ultimosBtn" hideEffect="fade" >
+    
+   
+		
+            <p:dataTable  id ="ultimascad" var="org" value="#{cadOrgBean.ultimasCadastradas}">
+            <p:column>
+            
+             <h:outputText value="#{org.razaoSocial}" />
+             <br/>
+            <p:graphicImage alt="#{org.razaoSocial}" value="#{org.logourl}" width ="70" height="50"/>   
+            <br/>
+            
+             <h:outputText value="#{org.endereco}  - #{org.numero} - #{org.bairro}" />  
+              <br/>
+  				<h:outputText value="#{org.cidade.nome}" />
+            </p:column>
+            
+            </p:dataTable>
+			</p:overlayPanel>
+			</h:form>
+			</span>
+			
+			
+				<div class="CardTopic Blue PosAbsolute">Cadastro de Organizadora</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+				<span class="Leaden"> <strong>Os campos com * são obrigatórios</strong> </span> <br />
+				        
+
+    <h2>Inserir Imagem</h2>
+                 
+		<p:growl id ="gmessages" showDetail="true" />
+	
+<h:form id="orgcadastro" >
+		<p:graphicImage alt="Logo da Organizadora" value="#{cadOrgBean.imagem}" id="imagem" cache="false" width="230" height="125"  />
+  					<br />
+  						<p:fileUpload sizeLimit="2204800" widgetVar="uploader" 
+							label="Adicionar Logo..." auto="true" mode ="advanced" 
+							fileUploadListener="#{cadOrgBean.handleFileUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem" multiple="false" 
+							customUI="true" 
+							invalidSizeMessage="O tamanho da imagem é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+  			
+                
+
+                 <div class ="Separator"></div>
+
+
+
+<div class="Container50 Responsive50">
+		    <h3>
+		    <h:graphicImage alt="basicinfo" library="bibliotecaideias" name="/images/icons/basicinfoicon.png" 
+		    width="30" height="30"  styleClass="h3ImageIcons"  />
+		    Sobre a Organizadora</h3>
+	
+		<h:panelGrid columns ="2">					
+
+					<h:outputLabel value="*Razão Social"  for ="razaosocial"/>
+
+					<p:inputText value="#{cadOrgBean.neworganizadora.razaoSocial}"
+					  required ="true"  requiredMessage="A razão social é necessária" 
+					 id="razaosocial" >
+					
+					<p:watermark value="Razão social" for="razaosocial"></p:watermark>
+
+					</p:inputText>
+					
+					<h:outputLabel value="Nome Fantasia"   for="nomefantasia" />
+					<p:inputText id="nomefantasia" value="#{cadOrgBean.neworganizadora.nomeFantasia}"
+					 styleClass="form-itens degrade-vertical2" >
+						
+					<p:watermark value="Nome Fantasia" for="nomefantasia" />
+
+					</p:inputText>
+
+					<h:outputLabel value="*Endereço:"   for="endereco"/>
+					<p:inputText id="endereco" value="#{cadOrgBean.neworganizadora.endereco}" 
+					 required="true" requiredMessage="O Endereço é obrigatório">
+						
+					<p:watermark value="Endereço" for="endereco" />
+
+					</p:inputText>
+						
+					<h:outputLabel value="Número:" for ="numero" />
+					<p:inputText value="#{cadOrgBean.neworganizadora.numero}" id="numero">
+
+					<p:watermark value="Número" for="numero"></p:watermark>
+
+					</p:inputText>
+
+					<h:outputLabel value="Complemento:"  for="complemento" />
+					<p:inputText id="complemento" value="#{cadOrgBean.neworganizadora.complemento}" >
+					
+					<p:watermark value="Complemento" for="complemento"></p:watermark>
+
+					</p:inputText>
+
+					<h:outputLabel value="Bairro:" for="bairro" />
+
+					<p:inputText value="#{cadOrgBean.neworganizadora.bairro}" id="bairro" >
+
+					<p:watermark value="Bairro" for="bairro"></p:watermark>
+
+					</p:inputText>
+					
+
+					<h:outputLabel value="CEP:" styleClass="label" for="cep" />
+
+					<p:inputText id="cep" value="#{cadOrgBean.neworganizadora.cep}" >
+
+					<p:watermark value="Cep" for="cep"></p:watermark>
+
+					</p:inputText>
+					
+					
+				
+			<h:outputLabel value="País:" for="paises" />
+
+					<p:selectOneMenu 
+						valueChangeListener="#{cadOrgBean.stateChangeListener}"
+						value="#{cadOrgBean.codPais}" id="paises">
+						<f:selectItem itemLabel=" Selecione um país " itemValue="0" />
+						<f:selectItems value="#{cadOrgBean.paises}"
+						 var="pais" itemValue="#{pais.codigo}" itemLabel="#{pais.nome}" />
+						<p:ajax partialSubmit="true" event="change" update=":orgcadastro:cidades" ></p:ajax> 
+					</p:selectOneMenu>
+					
+						<h:outputLabel value="Cidade:" for="cidades" />
+					<p:selectOneMenu
+						value="#{cadOrgBean.idCidade}" id="cidades">
+						<f:selectItem itemLabel=" Selecione uma cidade " itemValue="0" />
+						<f:selectItems value="#{cadOrgBean.cidades}" var="cidade" itemDescription="#{cidade.distrito}"
+							itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />
+						<f:ajax />
+					</p:selectOneMenu>
+
+
+				</h:panelGrid>
+</div>
+
+<div class="Container50 Responsive50">
+				 <h3><h:graphicImage alt="contatosicon" library="bibliotecaideias"
+				 name="/images/icons/contatosicon.png" width="30" height="30"  styleClass="h3ImageIcons"/> Contato </h3>
+                 
+					<h:panelGrid columns="2" >
+
+						<h:outputLabel value="*E-mail:" styleClass="label" for="email"/>
+						<p:inputText id="email" value="#{cadOrgBean.neworganizadora.email}"  required="true" 
+						requiredMessage="O e-mail é necessário" >
+                            <f:validator validatorId="validadorEmail" />
+                            <p:watermark value="E-mail" for="email"></p:watermark>
+  
+                         </p:inputText>
+                         
+						<h:outputLabel value="Telefone:" styleClass="label" for="telefone"/>
+						<p:inputText id="telefone" 
+						value="#{cadOrgBean.neworganizadora.telefone}">
+						<p:watermark value="Telefone" for="telefone"></p:watermark>
+						</p:inputText>
+
+						<h:outputLabel value="Telefone 2 / Celular:"  for="telefone2" />
+						<p:inputText id="telefone2"   value="#{cadOrgBean.neworganizadora.celular}" >
+						<p:watermark value="Telefone 2" for="telefone2"></p:watermark>
+						</p:inputText>
+						
+						<h:outputLabel value="Skype:"  for="skype"/>
+						<p:inputText id="skype" value="#{cadOrgBean.neworganizadora.skype}" >
+						<p:watermark value="Skype" for="skype"></p:watermark>
+						</p:inputText>
+
+						<h:outputLabel value="Nome do Contato:" for="nomeContato" />
+						<p:inputText value="#{cadOrgBean.neworganizadora.nomeContato}" id="nomeContato" >
+						<p:watermark value="Nome Contato" for="nomeContato"></p:watermark>
+						</p:inputText>
+
+						<h:outputLabel value="Cargo:"  for="cargo" />
+						<p:inputText value="#{cadOrgBean.neworganizadora.cargo}" id="cargo">
+						<p:watermark value="cargo" for="cargo"></p:watermark>
+						</p:inputText>
+
+
+					</h:panelGrid>
+
+
+</div>
+
+		<div class ="EmptyBox30"></div>
+
+				<p:commandButton value="Cadastrar" 
+					icon="ui-icon-disk"
+					actionListener="#{cadOrgBean.cadastrarOrganizadora}"
+					update=":orgcadastro :orgcadastro:imagem :ultimosForm:ultimascad" />
+
+
+<p:ajaxStatus
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+					
+
+			</h:form>
+			
+			
+			</div>
+			
+			</div>
+		
+			
+			</ui:define>
+			
+			</ui:composition>

@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Fornecedores</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+   function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="cadastro feiras fix entidademanager">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            <h:graphicImage alt="fornecedoricon" value="/site/images/icons/fornecedoricon.png" width="30" height="30" />	<b>Fornecedores</b>
+            </div>
+            
+            <div class="notificacao bordas degrade-horizontal arredondado">
+            	<b>Para cadastrar uma novo fornecedor basta preencher o formulário abaixo.</b><br/>
+<br/>
+<strong>Os campos com * são obrigatórios</strong>
+            </div>
+            
+            
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus> 
+
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+              
+              <h2><h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Sobre o fornecedor</h2>
+                 <hr/>
+
+<p:messages showDetail="true" showSummary="true" id ="messag" />
+
+<h:form id ="fornecadastro" styleClass="form-cadastro inner">
+
+<h:panelGrid columns="2" styleClass ="funcFormCadastro">
+<h:outputLabel value="*Razão Social:"  for="nome"/>
+
+<p:inputText value="#{fornecedorBean.newfornecedor.razaoSocial}" size ="40" required="true" style="color: black;" 
+id ="nome" title="Verifique na lista se o fornecedor não está cadastrado" styleClass="form-itens degrade-vertical2">
+<p:tooltip for="nome" showEvent="focus" hideEvent="blur" /> 
+<p:watermark value="Razão Social"  for="nome" /> 
+</p:inputText>
+
+<h:outputLabel value="Produtos/Serviços Oferecidos:" for="prods" />
+<p:inputTextarea cols="30" rows="5" value ="#{fornecedorBean.newfornecedor.produto}" id="prods"  style="color: black;"   styleClass="form-itens degrade-vertical2">
+<p:watermark value="Produtos Oferecidos pelo fornecedor"  for="prods" /> 
+</p:inputTextarea>
+
+<h:outputLabel value="*Segmento:" for="segmento"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor	.segmento}" required = "true" id ="segmento"
+requiredMessage="Todos os fornecedores devem estar registrados em um segmento"
+ size = "20" styleClass="form-itens degrade-vertical2" style="color:black;">
+ <p:watermark value="Segmento"  for="segmento" /> 
+ </p:inputText>
+
+
+
+<h:outputLabel value="Endereço:" for ="endereco"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor.endereco}" id ="endereco" size ="40" styleClass="form-itens degrade-vertical2" >
+<p:watermark value="Endereço"  for="endereco" /> 
+</p:inputText>
+ 
+ <h:outputLabel value="Número:" for="numero" />
+<p:inputText value ="#{fornecedorBean.newfornecedor.numero}" id="numero" size="4" styleClass="form-itens degrade-vertical2">
+<p:watermark value="Número"  for="numero" /> 
+</p:inputText>
+ 
+ <h:outputLabel value="Complemento:"  for="complemento"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor.complemento}" id ="complemento" size = "15" 
+styleClass="form-itens degrade-vertical2">
+<p:watermark value="Complemento"  for="complemento" /> 
+</p:inputText>
+
+<h:outputLabel value="Bairro:" for="bairro" />
+<p:inputText value ="#{fornecedorBean.newfornecedor.bairro}" id="bairro" styleClass="form-itens degrade-vertical2">
+<p:watermark value="Bairro"  for="bairro" /> 
+</p:inputText>
+
+
+<h:outputLabel value="Cep:" for="cep"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor.cep}" id="cep" size = "10" styleClass="form-itens degrade-vertical2">
+<p:watermark value="CEP"  for="cep" /> 
+</p:inputText>
+
+<h:outputLabel value="País:" for="paises"/>
+<p:selectOneMenu  style ="width: 190px; border-radius: 3px; font-size: 16px;" 
+ valueChangeListener="#{fornecedorBean.stateChangeListener}" 
+  value="#{fornecedorBean.codPais}" id="paises" >
+        <f:selectItem itemLabel=" Selecione um país " itemValue="0"  />    
+        <f:selectItems value="#{fornecedorBean.paises}" var="pais" itemValue="#{pais.codigo}" itemLabel="#{pais.nome}"/>
+   		 <f:ajax event="change" render =":fornecadastro:cidades" /> 
+   		
+ </p:selectOneMenu>
+       	 
+       	 
+    <h:outputLabel value="Cidade:" for="cidades"/>
+<p:selectOneMenu style ="width: 190px; border-radius: 3px; font-size: 16px;" value="#{fornecedorBean.idCidade}" id="cidades">
+        <f:selectItem itemLabel=" Selecione uma cidade " itemValue="0"/>    
+        <f:selectItems value="#{fornecedorBean.cidades}" var="cidade" itemDescription="#{cidade.distrito}" itemValue="#{cidade.id}" itemLabel="#{cidade.nome}"/>
+
+ </p:selectOneMenu>
+
+</h:panelGrid>
+
+<h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Formas de Contato</h2><hr/>
+<h:panelGrid columns="2" styleClass ="funcFormCadastro">
+<h:outputLabel value="*E-mail:" for="email"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor.email}" required= "true"  
+style="color: black;" id="email" requiredMessage="É necessário cadastrar um e-mail de contato" styleClass="form-itens degrade-vertical2" size = "30"  >
+                            <f:validator validatorId="validadorEmail"/>  
+              </p:inputText>
+              
+              <h:outputLabel value="E-mail 2:" for="email"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor.email2}"  
+id="email2" styleClass="form-itens degrade-vertical2" size = "30"  >
+                            <f:validator validatorId="validadorEmail"/>  
+              </p:inputText>
+              
+              
+              <h:outputLabel value="E-mail 3:" for="email"/>
+<p:inputText value ="#{fornecedorBean.newfornecedor.email3}"
+id="email3" styleClass="form-itens degrade-vertical2" size = "30"  >
+                            <f:validator validatorId="validadorEmail"/>  
+              </p:inputText>
+              
+              
+<h:outputLabel value="Telefone 1:" for="tel1" />
+<p:inputText id="tel1" value ="#{fornecedorBean.newfornecedor.telefone}" styleClass="form-itens degrade-vertical2"/>
+
+
+<h:outputLabel value="Telefone 2:" for="tel2"/>
+<p:inputText id="tel2" value ="#{fornecedorBean.newfornecedor.telefone2}"  styleClass="form-itens degrade-vertical2" />
+
+
+<h:outputLabel value="Telefone 3:" for="tel3"/>
+<p:inputText id="tel3" value ="#{fornecedorBean.newfornecedor.telefone3}"    styleClass="form-itens degrade-vertical2"/>
+
+<h:outputLabel value="Celular:" for="cel" />
+<p:inputText id="cel" value ="#{fornecedorBean.newfornecedor.celular}"    styleClass="form-itens degrade-vertical2"/>
+
+<h:outputLabel value="Nextel:" for="nextel"/>
+<p:inputText id="nextel" value ="#{fornecedorBean.newfornecedor.celular}"    styleClass="form-itens degrade-vertical2"/>
+
+
+<h:outputLabel value="Nome do contato:" for="contato" />
+<p:inputText id="contato" value ="#{fornecedorBean.newfornecedor.nomeContato}" size = "15" styleClass="form-itens degrade-vertical2" />
+
+<h:outputLabel value="Cargo do contato:" for="cargo" />
+<p:inputText id="cargo" value ="#{fornecedorBean.newfornecedor.cargo}" size = "15" styleClass="form-itens degrade-vertical2"/>
+
+
+<h:outputLabel value="Site:" for="site"/>
+<p:inputText id="site" value ="#{fornecedorBean.newfornecedor.site}" size = "46" styleClass="form-itens degrade-vertical2"/>
+</h:panelGrid>
+
+
+
+<p:commandButton style="float:right;" value ="Cadastrar" actionListener="#{fornecedorBean.cadastrarFornecedor()}" 
+update=":messag :listform:forneList fornecadastro" icon="ui-icon-disk" iconPos="right"></p:commandButton>
+
+</h:form>
+
+
+
+<div id ="separadora" style ="margin-top: 50px;"></div>
+
+
+      
+
+
+
+
+
+</section>
+
+
+</section>
+
+
+
+
+
+
+
+
+ <aside class="aside degrade-vertical arredondado bordas">
+
+
+<div id ="listaPavs">
+ <h:form id = "listform" >  
+ 
+<!-- ***********************Lista de Fornecedores**************************************** -->
+
+ <h2><h:graphicImage alt="cadastrosicon" value="/site/images/icons/ultimoscadastrosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Últimos Cadastros</h2>
+                 <hr/>
+                 
+<p:dataTable scrollable="true"  resizableColumns="true" scrollHeight="500" value="#{fornecedorBean.ultimosCadastrados}" var="forne"  
+                    widgetVar="forne" id="forneList">  
+  		
+  
+         <p:column width="10">  
+         
+         <h:outputText value="#{forne.razaoSocial}" styleClass="label"/><p:graphicImage alt="checkicon" value="/site/images/Check-icon.png" style ="float:left;" width="20" height="20" rendered="#{forne.fornecedorBi}" title="É fornecedor BI"/>
+             <br/>
+            <h:outputText value="#{forne.endereco} #{forne.numero}" styleClass="enderecolabel" />
+            <br />
+            <h:outputText value="#{forne.bairro}" styleClass="enderecolabel" /> 
+             <br/>
+              <h:outputText value="#{forne.email}" styleClass="enderecolabel" /> 
+             <br/>
+          
+             <h:outputText value="#{forne.telefone}" styleClass="enderecolabel" /> 
+             <br/>
+             <h:outputText value="Produtos/Serviços: #{forne.produto}" styleClass="enderecolabel" /> 
+             <br/>
+             <h:outputText value="Segmento: #{forne.segmento}" styleClass="enderecolabel" /> 
+             <br/>
+            <h:outputText value="#{forne.cidade.nome}"  />
+            
+   </p:column>
+   </p:dataTable>
+    </h:form>
+    
+    </div>
+    
+    
+    <!-- ************************************************************************************************* -->
+    
+
+
+</aside>
+			<footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

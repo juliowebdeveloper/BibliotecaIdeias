@@ -1,0 +1,63 @@
+#dados{
+	
+	float: left;
+	width: 900px;
+	
+}
+
+
+.cadastro .aside table, .cadastro .aside tr, .cadastro .aside td {
+width: 130px !important;
+white-space: normal !important;
+border: 0;
+border-bottom: 1px #d9d9d9;
+padding-bottom: 0px;
+padding-top: 10px;
+top: 0;
+}
+
+#accordion{
+
+	float: left;
+	margin-left: 20px;
+	width: 100%;
+}
+
+.acc{
+	
+	width: 100%;
+	
+}
+
+.ui-picklist{
+	
+	width: 90%;
+}
+.ui-picklist-list-source{
+	
+	width: 100px;
+}
+
+.ui-picklist-list-target{
+	
+	width: 100px;
+}
+
+.ui.accordion-content{
+	width: 100%;
+	
+	
+}
+
+
+.ui-fileupload{
+	width: 100%;
+	
+	
+}
+
+fileupload-content{
+		width: 300px;
+	
+	}
+}

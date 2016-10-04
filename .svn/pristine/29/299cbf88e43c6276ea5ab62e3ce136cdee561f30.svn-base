@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos_historico.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Histórico de Acesso</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            <h:graphicImage alt="logsicon" value="/site/images/icons/logsicon.png" width="30" height="30" />	Biblioteca de Ideias / <b>Meu Histórico</b>
+            </div>
+            
+            <section class="bordas main degrade-horizontal">
+              <section class="inner">
+                    
+                  <header>
+                            <h2>Acompanhe suas atividades no sistema:</h2>
+                            <hr/>
+                            
+                            <sub>Selecione uma opção</sub>
+                </header> 
+         
+                
+                
+                
+                
+            
+			
+			<p:messages
+			showDetail="true" showSummary="true" id="messag"/>
+
+		
+				<h:form id="funccadastro" >
+				
+				
+				
+				
+				
+<p:dataTable value="#{logBean.ownLogs}" var="log" id="logsfuncs1" 
+							 paginator="true" rows="100"  style ="font-size: 14px; "
+        paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}"  
+        rowsPerPageTemplate="1000,2000,5000" type="none" emptyMessage="Nenhum registro">
+        
+        
+        <p:column headerText="Cadastrou Cliente">
+        		<h:outputText value ="#{log.idCliente.razaoSocial} no dia "  rendered="#{log.acao.equalsIgnoreCase(' cadastrou o Cliente ')}"  />
+        			<br/>
+        		<h:outputText value ="#{log.data.time}" rendered="#{log.acao.equalsIgnoreCase(' cadastrou o Cliente ')}" >
+        	
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										
+        	</h:outputText>
+        
+        </p:column>
+        
+        <p:column headerText="Acessou o Cliente" >
+        <h:outputText value ="#{log.idCliente.razaoSocial} no dia "  rendered="#{log.acao.equalsIgnoreCase(' acessou o Cliente ')}"  />
+        		<br/>
+        		<h:outputText value ="#{log.data.time}"  rendered="#{log.acao.equalsIgnoreCase(' acessou o Cliente ')}" >
+        	
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										
+        	</h:outputText>
+        
+        
+        </p:column>
+        
+        
+        <p:column headerText="Logou-se">
+        
+        	<h:outputText value ="#{log.data.time}" rendered="#{log.acao.equalsIgnoreCase(' logou-se')}" >
+        	
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										
+        	</h:outputText>
+        </p:column>
+        
+        
+          <p:column headerText="Deslogou-se">
+        
+        	<h:outputText value ="#{log.data.time}" rendered="#{log.acao.equalsIgnoreCase(' deslogou-se')}" >
+        	
+        	<f:convertDateTime timeZone="GMT-3" type="both"
+										pattern="dd/MM/yyyy  HH:mm:ss" />
+										
+        	</h:outputText>
+        </p:column>
+        
+        
+        
+        </p:dataTable>
+				
+				
+				
+				
+				</h:form>
+		</section>
+                
+                
+                </section>
+                
+                
+                
+               
+
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

@@ -1,0 +1,104 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pv="http://primefaces.org/volt">
+
+    <h:form id="menuform">
+        <pv:menu>
+        <p:menuitem id ="mn_home" value="Home" icon="icon-home" outcome="/site/home"/>
+           
+          
+            <p:submenu id="mn_cadastros" label="Cadastros" icon="fa fa-plus-square">
+                <p:menuitem id="mn_cad_cliente" value="Clientes" icon="fa fa-user-plus"  outcome="/site/cadastrarcliente"/>
+                <p:menuitem id="mn_cad_feira"  value="Feiras" icon="fa fa-building-o" outcome="/site/cadastrarfeiras"/>
+                <p:menuitem id="mn_cad_organizadora"  value="Organizadoras" icon="fa fa-columns" outcome="/site/cadastrarorganizadoras"/>
+                <p:menuitem id="mn_cad_fornecedor"  value="Fornecedores" icon="fa fa-truck" outcome="/site/cadastrarfornecedores"/>
+                <p:menuitem id="mn_cad_entidade"  value="Entidades" icon="fa fa-university" outcome="/site/cadastrarentidades"/>
+                <p:menuitem id="mn_cad_local" value="Locais/Pavilhões" icon="icon-map" outcome="/site/cadastrarlocais"/>
+                <p:menuitem id="mn_cad_cidade"  value="Cidade" icon="icon-map2" outcome="/site/cadastrarcidades"/>
+            
+            </p:submenu>
+            <p:submenu id="mn_pesquisas" label="Pesquisas" icon="fa fa-search-plus">
+               <p:menuitem id="mn_pes_cliente" value="Clientes" icon="fa fa-user-plus"  outcome="/site/pesquisaclientes"/>
+                <p:menuitem id="mn_pes_feira"  value="Feiras" icon="fa fa-building-o" outcome="/site/pesquisafeiras"/>
+                <p:menuitem id="mn_pes_organizadora"  value="Organizadoras" icon="fa fa-columns" outcome="/site/pesquisaorganizadoras"/>
+                <p:menuitem id="mn_pes_fornecedor"  value="Fornecedores" icon="fa fa-truck" outcome="/site/pesquisafornecedores"/>
+                <p:menuitem id="mn_pes_entidade"  value="Entidades" icon="fa fa-university" outcome="/site/pesquisaentidades"/>
+                <p:menuitem id="mn_pes_local" value="Locais/Pavilhões" icon="icon-map" outcome="/site/pesquisalocais"/>
+                <p:menuitem id="mn_pes_projeto"  value="Projetos" icon="fa fa-briefcase" outcome="/site/pesquisaprojetos"/>
+            </p:submenu>
+            
+            <p:submenu id="rm_admin" label="Administração" icon="fa fa-gears" rendered ="#{funcBean.admin}">
+                <p:menuitem id="rm_empty" value="Administrar Funcionários" icon="fa fa-users" outcome="/site/admin/administracaofuncionarios" />
+                <p:menuitem id="rm_login" value="Histórico de Acesso" icon="fa fa-calendar-o" outcome="/site/admin/accesshistory" />
+                <p:menuitem id="rm_error" value="Acessos por Períodos" icon="fa fa-clock-o" outcome="/site/admin/accesshistoryperiod" />
+                
+            </p:submenu>
+            <p:submenu id="rm_hierarchy" label="Menu Hierarchy" icon="icon-flow-switch">
+                <p:submenu id="rm_sm1" label="Submenu 1" icon="icon-folder2">
+                    <p:submenu id="rm_sm11" label="Submenu 1.1" icon="icon-folder2">
+                        <p:submenu id="rm_sm111" label="Submenu 1.1.1" icon="icon-folder2">
+                            <p:menuitem id="rm_lnk1111" value="Link 1" icon="icon-link-outline" url="#" />
+                            <p:menuitem id="rm_lnk1112" value="Link 2" icon="icon-link-outline" url="#" />
+                            <p:menuitem id="rm_lnk1113" value="Link 3" icon="icon-link-outline" url="#" />
+                        </p:submenu>
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu id="rm_sm2" label="Submenu 2" icon="icon-folder2">
+                    <p:submenu id="rm_22" label="Submenu 2.2" icon="icon-folder2">
+                        <p:submenu id="rm_221" label="Submenu 2.2.1" icon="icon-folder2">
+                            <p:menuitem id="rm_lnk2211" value="Link 1" icon="icon-link-outline" url="#" />
+                            <p:menuitem id="rm_lnk2212" value="Link 2" icon="icon-link-outline" url="#" />
+                            <p:menuitem id="rm_lnk2213" value="Link 3" icon="icon-link-outline" url="#" />
+                        </p:submenu>
+                    </p:submenu>
+                </p:submenu>
+            </p:submenu>
+            
+  			<p:submenu id="rm_menupos" label="Posição do Menu" icon="icon-select">
+                <p:menuitem id="rm_left" url="#" value="Inline Menu" icon="icon-uniE675" onclick="$('body').removeClass('PopupMenu');return false;"/>
+                <p:menuitem id="rm_popup" url="#" value="Popup Menu" icon="icon-windows" onclick="$('body').addClass('PopupMenu');return false;"/>
+            </p:submenu>
+            
+            <p:submenu id="rm_links" label="Links" icon="icon-atom">
+                <p:menuitem id="rm_icons" value="Font Icons" icon="icon-lightbulb"  />
+                <p:submenu id="rm_docs" label=" Documentation" icon="icon-clipboard2">
+                    <p:submenu id="rm_docs_core" label=" Core CSS Docs" icon="fa fa-code">
+                        <p:menuitem id="rm_docs_1" value="Installation" icon="icon-menu" />
+                        <p:menuitem id="rm_docs_2" value="Menus" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_3" value="Responsive Mode" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_4" value="ContainerX" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_27" value="Flex Boxes" icon="icon-menu" />
+                        <p:menuitem id="rm_docs_5" value="WidX" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_6" value="Selection" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_7" value="Visibility" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_8" value="Displaying" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_9" value="Positioning" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_10" value="Underline" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_11" value="Floating" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_12" value="Overflows" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_13" value="Empty Boxes" icon="icon-menu" />
+                        <p:menuitem id="rm_docs_14" value="Opacity" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_15" value="Text Aligning" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_16" value="Box Sizing" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_17" value="Font Size" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_18" value="Font Weights" icon="icon-menu" />
+                    </p:submenu>
+                    <p:submenu id="rm_docs_layout" label="Layout CSS Docs" icon="fa fa-code">
+                        <p:menuitem id="rm_docs_20" value="LESS" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_21" value="Cards" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_22" value="Text Colors" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_23" value="Background Colors" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_24" value="Borders" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_25" value="Separators" icon="icon-menu"  />
+                        <p:menuitem id="rm_docs_26" value="Effects" icon="icon-menu"  />
+                    </p:submenu>
+                </p:submenu>
+            </p:submenu>
+        </pv:menu>
+    </h:form>
+
+</ui:composition>

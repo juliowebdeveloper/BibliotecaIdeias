@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:b="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security
+						http://www.springframework.org/schema/security/spring-security-3.0.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						">
+						
+						
+
+
+<!--Spring Security -->
+
+	<http auto-config="true" access-denied-page="/accessDenied.xhtml" >
+		<form-login login-page="/login.xhtml"
+			authentication-failure-url="/login.xhtml?error=true" 
+			login-processing-url="/j_spring_security_check"/>
+		<logout logout-success-url="/login.xhtml" />
+		
+		<intercept-url pattern="/site/admin/**" access="ROLE_ADMIN"  />	
+		<intercept-url pattern="/site/**" access="ROLE_FUNC, ROLE_ADMIN"  />
+		<intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"  />
+		<intercept-url pattern="/index" access="IS_AUTHENTICATED_ANONYMOUSLY"  />
+		
+	</http>
+
+
+	
+	
+
+
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="SELECT username, password, enable FROM Funcionario WHERE username=?"
+				authorities-by-username-query="SELECT u.username, ur.AUTH_authority FROM Funcionario u, func_auth ur WHERE u.id = ur.func_id and u.username =?" />
+		
+				
+				
+		</authentication-provider>
+	</authentication-manager>
+
+
+
+<!-- Configurações MYSQL connection -->
+	<b:bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<b:property name="url"
+			value="jdbc:mysql://localhost:3306/bibideias" />
+		<b:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<b:property name="username" value="root" />
+		<b:property name="password" value="julio" />
+	</b:bean>
+	
+	
+	
+	
+	
+	<!--**************** Spring *************************************-->
+ 	<context:component-scan base-package="br.com.bibideais"/>
+	<context:annotation-config />
+	
+	
+<!-- 	<b:bean id="controller" class="com.spring.dao.PedidoController">
+		<b:property name="pedido">
+			<b:ref bean="pedido" />
+		</b:property>
+	</b:bean> -->
+	
+<!-- 	<b:bean id="pedido" class="com.spring.dao.Pedido" /> -->
+	<b:bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<b:property name="persistenceUnitName" value="bibideias" />
+	</b:bean>
+	
+	<b:bean class="org.springframework.orm.jpa.JpaTransactionManager">
+		<b:property name="entityManagerFactory" ref="entityManagerFactory" />
+	</b:bean>
+
+</b:beans>

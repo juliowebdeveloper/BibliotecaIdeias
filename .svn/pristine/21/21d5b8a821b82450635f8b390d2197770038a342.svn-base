@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Cadastro de feiras</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="cadastro feiras">
+    
+				  <ui:include src="/WEB-INF/headertemplate.xhtml" />
+
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            	 <h:graphicImage alt="feiraicon" value="/site/images/icons/feiraicon.png" width="30" height="30" /> Cadastros/ <b>Cadastro Feiras</b>
+            </div>
+            
+        
+
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+ 
+            <div class="notificacao bordas degrade-horizontal arredondado">
+            	<b>Para cadastrar uma nova feira basta preencher os formulários abaixo.</b><br/>
+Para pesquisar dados completos de feiras já cadastrados acesse a área de pesquisa.
+<br/>
+<strong>Os campos com * são obrigatórios</strong>
+            
+
+            </div>
+            
+                		
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+            
+		<h2>Inserir Imagens</h2>
+                 <hr/>
+                 
+                 <p:tabView id="tabView">
+                 
+                  <p:tab  title="Inserir Logotipo">  
+                 <h:form id ="avatarform" nctype="multipart/form-data" styleClass="form-cadastro inner">
+				<p:graphicImage alt="Logo da Feira" value="#{cadFeiraBean.imagem}" style="float:left;" id="imagem" cache="false" width="230" height="125"/>
+  					<br />
+  						<p:fileUpload sizeLimit="2204800" widgetVar="uploader" width="230" height="125"
+							label="Adicionar Logo..." auto="true" mode ="advanced" style="float:left;"
+							fileUploadListener="#{cadFeiraBean.handleFileUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem" multiple="false" customUI="true" 
+							invalidSizeMessage="O tamanho da imagem é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+  			
+            </h:form>
+            
+            </p:tab>
+            
+            
+                  <p:tab  title="Inserir Mapa">
+                  <h2> <h:graphicImage alt="mapaicon" value="/site/images/icons/mapaicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> Mapa</h2>
+  					<hr/>
+  						<sub>Faça o upload do mapa da feira</sub>
+  					  	<div id ="separadora" style ="margin-top: 50px;"></div>
+  					
+  					<h:form nctype="multipart/form-data" id ="mapaForm">		
+  				<p:graphicImage alt="Mapa da Feira" value="#{cadFeiraBean.imagemMapaString}" style ="float:left;" id="imagemMapa" cache="false" width="200" height="200"/>
+  					<br />
+  						<p:fileUpload sizeLimit="12204800" widgetVar="uploaderMapa" width="230" height="125"
+							label="Adicionar Mapa..." auto="true" mode ="advanced" style="float:left;"
+							fileUploadListener="#{cadFeiraBean.handleMapaUpload}"
+							allowTypes="/(\.|\/)(doc|docx|pdf)$/" description="Images"
+							update="imagemMapa" multiple="false" customUI="true" 
+							invalidSizeMessage="O tamanho da imagem é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+  			
+            			</h:form>
+					
+                  
+                  </p:tab>
+                  
+                  
+                 
+                  <p:tab  title="Inserir Manual">
+                  <h2><h:graphicImage alt="manualicon" value="/site/images/icons/manualicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Manual da feira</h2>
+                  <sub>Faça o upload de um arquivo pdf ou doc do manual da feira</sub>
+					
+  					<div id ="separadora" style ="margin-top: 50px;"></div>
+  					
+  					
+  					<h:form nctype="multipart/form-data" id ="manualForm">
+  			<p:graphicImage alt="Manual da feira" value="#{cadFeiraBean.imagemManualString}" style="float:left;"  id="imagemManual" cache="false" width="200" height="200"/>
+				
+  						<p:fileUpload sizeLimit="12204800" widgetVar="uploaderManual" width="230" height="125"
+							label="Adicionar Manual..." auto="true" mode ="advanced" style="float:left;"
+							fileUploadListener="#{cadFeiraBean.handleManualUpload}" 
+							allowTypes="/(\.|\/)(doc|docx|pdf)$/" description="Documents"
+							multiple="false" customUI="true" update="imagemManual"
+							invalidSizeMessage="O tamanho do arquivo é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+  					
+  					</h:form>
+                  </p:tab>
+                 
+                 
+                 
+                 </p:tabView>
+	
+				
+
+
+			<h:form id="cadastro" styleClass="form-cadastro inner">
+				<p:growl id ="growl" showDetail="true" />
+			
+    
+					<p:messages id="messages" showDetail="true" />
+				
+  					<div id ="separadora" style ="margin-top: 50px;"></div>
+
+	 <h2><h:graphicImage alt="basicinfo" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Informações da feira</h2>
+                 <hr/>
+				<h:panelGrid columns="2"  styleClass ="funcFormCadastro">
+					
+
+					<h:outputLabel value="*Nome da feira: " styleClass="label" for ="nome" />
+
+					<p:inputText value="#{cadFeiraBean.newFeira.nomeFeira}" id ="nome" style="color: black;"
+					 size="70" required="true" requiredMessage="O nome da feira é necessário" 
+					 styleClass="form-itens degrade-vertical2">
+					<p:watermark value="Nome da feira" for ="nome" />
+					
+					</p:inputText>
+				
+					<h:outputLabel value="*Ano: " styleClass="label" for ="ano"/>
+					
+					<p:inputText value="#{cadFeiraBean.newFeira.ano}" id ="ano" style="color: black;"
+					 size="4"  styleClass="form-itens degrade-vertical2" requiredMessage="O ano que a feira ocorreu é necessário" maxlength="4" >
+					<p:watermark value="Ano" for ="ano" />
+					
+					</p:inputText>
+					
+					<h:outputLabel value="Período: " styleClass="label" for="periodo" />
+
+					 <p:inputText value="#{cadFeiraBean.newFeira.periodo}" 
+					 size="20" id ="periodo" title="Ex: 22 à 25 de setembro" styleClass="form-itens degrade-vertical2">
+					<p:tooltip for="periodo" showEvent="focus" hideEvent="blur" />  
+					
+						<p:watermark value="Ex: 22 à 25 de Setembro" for ="periodo" />
+					</p:inputText>
+
+
+					<h:outputLabel value="*Edição: " styleClass="label" for ="edicao"/>
+					
+					<p:inputText value="#{cadFeiraBean.newFeira.edicao}" id ="edicao" style="color: black;"
+					 size="3" styleClass="form-itens degrade-vertical2" requiredMessage="O edição da feira é necessária" >
+					 <p:watermark value="Ex: 10ª" for ="edicao" />
+					 </p:inputText>
+					 
+					
+					<h:outputLabel value="Frequência: " styleClass="label" for ="frequencia" />
+					
+					<p:inputText value="#{cadFeiraBean.newFeira.frequencia}" styleClass="form-itens degrade-vertical2" id ="frequencia" style="color: black;"
+					 size="10" >
+						 <p:watermark value="Ex: Anual" for ="frequencia" >
+					</p:watermark>
+					</p:inputText>
+					
+					<h:outputLabel value="Bi construiu nessa feira?" for ="options" styleClass="label" />
+					
+					 <p:selectOneRadio id="options" value="#{cadFeiraBean.construiu}" >  
+           			 <f:selectItem itemLabel="Sim" itemValue="true"  />  
+            				<f:selectItem itemLabel="Não" itemValue="false" />  
+            
+      						  </p:selectOneRadio>  
+      						  
+      				<h:outputLabel for= "expositores_nacionais" value="Número expositores nacionais: " styleClass="label" />
+					
+					<p:inputText value="#{cadFeiraBean.newFeira.expositoresNac}"  
+					 size="10" id ="expositores_nacionais" style="color: black;"  styleClass="form-itens degrade-vertical2">
+						<f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+						 <p:ajax update=":cadastro:total_expositores" listener="#{cadFeiraBean.preencherExpositoresTotais()}" event="blur" />
+							 
+					</p:inputText>
+					
+					<h:outputLabel value="Número expositores internacionais: " for ="expositores_internacionais" 
+					styleClass="label"  />
+
+					
+					<p:inputText value="#{cadFeiraBean.newFeira.expositoresInt}" 
+					 size="10" style="color: black;" id ="expositores_internacionais" styleClass="form-itens degrade-vertical2">
+							<f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+							 <p:ajax update=":cadastro:total_expositores" listener="#{cadFeiraBean.preencherExpositoresTotais()}" event="blur" />
+						</p:inputText>
+						
+						
+					<h:outputLabel value="Número total de expositores: " styleClass="label" for="total_expositores"/>
+
+					<h:outputText value="#{cadFeiraBean.totalExpositores}" 
+					 size="10" style="color: black;" id ="total_expositores" styleClass="form-itens degrade-vertical2">
+					 <f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+					 </h:outputText>
+					 
+					 
+				<h:outputLabel value="Metro construído: " styleClass="label" for="metro_construido" />
+						
+					<p:inputText value="#{cadFeiraBean.newFeira.metroConstruido}" 
+					 size="7" style="color: black;" id ="metro_construido" styleClass="form-itens degrade-vertical2"/>
+					 
+					 
+				<h:outputLabel value="Número de visitantes: " styleClass="label" for="numero_visitantes" />
+					 
+					 <p:inputText value="#{cadFeiraBean.newFeira.numeroVisitantes}" 
+					 size="7" style="color: black;" id ="numero_visitantes" styleClass="form-itens degrade-vertical2">
+					  <f:convertNumber groupingUsed="true"
+							 maxIntegerDigits="7" type="number" />
+					 </p:inputText>
+
+</h:panelGrid>
+	<h:outputText style="padding-bottom: 10px;" value="Atenção: Caso não saiba qual a organizadora, selecione 'Organizadora Genérica - BI'" styleClass="ui-messages-warn" />
+
+				<h:panelGrid columns="2"  styleClass ="funcFormCadastro">
+
+				<h:outputLabel value="*Organizadora: " styleClass="label"  for="organizadora"/>
+					
+				
+							
+		 <p:selectOneMenu value="#{cadFeiraBean.organizadoraSelecionada}" id="organizadora" converter="orgConverter" panelStyle="width:190px; background-color: white;"  
+                     height="150"  effect="fade" var="o" style="width:260px"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione uma organizadora"  noSelectionOption="true" itemValue="" />  
+            <f:selectItems value="#{cadFeiraBean.orgs}" var="orgs" itemLabel="#{orgs.razaoSocial}" itemValue="#{orgs}"/>  
+       			<p:column>
+<p:graphicImage alt="#{o.razaoSocial}" value="#{o.logourl}"  width="90" height="50"/>
+<br/>
+
+
+#{o.razaoSocial}
+</p:column>
+</p:selectOneMenu>
+
+</h:panelGrid>
+
+	<h:outputText style="padding-bottom: 10px;" value="Atenção: Caso não saiba onde será realizado o evento, selecione 'Pavilhão Genérico - BI'" styleClass="ui-messages-warn" />
+				<h:panelGrid columns="2"  styleClass ="funcFormCadastro">
+
+				<h:outputLabel value="*Local/Pavilhão: " styleClass="label" for="pavilhao"/>
+
+ <p:selectOneMenu value="#{cadFeiraBean.pavilhaoSelecionado}" converter="pavConverter" panelStyle="width:190px; background-color: white;"  
+                   height="150"   effect="fade" var="p"  id ="pavilhao" style="width:260px"  filter="true" filterMatchMode="startsWith">  
+            <f:selectItem itemLabel="Selecione um pavilhão"  itemValue="" noSelectionOption="true" />  
+            <f:selectItems value="#{cadFeiraBean.pavs}" var="pavs" itemLabel="#{pavs.nome}" itemValue="#{pavs}"/>  
+       			<p:column>
+<h:outputText value="#{p.nome}" />
+<br/>
+<h:outputText value ="Endereço:" />
+<br/>
+<h:outputText value="#{p.endereco}, #{p.numero} - #{p.bairro} - #{p.cidade.nome}" />
+
+</p:column>
+</p:selectOneMenu>
+
+	<h:outputLabel value="Anotações: " styleClass="label" for="anotacoes" />
+					 
+					 <p:inputTextarea cols="50" rows="10" autoResize="true" value="#{cadFeiraBean.newFeira.anotacoes}" 
+					 size="7" style="color: black;" styleClass="form-itens degrade-vertical2" id="anotacoes"/>
+
+					
+				</h:panelGrid>
+
+
+				<h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Contato</h2>
+						<hr/>
+					<h:panelGrid columns="2" styleClass ="funcFormCadastro">
+
+						<h:outputLabel value="E-mail:" styleClass="label"  for="email"/>
+						<p:inputText value="#{cadFeiraBean.newFeira.email}" styleClass="form-itens degrade-vertical2" id ="email"  style="color: black;">
+                            <f:validator validatorId="validadorEmail"/>  
+              </p:inputText>
+						<h:outputLabel value="Telefone:" styleClass="label" for="telefone" />
+						<p:inputText value="#{cadFeiraBean.newFeira.telefone}"   styleClass="form-itens degrade-vertical2" id ="telefone" />
+
+
+						<h:outputLabel value="Site:" styleClass="label"  for="site"/>
+						<p:inputText value="#{cadFeiraBean.newFeira.site}" styleClass="form-itens degrade-vertical2"   id ="site"/>
+
+
+					</h:panelGrid>
+					
+		
+				
+  				
+				
+
+			<div id ="separadora" style ="margin-top: 50px;"></div>
+				
+		<hr/>
+		
+		
+
+				<p:messages id="closemsg" showDetail="true" />
+		
+				<p:commandButton value="Cadastrar" styleClass="saveButton" id ="cadbutton"
+					icon="ui-icon-disk"
+					action="#{cadFeiraBean.cadastrarFeira}"
+					update=":cadastro:messages :cadastro 
+					:cadastro:growl :tabView:avatarform:imagem
+					closemsg :lastfeiras"
+					process="@all" />
+					
+					
+					
+				</h:form>
+			
+					
+				
+					
+					
+
+
+</section>
+
+</section>
+
+
+
+
+
+
+  
+            <aside class="cad-func aside degrade-vertical arredondado bordas">
+            
+            	<h2 style="top: 0px;"><h:graphicImage alt="cadastrosicon" value="/site/images/icons/ultimoscadastrosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Últimos Cadastros</h2>
+                
+                <hr/>
+                
+                <p:dataTable emptyMessage="Nenhuma feira cadastrada" id ="lastfeiras" value="#{cadFeiraBean.ultimasFeiras}" var="ultimos">
+                <p:column >
+                 <h:link includeViewParams="true"   outcome="feiradetails" >
+  			 		<f:param name="feiraid" value="#{ultimos.idFeira}"></f:param>
+                  <p:graphicImage alt="#{ultimos.nomeFeira}" value="#{ultimos.urlLogo}" width="80" height="60"/>   
+  
+               </h:link>
+  					<br />
+  				 <h:link includeViewParams="true" outcome="feiradetails" >
+  			 		<f:param name="feiraid" value="#{ultimos.idFeira}"></f:param>
+					<b><h:outputText value ="Nome feira:" /></b>
+  					<h:outputText value="#{ultimos.nomeFeira}" />
+                            
+               </h:link>
+               	<br />
+               	<b><h:outputText value ="Período: " /></b>
+			<h:outputText value="#{ultimos.periodo}" />
+					<br />
+             <b>  <h:outputText value ="Ano: " /></b>
+					 	<h:outputText value="#{ultimos.ano}" />
+					
+              
+               
+               
+                </p:column>
+                
+                 <hr />
+               
+                
+                
+                </p:dataTable>
+                
+                
+                </aside>
+                
+                
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

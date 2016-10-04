@@ -1,0 +1,248 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+			<span class= "Leaden" style="float:right;">
+			<h:form>
+				<p:commandLink action="#{cadBriBean.cadastrarBriefing}" value="Pular essa etapa" />
+				</h:form>
+				 </span>
+			
+				<div class="CardTopic Blue PosAbsolute">Cadastrar Briefings do Cliente #{cadBriBean.cliente.nomeFantasia}
+				
+				
+		
+				</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+
+				<div class="Container50 Responsive50">
+				<h3>Adicionar Briefing</h3>
+					<h:form id="cadBriForm">
+
+						<p:messages showDetail="true" showSummary="true" id="messagens" />
+
+						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+							
+							<h:outputText value="Código: " />
+							<p:inputText value="#{cadBriBean.newBriefing.codigo}" id="codigo"
+								 required="true" >
+								 <p:watermark value="Código do Briefing" for="codigo"></p:watermark>
+								 </p:inputText>
+
+							
+							<h:outputText value="Status: " />
+							<p:selectOneMenu id="options"
+								value="#{cadBriBean.newBriefing.status}">
+							
+								<f:selectItem itemLabel="Aprovado" itemValue="Aprovado" />
+								<f:selectItem itemLabel="Em andamento" itemValue="Em andamento" />
+								<f:selectItem itemLabel="Declinado" itemValue="Declinado" />
+								<f:selectItem itemLabel="Perdido" itemValue="Perdido" />
+
+							</p:selectOneMenu>
+					</p:panelGrid>
+					
+							<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+
+							<p:inputTextarea cols="25" rows="5" id="anotacoes"
+								value="#{cadBriBean.newBriefing.anotacoes}">
+								<p:watermark value="Anotações" for="anotacoes"></p:watermark>
+							</p:inputTextarea>
+
+
+							<p:commandButton value="Adicionar novo briefing"
+								icon="ui-icon-plusthick"
+								update=":listForm:listBrifs :cadBriForm"
+								actionListener="#{cadBriBean.adicionarBriefing}" />
+
+						</p:panelGrid>
+
+					</h:form>
+				</div>
+
+
+				<div class="Container50 Responsive50">
+					<h3>Lista de Briefings</h3>
+					<sub>Clique no código do briefing para editar os arquivos</sub>
+				
+					<h:form id="listForm">
+						<p:dataTable id="listBrifs" var="brif"
+							value="#{cadBriBean.briefings}"
+							emptyMessage="Nenhum briefing adicionado">
+
+							<p:column>
+								<p:commandLink value="#{brif.codigo} - #{brif.status}"
+									action="#{cadBriBean.viewBriefing}" process="@this"
+									update=":cadBriForm :brifsdlg" oncomplete="PF('briDlg').show()">
+									<f:setPropertyActionListener value="#{brif}"
+										target="#{cadBriBean.briefingSelecionado}" />
+								</p:commandLink>
+
+
+							</p:column>
+
+
+							<p:column>
+
+								<p:commandLink value="Remover"
+									action="#{cadBriBean.excluirBriefing}"
+									update=":cadBriForm :listForm">
+									<f:setPropertyActionListener value="#{brif}"
+										target="#{cadBriBean.briefingSelecionado}" />
+								</p:commandLink>
+
+							</p:column>
+
+
+
+						</p:dataTable>
+					</h:form>
+
+					<br/>
+
+					<h:form>
+						<p:commandButton icon="ui-icon-disk" iconPos="left"
+							styleClass="btn-final" action="#{cadBriBean.cadastrarBriefing}"
+							ajax="true" update=":cadBriForm"
+							value="Finalizar e Cadastrar dados do Cliente"
+							title="Clique para finalizar e cadastrar os dados do cleinte" />
+
+					</h:form>
+
+
+
+
+
+				</div>
+
+
+				<p:dialog widgetVar="briDlg" resizable="false" id="brifsdlg"
+					header="Editar informações do Briefing #{cadBriBean.briefingSelecionado.codigo}"
+					 modal="true" width="800" height="500">
+
+					<h:form id="planilhaform" enctype="multipart/form-data">
+						<p:growl id="planilhaGrowl" showDetail="true" />
+
+						<h2>Planilha de Custo</h2>
+
+						
+						<div class = "Separator"></div>
+
+						<p:graphicImage library="bibliotecaideias" id="xlsimage"
+						rendered="#{cadBriBean.possuiPlanilha}" alt="#{cadBriBean.briefingSelecionado.urlPlanilhaCustos}"
+						 name="/images/icons/extensions/xls.png" />
+						
+						
+						
+						<p:fileUpload sizeLimit="12204800" widgetVar="uploaderf"
+							update="planilhaGrowl xlsimage" label="Adicionar Planilha..." auto="true"
+							mode="advanced" cancelLabel="Cancelar"
+							fileUploadListener="#{cadBriBean.handlePlanilhaUpload}"
+							allowTypes="/(\.|\/)(xls|xlsx)$/" description="Planilhas"
+							oncomplete="PF('briDlg').hide()"
+							 multiple="false" customUI="true"
+							invalidSizeMessage="O tamanho da planilha é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado, formatos aceitos: xls e xlsx" />
+
+					
+						
+
+						<sub>Adicione a planilha de custo desse briefing, caso o
+							briefing já possua uma planilha, ela será substituida pela
+							adicionada - <b>Formatos Aceitos: XLS/ XLSX</b></sub>
+
+					</h:form>
+					
+					<div class = "Separator"></div>
+
+					<h:outputText
+						value="Não insira arquivos cujos nomes contenham  caracteres acentuados (Ex: ã,á,é,ò) ou 'ç' "
+						styleClass="ui-messages-error" />
+
+
+
+					<div id="separadora" style="margin-top: 40px;"></div>
+
+					<h:form id="filesform">
+						<p:growl id="filesGrowl" showDetail="true" />
+
+						<br />
+
+						<h2>Arquivos do Briefing</h2>
+						<div class="Separator"></div>
+				
+						<p:dataTable id="briFilesList" emptyMessage="Nenhum arquivo foi adicionado" 
+						value="#{cadBriBean.briFiles}" var="briFile">
+						<p:column headerText="Arquivo">
+						<h:outputText value="#{briFile.nomeArquivo}" />
+						</p:column>
+						
+						<p:column headerText="Extensão">
+						
+						
+						<p:graphicImage name= "/images/icons/extensions/#{briFile.tipoArquivo}.png" library="bibliotecaideias" />
+						</p:column>
+						</p:dataTable>
+						
+
+						<p:fileUpload sizeLimit="12204800" widgetVar="uploaderfa"
+							update="filesGrowl" label="Selecionar arquivos..." auto="false"
+							mode="advanced" cancelLabel="Cancelar"
+							uploadLabel="Adicionar Arquivos"
+							fileUploadListener="#{cadBriBean.handleFilesUpload}"
+							allowTypes="/(\.|\/)(xls|xlsx|gif|jpe?g|png|doc|docx|pdf)$/"
+							description="Arquivos" multiple="true" customUI="true"
+							invalidSizeMessage="O tamanho do arquivo é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+
+						
+
+						<p:commandButton
+							actionListener="#{cadBriBean.criarListaBriefingFiles}" ajax="true"
+							oncomplete="PF('briDlg').hide()"
+							update="filesGrowl briFilesList" icon="ui-icon-disk" 
+							value="Adicionar arquivos ao briefing" />
+
+					</h:form>
+
+
+
+
+
+
+				</p:dialog>
+
+
+
+
+
+				<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

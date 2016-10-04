@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de Locais/Pavilhões
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+				
+				<div class="CardTopic Blue PosAbsolute">Cadastro de Cidades</div>
+				<div class ="EmptyBox20"></div>
+				
+				<div class="Separator"></div>
+				<span class="Leaden"> <strong>Não é permitido duas cidades com o mesmo nome dentro de um mesmo estado</strong></span> <br />
+				<br />
+
+		<p:growl showDetail="true" showSummary="true" id ="messag" />
+
+<div class ="EmptyBox10"></div>
+
+				<h:form id="cidadecadastro">
+
+					<h:panelGrid columns="2" >
+
+
+						<h:outputLabel value="Digite o nome da cidade:" for="cidade" />
+						<p:inputText value="#{cadCityBean.newcidade.nome}" id="cidade"
+							size="30" >
+							<p:watermark value="Nome da cidade" for="cidade" />
+						</p:inputText>
+
+
+						<h:outputLabel value="Escolha um estado:" for="estados" />
+						<p:selectOneMenu
+							value="#{cadCityBean.selectedEstado}" id="estados">
+							<f:selectItems value="#{cadCityBean.estados}" var="estado"
+								itemDescription="#{estado}" itemValue="#{estado}"
+								itemLabel="#{estado}" />
+
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+
+
+					<p:commandButton style="float:right;" value="Cadastrar Cidade"
+						actionListener="#{cadCityBean.cadastrarCidade}" 
+						update=":messag :cidadecadastro" icon="ui-icon-disk"
+						iconPos="right" />
+						<div class ="EmptyBox10"></div>
+				<p:ajaxStatus style="float:right;"
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+				</h:form>
+
+			</div>
+			
+			
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

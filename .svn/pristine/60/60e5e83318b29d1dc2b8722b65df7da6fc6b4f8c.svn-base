@@ -1,0 +1,109 @@
+<ui:composition
+xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+
+
+
+
+    
+    <body>
+    
+			<header class="wrapper">
+            
+            	<section class="topo">
+                
+                	<div class="logo"> <a href="#"><img src="bi.jpg"/></a>
+                	</div>
+                
+                	<aside>
+                    
+                    	<div class="avatar">
+                        
+                        </div>
+                        
+                        <div class="logout degrade-vertical bordas arredondado">
+                        <h:form>
+                          <p:commandLink value="Logout" action="#{funcBean.logout()}" icon="ui-icon-circlesmall-close" />  
+                        </h:form>
+                        
+                        </div>
+                    
+                    </aside>
+                
+                </section>    
+            
+            
+            </header>
+            
+            <div class="navegacao degrade-horizontal bordas">
+            
+            <div class="wrapper">
+            
+            	<nav>
+                
+                	<ul class="degrade-vertical">
+                    
+                    	<a href="/BibliotecaIdeias/site/home.xhtml"><li class="first">Home</li></a>
+                    	<h:panelGroup rendered ="#{funcBean.admin}">
+                    	<li >Biblioteca de Ideias
+                        			<ul class="degrade-vertical">
+                                    	<a href="/BibliotecaIdeias/site/admin/funcmanager.xhtml"><li>Cadastrar Funcionários</li></a>
+                                        <a href="/BibliotecaIdeias/site/admin/accesshistory.xhtml"><li>Histórico de Acessos</li></a>
+                                       <a href="/BibliotecaIdeias/site/admin/accesshistoryperiod.xhtml"><li>Acessos por Período</li></a>
+                                        
+                                    </ul>
+                                    
+                        </li>
+                        </h:panelGroup>
+                        
+                    	<li>Cadastros
+                        	<ul class="degrade-vertical">
+                        	  <a href="/BibliotecaIdeias/site/cadastrarcliente.xhtml"><li>Cliente</li></a>
+                        	   <a href="/BibliotecaIdeias/site/cadastrarfeiras.xhtml"><li>Feira</li></a>
+                                <a href="/BibliotecaIdeias/site/cadastrarorganizadora.xhtml"><li>Organizadora</li></a>
+                                <a href="/BibliotecaIdeias/site/cadastrofornecedores.xhtml"><li>Fornecedores</li></a>
+                               <a href="/BibliotecaIdeias/site/cadastroentidade.xhtml"> <li>Entidades</li></a>
+                                <a href="/BibliotecaIdeias/site/cadastropavilhoes.xhtml"><li>Locais/Pavilhões</li></a>
+                               <a href="/BibliotecaIdeias/site/cadastrocidade.xhtml"><li>Cidades</li></a>
+                                
+                            </ul>
+                        </li>
+                  
+                  
+                    	<li><a href="#">Pesquisas</a>
+                        
+                       	  	<ul class="degrade-vertical">
+                            	<a href="/BibliotecaIdeias/site/pesquisaclientes.xhtml"><li>Cliente</li></a>
+                            	 <a href="/BibliotecaIdeias/site/pesquisaprojeto.xhtml"><li>Projeto</li></a> 
+                            	<a href="/BibliotecaIdeias/site/pesquisafeiras.xhtml"><li>Feira</li></a>
+                            	<a href="/BibliotecaIdeias/site/pesquisaorganizadora.xhtml"><li>Organizadora</li></a>
+                            	 <a href="/BibliotecaIdeias/site/pesquisafornecedores.xhtml"><li>Fornecedores</li></a>
+                            	 <a href="/BibliotecaIdeias/site/pesquisaentidade.xhtml"><li>Entidades</li></a>
+                            	<a href="/BibliotecaIdeias/site/pesquisapavilhao.xhtml"><li>Locais/Pavilhões</li></a>
+                            </ul>
+                            
+                        </li>
+                        
+                    	<li class="last"><a href="/BibliotecaIdeias/site/configuracoes.xhtml">Conta</a></li>
+                    
+                    </ul>
+                
+                </nav>
+                
+                <div class="data-hora">
+                
+                    <div id ="data" class="data degrade-vertical">#{funcBean.dateToday}</div>
+                    
+                	<div id ="relogio" class="hora degrade-vertical"></div>
+                
+                </div>
+            
+            </div>
+            
+            </div>
+</body>
+</ui:composition>

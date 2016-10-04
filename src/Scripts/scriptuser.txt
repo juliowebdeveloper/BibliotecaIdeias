@@ -1,0 +1,21 @@
+INSERT INTO Funcionario (id,username,nomeCompleto,email,enable,password) VALUES (1,'mariviana','Mari Viana','mariviana@bibliotecadeideias.com.br', 1, '1234');
+INSERT INTO Funcionario (id,username,nomeCompleto,email,enable,password) VALUES (2,'shido','Julio Ribeiro','juliowebdeveloper@hotmail.com', 1, '123');
+INSERT INTO Funcionario (id,username,nomeCompleto,email,enable,password) VALUES (3,'chico','Francisco Daniel','frandanieljr@gmail.com', 1, '1234');
+INSERT INTO Funcionario (id,username,nomeCompleto,email,enable,password) VALUES (4,'func','Funcionario','funcionario@bibliotecadeideias.com', 1, '1234');
+
+
+
+
+INSERT INTO authority VALUES ('ROLE_ADMIN');
+INSERT INTO authority VALUES ('ROLE_FUNC');
+
+
+
+INSERT INTO func_auth VALUES (1,'ROLE_ADMIN');
+
+INSERT INTO func_auth VALUES (2,'ROLE_ADMIN');
+
+INSERT INTO func_auth VALUES (3,'ROLE_ADMIN');
+
+
+INSERT INTO func_auth VALUES (4,'ROLE_FUNC');

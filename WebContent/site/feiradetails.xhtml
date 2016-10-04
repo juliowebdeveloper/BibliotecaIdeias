@@ -1,0 +1,348 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+       Detalhes Feira
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100 Resposive100">
+			<div class="Card TexAlCenter">
+			<span class= "Leaden" style="float:right;">
+			<h:form>
+			<p:commandButton value="Editar essa Feira" icon="ui-icon-pencil" ajax="false"   action="#{viewFeiraBean.editarFeira()}" /> 
+ 
+			</h:form>
+			</span>
+			
+				<div class="CardTopic Blue PosAbsolute">Detalhes da Feira </div>
+		
+				<div class ="EmptyBox5"></div>
+				
+					<div class="Separator"></div>
+					
+	<div class ="Container50 Responsive50">				
+	<h3>Logo</h3>
+	 
+<p:graphicImage alt="#{viewFeiraBean.feira.nomeFeira}" value="#{viewFeiraBean.feira.urlLogo}" 
+id="imagem" cache="false" width="200" height="120" />
+  	
+	<div class ="EmptyBox5"></div>
+
+</div>
+
+
+	<h:form id="alterar">
+	
+	<div class ="Container50 Responsive50">
+	
+	<p:messages id="messages" showDetail="true" />
+
+ 
+ 
+   <h3><h:graphicImage alt="basicinfoicon" 
+   library="bibliotecaideias" name="images/icons/basicinfoicon.png" width="30" height="30" 
+   styleClass="h3ImageIcons" /> Sobre a feira</h3>
+   
+   <div class ="EmptyBox10"></div>
+   
+					<h:panelGrid columns="2">
+
+						<h:outputText value="#{viewFeiraBean.feira.nomeFeira}"
+							styleClass="FontVoltBold" id="nome" />
+
+						<h:outputText value="Ano: #{viewFeiraBean.feira.ano}" id="ano" />
+
+						<h:outputText value="Período: #{viewFeiraBean.feira.periodo}"
+							for="periodo" />
+
+						<h:outputText value="#{viewFeiraBean.feira.edicao} Edição"
+							for="edicao" />
+
+						<h:outputText
+							value="Frequência: #{viewFeiraBean.feira.frequencia}" />
+
+
+						<h:outputText value="Bi construiu nessa feira "
+							rendered="#{viewFeiraBean.feira.biConstruiu}" />
+						<h:outputText value="Bi não construiu nessa feira"
+							rendered="#{!viewFeiraBean.feira.biConstruiu}" />
+
+
+						<h:outputText
+							value="#{viewFeiraBean.feira.expositoresNac} expositores nacionais"
+							id="expositores_nacionais" />
+
+						<h:outputText
+							value="#{viewFeiraBean.feira.expositoresInt} expositores internacionais"
+							id="expositores_internacionais" />
+
+						<h:outputText
+							value="#{viewFeiraBean.feira.totalExpositores} expositores totais"
+							id="total_expositores" />
+
+						<h:outputText
+							value="Metro construído: #{viewFeiraBean.feira.metroConstruido}" />
+
+						<h:outputText
+							value="Número de visitantes: #{viewFeiraBean.feira.numeroVisitantes}"
+							id="nvisitantes" />
+
+						<h:outputLabel value="Data do cadastro: " rendered="#{not empty viewFeiraBean.feira.dataCadastro}" for="datacad" />
+						<h:outputText value="#{viewFeiraBean.feira.dataCadastro.time}" rendered="#{not empty viewFeiraBean.feira.dataCadastro}"
+							id="datacad">
+
+							<f:convertDateTime timeZone="GMT-3" type="both"
+								pattern="dd/MM/yyyy  HH:mm:ss" />
+						</h:outputText>
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="2" >
+
+
+	<h:outputLabel value="Anotações: " for="anotacoespav" rendered="#{not empty viewFeiraBean.feira.anotacoes}" />
+					 
+					 <h:outputText  value="#{viewFeiraBean.feira.anotacoes}"  rendered="#{not empty viewFeiraBean.feira.anotacoes}"  id ="anotacoespav"  />
+
+				</h:panelGrid >	
+				
+	</div>			
+  					<div class="Separator"></div>
+				
+
+<h3><h:graphicImage alt="manualicon" value="/site/images/icons/manualicon.png" width="30" height="30" 
+styleClass="h3ImageIcons"/>Manual</h3>
+<div class ="EmptyBox10"></div>
+
+
+<p:media value="#{viewFeiraBean.feira.urlManual}" width="100%" height="300px" rendered="#{not empty viewFeiraBean.feira.urlManual}">  
+   Seu navegador não consegue exibir o manual, <h:outputLink value="#{viewFeiraBean.feira.urlManual}">clique</h:outputLink> para fazer o download.  
+</p:media> 
+<h:outputText value ="Essa feira não possui um manual" rendered ="#{empty viewFeiraBean.feira.urlManual}" />
+
+  					<div class="Separator"></div>
+
+<h3><h:graphicImage alt="mapaicon" value="/site/images/icons/mapaicon.png" width="30" height="30" 
+styleClass="h3ImageIcons"  />
+Mapa da feira</h3>
+
+
+  					<div class="EmptyBox10"></div>
+
+
+
+
+			</h:form>
+
+       <p:media value="#{viewFeiraBean.feira.urlMapa}" width="100%" height="300px" rendered="#{not empty viewFeiraBean.feira.urlMapa}">  
+   Seu navegador não consegue exibir o mapa, <h:outputLink value="#{viewFeiraBean.feira.urlMapa}">clique</h:outputLink> para fazer o download.  
+</p:media> 
+<h:outputText value ="Essa feira não possui um mapa" rendered ="#{empty viewFeiraBean.feira.urlMapa}" />
+	
+	
+	<div class ="Separator"></div>
+	<div class ="Container30 Responsive">
+<h3><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" 
+width="30" height="30" styleClass="h3ImageIcons"  />Contato</h3>
+
+<div class ="EmptyBox10"></div>
+					<h:panelGrid columns="1">
+	
+	
+						<h:outputText rendered="#{empty viewFeiraBean.feira.email}"  value ="Nenhum email cadastrado"/>
+						
+						<h:outputText value="#{viewFeiraBean.feira.email}" id="email" rendered="#{not empty viewFeiraBean.feira.email}" />
+
+
+						<h:outputText rendered="#{empty viewFeiraBean.feira.telefone}" value ="Nenhum telefone cadastrado" />
+						
+						<h:outputText value="#{viewFeiraBean.feira.telefone}" id ="telef" rendered="#{not empty viewFeiraBean.feira.telefone}" />
+
+
+						<h:outputText rendered="#{empty viewFeiraBean.feira.site}"  value ="Nenhum site cadastrado"/>
+						
+						<h:outputText value="#{viewFeiraBean.feira.site}"  id ="site" rendered="#{not empty viewFeiraBean.feira.site}" />
+
+						</h:panelGrid>
+	</div>
+	  					
+	  					
+
+	
+	
+<div class ="Container30 Responsive">
+<h3><h:graphicImage alt="organizadoraicon" value="/site/images/icons/organizadoraicon.png" 
+width="30" height="30" styleClass="h3ImageIcons"  />Organizadora</h3>
+
+
+
+<h:panelGrid columns="1" >
+				<p:graphicImage alt="#{viewFeiraBean.feira.organizadora.razaoSocial}"
+				 width="50%" height="50%" value ="#{viewFeiraBean.feira.organizadora.logourl}" />
+			
+				<h:outputText value="#{viewFeiraBean.feira.organizadora.razaoSocial}"  />
+		
+				<h:outputLabel value="Telefone: " for="orgtel" />
+					
+				<h:outputText value="#{viewFeiraBean.feira.organizadora.telefone}" id ="orgtel" />
+						
+					</h:panelGrid>
+					  					
+					</div>
+					
+				<div class ="Container40 Responsive">	
+			<h3><h:graphicImage alt="locaisicon" value="/site/images/icons/locaisicon.png"
+			 width="30" height="30" styleClass ="h3ImageIcons"  />
+			 Local/Pavilhão</h3>
+<div class ="EmptyBox10"></div>
+
+				  					
+<h:panelGrid columns="1" >			
+
+					<h:outputText value="#{viewFeiraBean.feira.local.nome}" />
+					
+			<h:outputText value="#{viewFeiraBean.feira.local.endereco} , #{viewFeiraBean.feira.local.numero} -- #{viewFeiraBean.feira.local.bairro}" />
+			<h:outputText value="#{viewFeiraBean.feira.local.cidade.nome}" />
+					
+		</h:panelGrid>
+		
+		
+		
+</div>
+<div class ="Separator"></div>
+	
+	<!--************************************ Clientes dessa feira ************************************** -->
+
+<h3>Clientes que participaram dessa feira</h3>
+<h5>#{viewFeiraBean.clientes.size()} clientes encontrados</h5>
+<div class ="EmptyBox10"></div>				
+			  <h:form id = "listform" >  
+ 			
+ 			
+ 			<p:dataGrid var="cli" value="#{viewFeiraBean.clientes}" columns="2"
+					rows="4" paginator="true" paginatorPosition="top" layout="grid"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,18" >
+ 			
+          <p:panel header="#{cli.razaoSocial}"
+						style="text-align:center; width:100%;">
+
+						<f:facet name="actions">
+							<h:outputLink styleClass="ui-panel-titlebar-icon">
+								<p:link outcome="clientedetails" includeViewParams="true"
+									style="float:right;" target="blank"
+									styleClass="ui-corner-all ui-state-default ui-icon ui-icon-search">
+									<f:param name="clienteid" value="#{cli.idCliente}">
+									</f:param>
+
+								</p:link>
+								
+							</h:outputLink>
+							<br/>
+      <p:commandLink  action="#{viewFeiraBean.verEmailClientesFeira}" value="Lista de e-mails" 
+			oncomplete="PF('emailDlg').show()" update=":display"  process="@this">
+			<f:setPropertyActionListener value="#{cli}" target="#{viewFeiraBean.clienteSelecionado}" />
+			</p:commandLink>
+						</f:facet>
+
+						<h:panelGrid columns="1" style="width:100%;">
+							<h:link includeViewParams="true" outcome="clientedetails">
+								<f:param name="clienteid" value="#{cli.idCliente}"></f:param>
+								<p:graphicImage alt="#{cli.razaoSocial}"
+									value="#{cli.urlCartao}" width="80" height="60" id="img" />
+
+							</h:link>
+
+
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" style="width:100%;">
+							<h:outputLabel value="Categoria: " for="categoria"
+								style="width: 204px;" styleClass="searchLabel" />
+
+							<h:outputText value="#{cli.categoria}" id="categoria" />
+
+							<h:outputLabel value="Segmento Principal: " for="segmentoprinc"
+								style="width: 204px;" styleClass="searchLabel" />
+
+
+
+							<h:outputText value="#{cli.segmentoPrincipal}" id="segmentoprinc" />
+
+
+
+
+						</h:panelGrid>
+						<p:panel toggleable="true" toggleOrientation="vertical"
+							collapsed="false" header="Anotações" toggleSpeed="500">
+							<h:outputText value="#{cli.anotacoes}" id="anot"
+								style="width: 200px;" />
+
+						</p:panel>
+					</p:panel>
+          
+         
+				
+				
+				
+             
+               
+                    
+                     
+                     </p:dataGrid>
+                     
+      
+						
+						
+                     </h:form>	
+                     
+         
+						
+	               					
+		<p:dialog header="E-mails do cliente #{viewFeiraBean.clienteSelecionado.razaoSocial}"
+			widgetVar="emailDlg" resizable="false" modal="true" >
+			
+			<h:panelGroup id="display">
+			<h:outputText value="Nenhum e-mail encontrado" rendered="#{empty viewFeiraBean.contatosCliente}" /> 
+			
+				<ui:repeat value="#{viewFeiraBean.contatosCliente}" var="email"
+					id="emailslist">
+					#{email.email}
+						<br />
+				</ui:repeat>
+			</h:panelGroup>
+		</p:dialog>
+						
+						
+				
+
+
+
+
+
+
+
+
+			<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,694 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+.barraBackground{
+background: rgb(248,249,250); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(248,249,250,1) 0%, rgba(231,234,239,1) 38%, rgba(221,226,233,1) 63%, rgba(244,245,248,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(248,249,250,1)), color-stop(38%,rgba(231,234,239,1)), color-stop(63%,rgba(221,226,233,1)), color-stop(100%,rgba(244,245,248,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(248,249,250,1) 0%,rgba(231,234,239,1) 38%,rgba(221,226,233,1) 63%,rgba(244,245,248,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(248,249,250,1) 0%,rgba(231,234,239,1) 38%,rgba(221,226,233,1) 63%,rgba(244,245,248,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(248,249,250,1) 0%,rgba(231,234,239,1) 38%,rgba(221,226,233,1) 63%,rgba(244,245,248,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(248,249,250,1) 0%,rgba(231,234,239,1) 38%,rgba(221,226,233,1) 63%,rgba(244,245,248,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f9fa', endColorstr='#f4f5f8',GradientType=0 ); /* IE6-9 */
+
+width: 100%;
+height: auto;
+background-repeat: repeat-x;
+
+}
+
+
+
+
+.event1 .fc-event-skin {
+    background: red;
+}
+.event2 .fc-event-skin {
+   background: green;
+ }
+
+.event3 .fc-event-skin {
+   background: yellow;
+ }
+
+.event4 .fc-event-skin {
+   background: blue;
+ }
+
+.calendarButton{
+background-color: #aaaaaa;
+
+}
+
+body{
+	margin: 0px;
+	padding: 0;
+	font-size: 12px;
+	color: #616161;
+	font-family: TAHOMA;
+	font-color: black;
+	background-image: url(../Imagens/Index/fundo_tudo.jpg);
+	background-repeat: repeat;
+	}
+	
+
+#container{
+	background-image: url(../Imagens/Index/fundo_conteudo.png);
+	background-repeat: repeat-y;
+	margin: 0 auto;
+	width: 949px;
+	height: auto;
+	
+}
+
+
+
+
+
+.saveButton{
+		color: rgb(0, 26, 0);
+font-size: 12px;
+padding: 11px;
+text-shadow: 0px 0px 5px rgba(26, 30, 30, 0.28);
+-webkit-border-radius: 7px;
+-moz-border-radius: 7px;
+border-radius: 7px;
+background: rgb(255, 255, 255);
+background: -moz-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: -webkit-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: -o-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: -ms-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: linear-gradient(279deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+-webkit-box-shadow: 0px 2px 12px rgba(50, 50, 50, 0.75);
+-moz-box-shadow:    0px 2px 12px rgba(50, 50, 50, 0.75);
+box-shadow:         0px 2px 12px rgba(50, 50, 50, 0.75);
+cursor: pointer;
+	}
+
+.saveButtonSmall{
+		color: rgb(0, 26, 0);
+font-size: 10px;
+padding: 9px;
+text-shadow: 0px 0px 5px rgba(26, 30, 30, 0.28);
+-webkit-border-radius: 7px;
+-moz-border-radius: 7px;
+border-radius: 7px;
+background: rgb(255, 255, 255);
+background: -moz-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: -webkit-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: -o-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: -ms-linear-gradient(9deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+background: linear-gradient(279deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 0%);
+-webkit-box-shadow: 0px 2px 12px rgba(50, 50, 50, 0.75);
+-moz-box-shadow:    0px 2px 12px rgba(50, 50, 50, 0.75);
+box-shadow:         0px 2px 12px rgba(50, 50, 50, 0.75);
+cursor: pointer;
+	}
+
+
+
+
+
+/* top */
+
+
+
+
+
+
+
+
+#dock_menu {
+	height: 60px;
+}
+#dock2 {
+	margin: 50px auto 0px 0px;
+	position: top;
+
+}
+
+.pf-dock-top, .pf-dock-bottom {
+   position: relative; 
+        height: 80px; 
+        text-align: center;
+	
+    
+}
+.ui-dock-container-top{
+	position: absolute !important;
+}
+.ui-dock-container-bottom{
+	position: absolute !important;
+}
+
+.pf-dock-container-bottom {
+    position: absolute;
+	
+        background: url("../../Imagens/Perfis/dock_back.jpg");
+        height: 80px;
+        padding-left: 20px;
+        
+        
+}
+a.pf-dock-item-bottom{
+ 		display:block;
+        width: 30px;
+        color: #000;
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        text-decoration: none;
+        font: bold 12px Arial, Helvetica, sans-serif;
+
+}
+.pf-dock-item-bottom img {
+        border: none; 
+        margin: 5px 10px 0px; 
+        width: 100%; 
+}
+.pf-dock-item-bottom span {
+        display: none; 
+        padding-left: 20px;
+}
+.ui-dock-bottom{
+	position: static;
+	
+	
+}	
+
+
+
+/* bottom */
+/* .pf-dock-bottom {
+        width: 100%;
+        bottom: 0px;
+        left: 0px;
+}
+.pf-dock-container-bottom {
+        position: absolute;
+        background: url("../../Imagens/Perfis/dock_back.jpg");
+        height: 80px;
+        padding-left: 20px;
+}
+a.pf-dock-item-bottom {
+        display:block;
+        width: 40px;
+        color: #000;
+        position: absolute;
+        top: 0px;
+        text-align: center;
+        text-decoration: none;
+        font: bold 12px Arial, Helvetica, sans-serif;
+}
+.pf-dock-item-bottom span {
+        display: none;
+        padding-left: 20px;
+}
+.pf-dock-item-bottom img {
+        border: none; 
+        margin: 5px 10px 0px; 
+        width: 100%; 
+}
+*/
+
+
+
+	
+	
+h1, h2, h3 {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 1.6em;
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1em;
+	margin-top:20px;
+}
+
+ul {
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
+
+img.left {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+img.right {
+	float: right;
+	margin: 0 0 0 20px;
+}
+
+/* Header */
+#logo {
+	width: 960px;
+	height: 75px;
+	margin: 0 auto;
+	padding: 25px 10px 0 10px;
+}
+
+#logo h1, #logo p {
+	float: left;
+	margin: 0;
+}
+
+#logo h1 {
+	padding: 0 0 0 0;
+	letter-spacing: -1px;
+	font-weight: normal;
+	font-size: 3em;
+}
+
+#logo p {
+	text-transform: uppercase;
+	padding: 47px 0 0 3px;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+
+#logo a {
+	border: none;
+	text-decoration: none;
+	color: #DC8700;
+}
+
+/* Menu */
+#menu {
+	width: 960px;
+	margin: 0 auto;
+	padding: 0;
+	height: 59px;
+}
+
+#menu ul {
+	margin: 0;
+	padding-left: 270px;
+	list-style: none;
+}
+
+#menu li {
+	display: inline;
+}
+
+#menu li a {
+	display: block;
+	float: left;
+	height: 42px;
+	margin: 0;
+	padding: 18px 40px 0 40px;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+#menu li a:hover {
+	text-decoration: underline;
+}
+
+
+
+	.ui-menuitem{
+
+	margin-left: 20px;
+	margin-right: 20px;
+	}
+
+
+
+.ui-carousel-nav{
+	background-image: url("../Imagens/Perfis/Social/fundo_carrousel.jpg");
+	color: white;
+	
+}
+.ui-carousel-button {
+	color: white;
+	}
+	.ui-carousel-first-button{
+
+color: white;
+}
+
+.ui-carousel-next-button{
+	color: white;
+	}
+
+
+/* Wrapper */
+
+#wrapper {
+}
+
+/* Page */
+
+#page {
+	width: 960px;
+	margin: 0 auto;
+	padding: 20px 5px;
+	background: #FFFFFF;
+}
+
+#page-bg {
+}
+
+/* Latest Post */
+
+#latest-post {
+	padding: 20px;
+	border: 1px solid #E7E7E7;
+}
+
+/* Content */
+
+#content {
+	float: left;
+	width: 700px;
+}
+
+.post {
+	padding-bottom: 15px;
+}
+
+.post h1 {
+	font-weight: normal;
+}
+
+.title {
+	height: 30px;
+	margin-left: 10px;
+	padding: 8px 0 0 20px;
+}
+
+.title a {
+	border-bottom: none;
+	color: #FFFFFF;
+}
+
+.title a:hover {
+	border-bottom: 1px dotted #000000;
+}
+
+.byline {
+	margin: -60px 20px 20px 20px;
+}
+
+.byline a {
+	color: #DC8700;
+}
+
+.tag {
+	padding: 0 15px;
+}
+
+.entry {
+	padding: 0 20px;
+}
+
+.entry p {
+	line-height: 200%;
+}
+
+.links {
+	padding: 4px 0px;
+	text-align: right;
+	font-weight: bold;
+}
+
+.links a {
+	border: none;
+}
+
+.links a:hover {
+}
+
+/* Sidebars */
+
+#sidebar1 {
+	float: left;
+	margin-top: -81px;
+	margin-left: -1px;
+}
+
+#sidebar2 {
+	float: right;
+}
+
+.sidebar {
+	float: left;
+	width: 240px;
+	padding: 0;
+	font-size: 12px;
+}
+
+.sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sidebar li {
+	padding: 0 0 20px 0;
+}
+
+.sidebar span {
+	cursor: pointer;
+}
+
+.sidebar li ul {
+}
+
+.sidebar li li {
+	margin: 0 10px 0 10px;
+	padding: 3px 0px;
+}
+
+
+.sidebar li h2 {
+	height: 40px;
+	margin: 0 0 0 0;
+	padding: 20px 15px 0px 65px;
+	background: url(../Imagens/Perfis/Social/fundo_carrousel.jpg) no-repeat left top;
+	letter-spacing: -1px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+.sidebar a {
+}
+
+.sidebar a:hover {
+	text-decoration: underline;
+}
+
+/* Search */
+
+#searchform {
+	margin: 0;
+	padding: 0 0 0 0;
+}
+
+#searchform br {
+	display: none;
+}
+
+#searchform h2 {
+}
+
+#s {
+	margin: 10px 0px 0 15px;
+	padding: 2px 2px;
+	width: 180px;
+	height: 18px;
+	border: 1px solid #6F6E6E;
+	background: #FFFFFF;
+	font-size: 10px;
+	color: #000000;
+}
+
+#x {
+	margin: 0;
+	padding: 2px 5px;
+	height: 25px;
+	background: #CA8186;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #CCCCCC;
+}
+/* Calendar */
+
+#calendar_wrap {
+	padding: 0 15px;
+	text-align: center;
+}
+
+#calendar_wrap table {
+	width: 100%;
+}
+
+#calendar_wrap th {
+}
+
+#calendar_wrap td {
+}
+
+#calendar_wrap tfoot td {
+	border: none;
+}
+
+#calendar_wrap tfoot td#prev {
+	text-align: left;
+	font-weight: bold;
+	border: none;
+}
+
+#calendar_wrap tfoot td#prev a {
+	border: none;
+}
+
+#calendar_wrap tfoot td#next {
+	text-align: right;
+	font-weight: bold;
+	border: none;
+}
+
+#calendar_wrap tfoot td#next a {
+	border: none;
+}
+
+/* Footer */
+
+#footer {
+	width: 960px;
+	height: 70px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+#footer p {
+	margin: 0;
+	padding: 25px 0 0 0;
+	text-align: center;
+	font-size: smaller;
+}
+
+#footer a {
+}
+
+#footer .link {
+	float: right;
+}
+
+#footer .copyright {
+	float: left;
+}
+
+.homeText {
+	line-height: 175%;
+}
+
+.jpassword{
+	color: red;	
+	
+}	
+
+
+
+.homeMenu {
+	width:200px;
+	float:left;
+	margin-right:10px
+}
+
+.new {
+    background: url(../images/new-ico.gif) no-repeat 1%;
+}
+
+.ui-widget {
+    font-size: 98% !important;
+}
+
+.ui-growl {
+    top:115px;
+}
+
+.themeMenu {
+    overflow: auto;
+    height:300px;
+    width:200px;
+}
+
+.sidebar .wijmo-wijmenu a {
+    text-decoration: none !important;
+}
+
+.gravar {
+	font-family: Arial;
+	font-size: 14px;
+	background-image: url("../Imagens/Perfis/Social/fundo_tag.jpg");
+	border: 1px #ccc solid;
+	padding: 5px 15px;
+	margin-left: 3px;
+	cursor: pointer;
+	color: black;
+}
+
+
+
+
+
+
+
+
+
+
+.title {
+    height: 30px;
+    margin-left: 10px;
+    padding: 8px 0 0 20px;
+}
+
+.ui-corner-all {
+    border-radius: 3px 3px 3px 3px;
+}
+
+
+
+
+
+
+
+
+a:VISITED{
+	color:black;
+	
+	}
+
+
+
+
+
+
+
+

@@ -1,0 +1,463 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="Card TexAlCenter">
+			
+			<span class= "Leaden" style="float:right;">
+			
+			<!-- Ultimos cadastros -->
+			<h:form>          
+    <p:commandButton id="ultimosBtn" value="Últimos Cadastros" type="button" style="font-size:10px" />
+    <p:overlayPanel id="ultimosPanel" for="ultimosBtn" hideEffect="fade" >
+    
+                
+              
+                
+                <p:dataTable emptyMessage="Nenhum cliente cadastrado" value="#{cadastroCliBean.ultimosCadastrados}" var="ultimos">
+                <p:column>
+                 <h:link includeViewParams="true"  outcome="clientedetails" >
+  			 		<f:param name="clienteid" value="#{ultimos.idCliente}"></f:param>
+                  <p:graphicImage alt="#{ultimos.razaoSocial}" value="#{ultimos.urlCartao}" width="80" height="60"/>   
+  
+               </h:link>
+  					<br />
+  				 <h:link includeViewParams="true"   outcome="clientedetails" >
+  			 		<f:param name="clienteid" value="#{ultimos.idCliente}"></f:param>
+					<h:outputText value="#{ultimos.razaoSocial}" styleClass="FontBold" />
+  					
+                            
+               </h:link>
+               	<br />
+               	<h:outputText value ="Cadastrado por: " styleClass ="FontBold"/>
+					 	<h:outputText value="#{ultimos.cadastrador.nomeCompleto} no dia #{ultimos.dataCadastro.time.toLocaleString()}" />
+					<br />
+               <h:outputText value ="Atendimento por: " styleClass="FontBold" />
+					 	<h:outputText value="#{ultimos.atendimento.nomeCompleto}" />
+					
+              
+               
+               
+                </p:column>
+                
+            
+               
+                
+                
+                </p:dataTable>
+                </p:overlayPanel>
+                
+                </h:form>
+			</span>
+			
+			
+			
+				<div class="CardTopic Blue PosAbsolute">Cadastro de Cliente</div>
+				<div class ="EmptyBox5"></div>
+				
+				<div class="Separator"></div>
+				<span class="Leaden"> <strong>Os campos com * são obrigatórios</strong> </span> 
+		
+
+
+				<h:form id="cadastro">
+
+						<p:messages id="msgs" showDetail="true" />
+
+					<div class="Container50 Responsive50">
+						<h3>
+							<h:graphicImage alt="avatarclienteicon"
+								name="/images/icons/avatarclienteicon.png"
+								library="bibliotecaideias" width="50" height="20"  styleClass="h3ImageIcons" />
+							Cartão de visita
+						</h3>
+
+						<p:graphicImage alt="Cartão de Visita"
+							value="#{cadastroCliBean.imagem}" id="imagem" cache="false"
+							width="230" height="125" />
+						<br />
+						<p:fileUpload title="Insira um logo ou cartão de visita"
+							sizeLimit="2204800" widgetVar="uploader" label="Adicionar Imagem"
+							auto="true" mode="advanced"
+							fileUploadListener="#{cadastroCliBean.handleFileUpload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem" multiple="false" customUI="true"
+							invalidSizeMessage="O tamanho da imagem é muito grande"
+							invalidFileMessage="Esse tipo de arquivo não é suportado" />
+
+					</div>
+
+					<div class="Container50 Responsive50">
+
+						<h3>
+							<h:graphicImage alt="funcionarioicon"
+								name="/images/icons/funcionarioicon.png"
+								library="bibliotecaideias" width="30" height="30"  styleClass="h3ImageIcons"/>
+							Atendimento
+						</h3>
+
+
+						<h:panelGrid columns="2" styleClass="funcFormCadastro">
+							<h:outputLabel value="Assinou contrato BI?" for="optionscli" />
+							<p:selectOneRadio id="optionscli"
+								value="#{cadastroCliBean.cliente.client}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+
+							</p:selectOneRadio>
+
+							<h:outputLabel value="Recebeu trabalhos da BI?" for="options" />
+							<p:selectOneRadio id="options"
+								value="#{cadastroCliBean.cliente.recebeuTrabalhos}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+
+							</p:selectOneRadio>
+
+							<h:outputText value="Atendimento"
+								title="Funcionário responsável pelo atendimento"
+								for="atendimento" />
+							<p:selectOneMenu id="atendimento" style="width: 250px;"
+								value="#{cadastroCliBean.funcAtendimento}" effect="fade"
+								converter="funcConverter"
+								title="Funcionário responsável pelo atendimento">
+								<f:selectItems value="#{cadastroCliBean.funcionarios}"
+									var="func" itemLabel="#{func.nomeCompleto}" itemValue="#{func}" />
+							</p:selectOneMenu>
+
+
+						</h:panelGrid>
+
+
+						<!-- Fim div Container50 -->
+					</div>
+
+
+					<div class="Separator"></div>
+
+
+
+
+	<div class="Container50 Responsive50">
+					
+		
+								<h3>
+									<h:graphicImage alt="basicinfoicon" library="bibliotecaideias"
+										name="/images/icons/basicinfoicon.png" width="30"
+										height="30" styleClass="h3ImageIcons" />
+									Sobre a empresa
+								</h3>
+
+								<p:panelGrid columns="1"
+									style="border:0px !important; background:none;"
+									styleClass="ui-panelgrid-blank">
+									
+									
+									<p:inputText value="#{cadastroCliBean.cliente.razaoSocial}" size="30"
+										required="true"  id="razaosocial" maxlength="80"
+										
+										requiredMessage="A razão social é obrigatória" tabindex="0">
+
+										<p:watermark value="*Razão social" for="razaosocial"></p:watermark>
+
+
+									</p:inputText>
+												
+									<p:inputText id="nomefantasia" size="30"
+										value="#{cadastroCliBean.cliente.nomeFantasia}" maxlength="80"
+										required="true" requiredMessage="O nome fantasia é necessário">
+
+										<p:watermark value="*Nome fantasia" for="nomefantasia"></p:watermark>
+
+									</p:inputText>
+
+
+									<p:inputText id="segprincipal" size="30"
+										value="#{cadastroCliBean.cliente.segmentoPrincipal}"
+										required="true" maxlength="50"
+										requiredMessage="O segmento principal é necessário">
+
+										<p:watermark value="*Segmento principal" for="segprincipal"></p:watermark>
+
+									</p:inputText>
+
+
+									<p:inputText value="#{cadastroCliBean.cliente.categoria}" size="30"
+										 maxlength="20" id="categoria" >
+
+										<p:watermark value="Categoria" for="categoria"></p:watermark>
+
+									</p:inputText>
+
+
+									<p:inputText value="#{cadastroCliBean.cliente.site}" size="30"
+										 maxlength="200" id="site">
+
+										<p:watermark value="Site" for="site"></p:watermark>
+
+									</p:inputText>
+
+
+
+									<p:inputTextarea id="anotacoes"  cols="30" rows="5"
+										
+										value="#{cadastroCliBean.cliente.anotacoes}">
+
+										<p:watermark value="Anotações" for="anotacoes"></p:watermark>
+
+									</p:inputTextarea>
+
+								</p:panelGrid>
+
+
+</div>
+
+
+
+			
+		<div class ="Container50 Responsive50">
+	
+						<h3>
+							<h:graphicImage alt="enderecoicon"
+								name="/images/icons/enderecoicon.png" library="bibliotecaideias"
+								width="30" height="30"
+								 styleClass="h3ImageIcons" />
+							Endereço
+						</h3>
+
+						<p:panelGrid columns="2"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+							<p:inputText value="#{cadastroCliBean.cliente.rua}" 
+								styleClass="input100" maxlength="100" id="endereco"
+								label="Endereço">
+
+								<p:watermark value="Endereço" for="endereco"></p:watermark>
+							</p:inputText>
+
+
+							<p:inputText value="#{cadastroCliBean.cliente.numero}" 
+								 maxlength="10" id="numero">
+
+								<p:watermark value="Número" for="numero"></p:watermark>
+
+							</p:inputText>
+
+
+							<p:inputText value="#{cadastroCliBean.cliente.complemento}"
+								 id="complemento">
+
+								<p:watermark value="Complemento" for="complemento"></p:watermark>
+
+							</p:inputText>
+
+
+
+							<p:inputText value="#{cadastroCliBean.cliente.bairro}"
+								id="bairro" >
+
+
+								<p:watermark value="Bairro" for="bairro"></p:watermark>
+
+							</p:inputText>
+
+
+							<p:inputText value="#{cadastroCliBean.cliente.cep}" id="cep">
+
+
+								<p:watermark value="Cep" for="cep"></p:watermark>
+
+							</p:inputText>
+						</p:panelGrid>
+						<h:panelGrid columns="2">
+							<h:outputLabel value="País:" for="paises" />
+
+							<p:selectOneMenu
+								valueChangeListener="#{cadastroCliBean.stateChangeListener}"
+								value="#{cadastroCliBean.codPais}" id="paises">
+								<f:selectItem itemLabel=" Selecione um país " itemValue="0" />
+								<f:selectItems value="#{cadastroCliBean.paises}" var="pais"
+									itemValue="#{pais.codigo}" itemLabel="#{pais.nome}" />
+						<p:ajax partialSubmit="true" event="change" update=":cadastro:cidades" ></p:ajax> 
+
+							</p:selectOneMenu>
+
+							<h:outputLabel value="Cidade:" for="cidades" />
+							<p:selectOneMenu 
+								value="#{cadastroCliBean.idCidade}" id="cidades">
+								<f:selectItem itemLabel=" Selecione uma cidade " itemValue="0" />
+								<f:selectItems value="#{cadastroCliBean.cidades}" var="cidade"
+									itemDescription="#{cidade.distrito}" itemValue="#{cidade.id}"
+									itemLabel="#{cidade.nome}" />
+
+							</p:selectOneMenu>
+
+						</h:panelGrid>
+
+
+	</div>
+
+<div class ="EmptyBox30"></div>
+
+					<p:commandButton icon="ui-icon-disk" iconPos="right"
+					 action="#{cadastroCliBean.cadastrarCliente}"
+					ajax="true" update=":cadastro:msgs"
+					value="Finalizar e Cadastrar Projetos"
+					title="Clique para cadastrar essas informações do cliente" />
+					
+						<p:ajaxStatus
+					id="ajaxStatusPanel">
+					<f:facet name="start">
+						<h:graphicImage name="/images/ajaxloadingbar.gif"
+							library="bibliotecaideias" alt="loader" />
+					</f:facet>
+
+					<f:facet name="complete">
+						<h:outputText value="" />
+					</f:facet>
+				</p:ajaxStatus>
+					
+				
+				</h:form>
+
+			
+
+
+
+
+
+
+
+
+				<div class="Separator"></div>
+
+	<h:form id="contform">
+
+<div class ="Container50 Responsive50">
+				<h3>
+				<h:graphicImage alt="contatosicon" name="/images/icons/contatosicon.png" 
+				library="bibliotecaideias" width="30" height="30" 
+				style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  /> 
+				Contatos desse cliente</h3>
+ 			
+					<p:messages showDetail="true" />
+					<h:panelGrid columns="2">
+						<h:outputLabel value="*Nome do contato:" for="txt_nome"></h:outputLabel>
+						<p:inputText id="txt_nome" required="true"
+							value="#{cadastroCliBean.contato.nome}" />
+
+						<h:outputLabel value="*Telefone:" for="txt_tel"></h:outputLabel>
+						<p:inputText id="txt_tel" required="true"
+							value="#{cadastroCliBean.contato.telefone}" />
+
+						<h:outputLabel value="Cargo:" for="txt_cargo"></h:outputLabel>
+						<p:inputText id="txt_cargo"
+							value="#{cadastroCliBean.contato.cargo}" maxlength="30" />
+
+						<h:outputLabel value="E-mail:" for="txt_email"></h:outputLabel>
+						<p:inputText id="txt_email"
+							value="#{cadastroCliBean.contato.email}" maxlength="50" />
+
+						<h:outputLabel value="Celular: " for="txt_cel"></h:outputLabel>
+						<p:inputText id="txt_cel"
+							value="#{cadastroCliBean.contato.celular}" maxlength="30" />
+
+						<h:outputLabel value="Skype: " for="txt_sky"></h:outputLabel>
+						<p:inputText id="txt_sky" value="#{cadastroCliBean.contato.skype}"
+							maxlength="30" />
+
+						<h:outputLabel value="Rede Social: " for="txt_rede"></h:outputLabel>
+						<p:inputText id="txt_rede"
+							value="#{cadastroCliBean.contato.redeSocial}" maxlength="50" />
+
+
+
+						<p:commandButton id="btn_add" value="Adicionar contato"
+							icon="ui-icon-plusthick" update="contatosList contform"
+							actionListener="#{cadastroCliBean.inserirContato}" />
+					</h:panelGrid>
+
+</div>
+
+
+<div class ="Container50 Responsive50">
+
+					<h3>Lista de contatos</h3>
+					<p:dataTable id="contatosList"
+						emptyMessage="Nenhum contato adicionado"
+						value="#{cadastroCliBean.contatos}" var="cont">
+						<p:column>
+
+							<h:outputLabel value="Nome: " styleClass="searchLabel" />
+
+							<h:outputText value="#{cont.nome}" />
+							<h:outputText value="#{cont.cargo}" />
+							<br />
+
+							<h:outputLabel value="Telefones: " styleClass="searchLabel" />
+
+							<h:outputText
+								value="Tel: #{cont.telefone} / Cel: #{cont.celular} " />
+							<br />
+
+							<h:outputLabel value="Outros contatos:" styleClass="searchLabel" />
+									<br/>	
+							<h:outputText value="E-mail: #{cont.email}" />
+							<br />
+							<h:outputText value="Skype: #{cont.skype}" />
+							<br />
+							<h:outputText value="Rede social: #{cont.redeSocial}" />
+
+						</p:column>
+						<p:column>
+
+							<p:commandLink value="Remover" process="@this"
+								action="#{cadastroCliBean.removerContato}" update=":contform">
+								<f:setPropertyActionListener value="#{cont}"
+									target="#{cadastroCliBean.contatoSelecionado}" />
+							</p:commandLink>
+						</p:column>
+
+
+					</p:dataTable>
+				
+	
+</div>
+
+				</h:form>		
+				
+	
+
+
+
+
+		
+			
+			
+			<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

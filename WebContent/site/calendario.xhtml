@@ -1,0 +1,177 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        Calendário
+   
+        
+    </ui:define>
+
+	<ui:define name="content">
+     
+ <script type="text/javascript">
+                PrimeFaces.locales['pt'] = {  
+                    closeText: 'Fechar',  
+                    prevText: 'Anterior',  
+                    nextText: 'Próximo',  
+                    currentText: 'Começo',  
+                    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],  
+                    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],  
+                    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],  
+                    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],  
+                    dayNamesMin: ['D','S','T','Q','Q','S','S'],  
+                    weekHeader: 'Semana',  
+                    firstDay: 1,  
+                    isRTL: false,  
+                    showMonthAfterYear: false,  
+                    yearSuffix: '',  
+                    timeOnlyTitle: 'Só Horas',  
+                    timeText: 'Tempo',  
+                    hourText: 'Hora',  
+                    minuteText: 'Minuto',  
+                    secondText: 'Segundo',  
+                    currentText: 'Data Atual',  
+                    ampm: false,  
+                    month: 'Mês',  
+                    week: 'Semana',  
+                    day: 'Dia',  
+                    allDayText : 'Todo Dia'  
+                };  
+        </script>
+        
+        
+		<div class="Container100 Resposive100">
+			<div class="Card TexAlCenter">
+				<div class="CardTopic Blue">Calendário de Produção</div>
+				<div class="Separator"></div>
+				<br />
+				
+
+  <h:form id="form">  
+  
+    <p:growl id="messages" showDetail="true" />  
+  
+    <p:schedule id="schedule" value="#{scheduleController.eventModel}" widgetVar="myschedule" locale="pt" draggable="false">  
+  
+       <p:ajax event="dateSelect" listener="#{scheduleController.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show()" />  
+        <p:ajax event="eventSelect" listener="#{scheduleController.onEventSelect}"  update=":updateForm" oncomplete="PF('updateDialog').show()" />  
+        <p:ajax event="eventMove" listener="#{scheduleController.onEventMove}" update="messages" />  
+        <p:ajax event="eventResize" listener="#{scheduleController.onEventResize}" update="messages" />  
+  
+    </p:schedule>  
+  
+    <p:dialog widgetVar="eventDialog" resizable="false" header="Criar novo Evento" showEffect="clip" hideEffect="clip" styleClass="dialogGeral">  
+      
+        <h:panelGrid id="eventDetails" columns="2">  
+        
+            <h:outputLabel for="title" value="Evento:" />  
+            <p:inputText id="title" value="#{scheduleController.event.title}" required="true" />  
+          
+  
+        		<h:outputLabel for="inicio" value="Data de Início:" />  
+                            <p:calendar id="inicio" 
+                                required="true"
+                                value="#{scheduleController.event.startDate}" 
+                                pattern="dd/MM/yyyy HH:mm" />
+ 				
+                            <h:outputLabel for="fim" value="Data de término:" />  
+                            <p:calendar id="fim" 
+                                required="true"
+                                value="#{scheduleController.event.endDate}" 
+                                pattern="dd/MM/yyyy HH:mm" />
+ 				
+ 
+  
+            <h:outputLabel for="allDay" value="Dia todo:" />  
+            <h:selectBooleanCheckbox id="allDay" value="#{scheduleController.event.allDay}" />  
+		
+  
+            <p:commandButton id="addButton" value="Salvar Evento"  update=":form" actionListener="#{scheduleController.addEvent}" oncomplete="PF('eventDialog').hide();"/>  
+            <p:commandButton type="reset" value="Limpar Campos" />  
+       
+        </h:panelGrid>  
+    </p:dialog>  
+    
+    
+   
+</h:form>  
+           
+           
+           <h:form id ="updateForm"  >  
+          
+    <p:dialog widgetVar="updateDialog" resizable="false" header="Atualizar Evento" showEffect="clip" hideEffect="clip" styleClass="dialogGeral">  
+       
+       
+       
+        <h:panelGrid id="updateDetails" columns="2">  
+            <h:outputLabel for="titlei" value="Evento:" />  
+            <p:inputText id="titlei" value="#{scheduleController.event.title}" required="true" />  
+
+        		<h:outputLabel for="inicioi" value="Data de Início:" />  
+                            <p:calendar id="inicioi" 
+                                required="true"
+                                value="#{scheduleController.event.startDate}" 
+                                pattern="dd/MM/yyyy HH:mm" />
+ 
+                            <h:outputLabel for="fimi" value="Data de término:" />  
+                            <p:calendar id="fimi" 
+                                required="true"
+                                value="#{scheduleController.event.endDate}" 
+                                pattern="dd/MM/yyyy HH:mm" />
+ 				
+ 
+  
+            <h:outputLabel for="allDayi" value="Dia todo:" />  
+            <h:selectBooleanCheckbox id="allDayi" value="#{scheduleController.event.allDay}"  />  
+  	
+			
+            <p:commandButton id="updatebutton" value="Atualizar Evento"  update=":form" actionListener="#{scheduleController.updateEvent}" oncomplete="PF('updateDialog').hide();"/>  
+            <p:commandButton  oncomplete="PF('eventExcluDlg').show()"  value="Deletar Evento"  />  
+       
+        </h:panelGrid>  
+    </p:dialog>     
+    
+    
+
+    
+    
+            </h:form>   
+            
+            <!-- ****************** Confirmar exclusão Calendario **************************************** -->
+   <p:confirmDialog id="confireventExcluDialog" appendToBody="true" 
+message="Tem certeza que deseja excluir esse evento?"
+							header="Exclusão do Evento" severity="alert" widgetVar="eventExcluDlg"  >
+
+							<p:commandButton id="confirmA" value="Sim"
+							oncomplete="PF('updateDialog').hide(), PF('eventExcluDlg').hide()"
+							update=":form"
+							actionListener="#{scheduleController.deleteEvent}" />
+								   
+							<p:commandButton id="declineB" value="Não" onclick="PF('eventExcluDlg').hide()" type="button" />
+
+						</p:confirmDialog>
+    
+
+
+
+			<!-- Fim Div Card TexAlCenter -->
+			</div>
+
+
+		
+
+
+
+			<!-- Fim Div Container100 -->
+			</div>
+	
+	
+	
+	
+
+	</ui:define>
+
+</ui:composition>

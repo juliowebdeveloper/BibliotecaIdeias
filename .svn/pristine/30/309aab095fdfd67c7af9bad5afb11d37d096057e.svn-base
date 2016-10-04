@@ -1,0 +1,631 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/site/default.css" />
+		<link type="text/css" rel="stylesheet" href="../site/CSS/home.css" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+	
+
+<link href="../site/CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Atualizar Cliente</title>
+
+
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <body class="home">
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            
+            <div class="wrapper">
+            
+            <div class="breadcrumbs bordas degrade-horizontal">
+            	 <h:graphicImage alt="clientesicon" value="/site/images/icons/clientesicon.png" width="30" height="30" /> Cliente/ <b>Atualizar Informações do Cliente</b>
+            </div>
+            
+
+	<p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px" id="ajaxStatusPanel">  
+    <f:facet name="start">  
+        <h:graphicImage value="/imagens/ajax-loader.gif" alt ="loader"  />  
+    </f:facet>  
+      
+    <f:facet name="complete">  
+        <h:outputText value="" />  
+    </f:facet>  
+</p:ajaxStatus>  
+
+     <section class="bordas main degrade-horizontal">
+              <section class="inner">
+              
+              
+            
+
+
+<div id ="ediCliente">
+<p:messages id ="msgs" showDetail="true"/>
+
+
+
+<h:form id ="editForm">
+<p:growl id ="growl" showDetail="true" />
+
+
+<h2><h:graphicImage alt="avatarclienteicon" value="/site/images/icons/avatarclienteicon.png" width="50" height="20" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Alterar Imagem</h2>
+<hr/>
+<p>Selecione um novo logo para esse cliente e ele será alterado automáticamente.</p>
+				<p:graphicImage alt="logo" value="#{editCliBean.cliente.urlCartao}" width="200" height="120" id="imagem" cache="false" url="#{editCliBean.cliente.urlCartao}" />
+  					<br />
+  						<p:fileUpload sizeLimit="2204800" widgetVar="uploader"
+							label="Alterar Logo..." auto="true" mode ="advanced" 
+							fileUploadListener="#{editCliBean.upload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" description="Images"
+							update="imagem growl" multiple="false" customUI="true" 
+							invalidSizeMessage="O tamanho da imagem é muito grande" 
+							invalidFileMessage="Esse tipo de arquivo não é suportado"/>
+  					
+
+	<br/>
+	
+	
+
+<div id ="separadora" style ="margin-top: 50px;"></div>
+
+     <h2><h:graphicImage alt="basicinfoicon" value="/site/images/icons/basicinfoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Informações básicas</h2>
+    
+    <hr/>
+<h:panelGrid columns ="2" styleClass="funcFormCadastro">
+<h:outputLabel value ="Razão Social:" for="razaosocial" />
+<h:outputText value ="#{editCliBean.cliente.razaoSocial}" rendered="#{!funcBean.admin}"  styleClass="form-itens degrade-vertical2" id = "razaosocial" size ="70"  title="A Razão Social não pode ser alterada por não administradores"/>
+<h:inputText value ="#{editCliBean.cliente.razaoSocial}" rendered="#{funcBean.admin}"  styleClass="form-itens degrade-vertical2" id = "razaosocialinput" size ="70"  />
+
+
+
+<h:outputLabel value ="Nome Fantasia:" for="nomefantasia" />
+<p:inputText value ="#{editCliBean.cliente.nomeFantasia}" size ="50" maxlength="80" id ="nomefantasia" styleClass="form-itens degrade-vertical2"/>
+
+<h:outputLabel value ="Categoria:" for="categoria" />
+<p:inputText value ="#{editCliBean.cliente.categoria}" size ="30" maxlength="20"  style ="color:black;" id ="categoria" styleClass="form-itens degrade-vertical2"/>
+
+<h:outputLabel value ="Segmento Principal: " for="segprin"/>
+<p:inputText value ="#{editCliBean.cliente.segmentoPrincipal}" maxlength="50" styleClass="form-itens degrade-vertical2" id ="segprin" size ="30" required="true" style ="color:black;"/>
+
+
+  <h:outputLabel value ="Anotações: " for="anotacoes"/>
+  <p:inputTextarea id="anotacoes" maxlength="2500" cols="40" rows="5" value ="#{editCliBean.cliente.anotacoes}" 
+  styleClass="form-itens degrade-vertical2" />
+  
+</h:panelGrid>
+
+
+
+<!-- ****************** Endereço ****************************************************************************  -->
+<div id ="separadora" style ="margin-top: 50px;"></div>
+
+ <h2><h:graphicImage alt="enderecoicon" value="/site/images/icons/enderecoicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Endereço</h2>
+ 
+ <hr/>
+ 
+ <h:panelGrid columns ="2" id ="endGrid" styleClass="funcFormCadastro">
+
+ <h:outputLabel value ="Endereço: " for ="endereco"/>
+ 
+ <p:inputText styleClass="form-itens degrade-vertical2"
+  value ="#{editCliBean.cliente.rua}" id ="endereco" label="Endereço" size ="70" maxlength="100" style ="color:black;" />
+
+ <h:outputLabel value ="Número: " for ="numero"/>
+
+ <p:inputText value ="#{editCliBean.cliente.numero}" size ="4" id ="numero" maxlength="10" styleClass="form-itens degrade-vertical2"/>
+
+ <h:outputLabel value ="Complemento: " for ="comple"/>
+  <p:inputText value ="#{editCliBean.cliente.complemento}" size ="35" id ="comple" maxlength="50" styleClass="form-itens degrade-vertical2"/>
+ 
+ 
+ 
+ <h:outputLabel value ="Bairro: " for="bairro"/>
+  <p:inputText value ="#{editCliBean.cliente.bairro}" size ="20" maxlength="50" id ="bairro" styleClass="form-itens degrade-vertical2"/>
+ 
+
+ <h:outputLabel value ="CEP: " for ="cep"/>
+  <p:inputText value ="#{editCliBean.cliente.cep}" size ="25" id ="cep" maxlength="20" styleClass="form-itens degrade-vertical2"/>
+ 
+ 
+  <h:outputLabel value ="Cidade: " for="cityGrid"/>
+  <h:panelGrid columns ="2" id ="cityGrid" styleClass="funcFormCadastro">
+   <h:outputText value ="#{editCliBean.cliente.cidade.nome}" size ="30"  id ="city" styleClass="form-itens degrade-vertical2"/>
+   <p:commandButton oncomplete ="PF('cidadedlg').show()" icon= "ui-icon-pencil" title="Altere a cidade"/>
+   
+     
+ </h:panelGrid>
+
+ 
+</h:panelGrid>
+   <p:commandButton actionListener="#{editCliBean.atualizarCliente}" 
+      value ="Alterar informações do Cliente" icon= "ui-icon-check" title="Alterar dados" update="editForm" />
+   
+
+</h:form>
+
+
+<!-- ************************* Cidade Dialog ******************* -->
+
+<p:dialog widgetVar="cidadedlg"  header="Altere a cidade" modal="true" resizable="false" styleClass="dialogGeral">
+<h:form id ="cidadeForm">
+<h:panelGrid columns ="2" >
+<h:outputLabel value="Cidade cadastrada:"  for="city2"/>
+<h:outputText value ="#{editCliBean.cliente.cidade.nome}" size ="30" id ="city2" />
+</h:panelGrid>
+
+<h:panelGrid columns ="2">
+<h:outputLabel value="Escolha outra cidade:" for="cidadesE"/>
+<p:selectOneMenu  value="#{editCliBean.idCidadeE}" id="cidadesE">
+        <f:selectItem itemLabel=" Selecione uma cidade " itemValue="0"/>    
+        <f:selectItems value="#{editCliBean.cidadesE}" var="cidade" itemDescription="#{cidade.distrito}" itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />
+
+ </p:selectOneMenu>
+
+
+<p:commandButton value ="Alterar Cidade"
+ actionListener="#{editCliBean.alterarCidade}"
+ update=":editForm :editForm:growl :cidadeForm:city2 :editForm:city :editForm:cityGrid" 
+ oncomplete="PF('cidadedlg').hide()" icon="ui-icon-check" />
+</h:panelGrid> 
+
+
+
+
+
+</h:form>
+
+</p:dialog>
+
+
+
+</div>
+
+
+
+
+
+<!-- ****************** Contatos  **************************************** -->
+<div id ="separadora" style ="margin-top: 50px;"></div>
+
+<div style = "overflow: auto;"> 
+<h2><h:graphicImage alt="contatosicon" value="/site/images/icons/contatosicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Contatos</h2>
+<hr/>
+
+<h:form id ="contForm" >
+<p:dataTable id ="contatoTable" value="#{editCliBean.contatos}" var="contato" emptyMessage="Nenhum contato adicionado">
+<f:facet name="header">
+<p:commandButton value ="Adicionar novo contato" icon="ui-icon-plusthick" onclick="PF('newContdlg').show()" />
+</f:facet> 
+<p:column headerText="Nome" >
+<h:outputText value ="#{contato.nome}"  />
+</p:column>
+<p:column headerText="Cargo">
+<h:outputText value ="#{contato.cargo}"  />
+</p:column>
+<p:column headerText="Telefone">
+<h:outputText value ="#{contato.telefone}"  />
+</p:column>
+<p:column headerText="Celular">
+<h:outputText value ="#{contato.celular}"  />
+</p:column>
+<p:column headerText="Email">
+<h:outputText value ="#{contato.email}"  />
+</p:column>
+<p:column headerText="Skype">
+<h:outputText value ="#{contato.skype}"  />
+</p:column>
+<p:column headerText="Rede Social">
+<h:outputText value ="#{contato.redeSocial}"  />
+</p:column>
+
+
+        <p:column style="width:4%">  
+                <p:commandButton id="selectButton" update=":dlgnewform:display" oncomplete="PF('contDialog').show()" icon="ui-icon-pencil" title="Visualizar detalhes">  
+                <f:setPropertyActionListener value="#{contato}" target="#{editCliBean.contatoSelecionado}" />  
+            </p:commandButton>  
+        </p:column>  
+
+</p:dataTable>
+
+</h:form>
+
+</div>
+<!-- ******************Novo Contato dlg **************************************** -->
+
+<h:form id ="dlgnewform">
+<p:dialog header="Adicionar novo contato" widgetVar="newContdlg" resizable="false" id="newcontDlg"  styleClass="dialogGeral"
+                showEffect="fade" hideEffect="explode" modal="true" height="500"  width="600">  
+                
+                <h:panelGrid id="newContdisplay" columns="2" cellpadding="4" style="margin:0 auto;" styleClass="funcFormCadastro">
+
+
+						<h:outputLabel value="*Nome:" for="contnome"/>
+						<p:inputText value="#{editCliBean.newContato.nome}" id ="contnome" styleClass="form-itens degrade-vertical2"/>
+
+
+						<h:outputLabel value="Cargo:" for="cargo"/>
+						<p:inputText value="#{editCliBean.newContato.cargo}" size ="30" id ="cargo" styleClass="form-itens degrade-vertical2"/>
+
+						<h:outputLabel value="*Telefone:" for="tel"/>
+						<p:inputText value="#{editCliBean.newContato.telefone}"   id ="tel" styleClass="form-itens degrade-vertical2"/>
+
+						<h:outputLabel value="Celular:" for="cel"/>
+						<p:inputText value="#{editCliBean.newContato.celular}"   id ="cel" styleClass="form-itens degrade-vertical2"/>
+
+						<h:outputLabel value="E-mail:" for="email"/>
+						<p:inputText value="#{editCliBean.newContato.email}" id ="email" styleClass="form-itens degrade-vertical2"/>
+
+						<h:outputLabel value="Skype:" for="skype"/>
+						<p:inputText value="#{editCliBean.newContato.skype}" id ="skype" styleClass="form-itens degrade-vertical2"/>
+
+						<h:outputLabel value="Rede Social:" for="rede"/>
+						<p:inputText value="#{editCliBean.newContato.redeSocial}" id ="rede" styleClass="form-itens degrade-vertical2"/>
+
+						<p:commandButton value ="Adicionar Contato" icon="ui-icon-check" actionListener="#{editCliBean.adicionarContato}"
+						update=":contForm :editForm:growl :editForm" oncomplete="PF('newContdlg').hide()"
+						 />
+					
+
+
+					</h:panelGrid>  
+                
+                </p:dialog>
+
+
+
+
+
+
+<!-- ****************** Alterar Contato DLG **************************************** -->
+
+
+
+
+<p:dialog header="Alterar Contato" widgetVar="contDialog" resizable="false" id="contDlg"  
+                showEffect="fade" hideEffect="explode" modal="true"  styleClass="dialogGeral"   height="500"  width="600">  
+  
+        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">
+
+
+						<h:outputLabel value="Nome:" for="contnomedit"/>
+						<p:inputText value="#{editCliBean.contatoSelecionado.nome}" id ="contnomedit" />
+
+
+						<h:outputLabel value="Cargo:" for="cargoedit" />
+						<p:inputText value="#{editCliBean.contatoSelecionado.cargo}" size ="30" id ="cargoedit" maxlength="150"/>
+
+						<h:outputLabel value="Telefone:" for="teledit" />
+						<p:inputText value="#{editCliBean.contatoSelecionado.telefone}"   id ="teledit" />
+
+						<h:outputLabel value="Celular:" for="celedit" />
+						<p:inputText value="#{editCliBean.contatoSelecionado.celular}"   id ="celedit"/>
+
+						<h:outputLabel value="E-mail:" for="emailedit"/>
+						<p:inputText value="#{editCliBean.contatoSelecionado.email}" id ="emailedit" maxlength="50"/>
+
+						<h:outputLabel value="Skype:" for="skypedit"/>
+						<p:inputText value="#{editCliBean.contatoSelecionado.skype}" id ="skypedit" maxlength="30"/>
+
+						<h:outputLabel value="Rede Social:" for="rededit"/>
+						<p:inputText value="#{editCliBean.contatoSelecionado.redeSocial}" id ="rededit" maxlength="50" />
+
+						<p:commandButton value ="Alterar dados" icon="ui-icon-check" actionListener="#{editCliBean.atualizarContato}"
+						update=":editForm :contForm :editForm:growl " oncomplete="PF('contDialog').hide()"
+						 />
+						 <p:commandButton value ="Excluir Contato" icon="ui-icon-close" 
+						 onclick="PF('confirmation').show()">
+						 
+						 </p:commandButton>
+					
+
+
+					</h:panelGrid>  
+					
+						
+  
+    </p:dialog>  
+
+
+</h:form>
+
+
+<!-- ****************** Excluir Confirm Dlg **************************************** -->
+
+<p:confirmDialog id="confirmDialog" appendToBody="true"
+							message="Tem certeza que deseja excluir esse contato? #{editCliBean.contatoSelecionado.nome}"
+							header="Exclusão de Contato" severity="alert"
+							widgetVar="confirmation" >
+
+							<p:commandButton id="confirm" value="Sim"
+								oncomplete="PF('contDialog').hide(); PF('confirmation').hide()"
+								update=":contForm :editForm:growl" actionListener="#{editCliBean.excluirContato}" />
+							<p:commandButton id="decline" value="Não"
+								onclick="PF('confirmation').hide()" type="button" />
+
+						</p:confirmDialog>
+
+
+
+
+
+<div id ="separadora" style ="margin-top: 80px;"></div>
+
+<h2><h:graphicImage alt="calendaricon" value="/site/images/icons/calendaricon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Trabalhos que a BI realizou para esse cliente</h2>
+<hr/>
+
+<h:form id ="trabForm">
+
+<p:panelGrid columns="2">
+
+ <h:outputLabel value="Assinou Contrato BI? "  for="iscli"/>
+  <h:outputText value ="Sim" id ="iscli" rendered="#{editCliBean.cliente.client}" />
+<p:commandButton value ="Não >> Clique para Alterar" 
+title="Clique para alterar" update =":trabForm" actionListener="#{editCliBean.alterarIsClient}" 
+rendered="#{!editCliBean.cliente.client}"/>
+
+<h:outputLabel value ="Já recebeu trabalhos da BI? " for="recebeu"/>
+<h:outputText value ="Sim" id ="recebeu" rendered="#{editCliBean.cliente.recebeuTrabalhos}" />
+<h:outputText value ="Não" id ="naorecebeu" rendered="#{!editCliBean.cliente.recebeuTrabalhos}" />
+<p:commandButton icon="ui-icon-pencil" value ="Alterar anos que recebeu trabalhos" onclick="PF('trabDlg').show()" rendered="#{editCliBean.cliente.recebeuTrabalhos}" />
+<p:commandButton icon="ui-icon-pencil" value ="Registrar anos que recebeu trabalhos" onclick="PF('newtrabDlg').show()" rendered="#{!editCliBean.cliente.recebeuTrabalhos}" />
+<br/>
+</p:panelGrid>
+
+
+<!-- ******************Recebeu trabalhos dialogs ****************************************************************************  -->
+
+<p:dialog resizable="false" widgetVar="trabDlg" header="Anos que esse cliente recebeu trabalhos da BI" modal="true" styleClass="dialogGeral">
+<h2><h:graphicImage alt="calendaricon" value="/site/images/icons/calendaricon.png" width="20" height="20" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Anos registrados para esse cliente:</h2>
+<hr />
+<h:outputText rendered="#{empty editCliBean.anosCliente}" value ="Esse cliente nunca recebeu trabalhos da BI"/>
+<p:dataList  value ="#{editCliBean.anosCliente}" var ="ano" itemType="none" >
+#{ano.ano}
+
+</p:dataList>
+
+<div id ="separadora" style ="margin-top: 50px;"></div>
+
+
+<h2><h:graphicImage alt="calendaricon" value="/site/images/icons/calendaricon.png" width="20" height="20" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Anos que o cliente recebeu trabalhos</h2>
+<hr />
+<p>Atenção, marque todos os anos que esse cliente recebeu trabalhos, mesmo se esses anos já estiverem listados</p>
+<p>Para selecionar mais de um ano, segure a tecla <span style ="color: red;">CTRL</span> e clique nos anos desejados</p>
+<hr/>
+<h:outputLabel value="Anos que recebeu trabalhos: " for="scroll" />
+<br/>
+
+<p:selectManyMenu id="scroll" value="#{editCliBean.anosSelecionados}"  converter="anoConverter" style="width:200px;height:200px;" var="p" >  
+            <f:selectItems value="#{editCliBean.anos}" var="anos" itemLabel="#{anos.ano}" itemValue="#{anos}" />  
+            <p:column>  
+                #{p.ano}  
+            </p:column>  
+        </p:selectManyMenu>  
+   <p:commandButton value ="Cadastrar anos que o cliente recebeu trabalhos da BI"  icon="ui-icon-circle-check"
+   update=":editForm:growl :trabForm"  
+      action="#{editCliBean.adicionarAnos}"/>
+
+</p:dialog>
+
+
+
+
+
+
+<p:dialog resizable="false" widgetVar="newtrabDlg" header="Anos que esse cliente recebeu trabalhos da BI" modal="true" styleClass="dialogGeral"> 
+<p>Ao escolher os anos que esse cliente recebeu trabalhos, automáticamente, ele será cadastrado como um cliente da BI que recebeu trabalhos
+nos anos escolhidos, essa informação não poderá ser alterada, futuramente apenas sendo possível que você altere quais anos ele recebeu trabalhos </p>
+
+    <p:pickList value="#{editCliBean.anosEscolhidos}" var="anos"
+itemLabel="#{anos.ano}" itemValue="#{anos}" converter="anoConverter">
+ <p:column >  
+            #{anos.ano}  
+        </p:column>  
+  </p:pickList>  
+      <p:commandButton value ="Cadastrar anos que o cliente recebeu trabalhos da BI" 
+      update=":editForm:growl :trabForm"
+      actionListener="#{editCliBean.cadastrarAnos}" icon="ui-icon-circle-check" />
+
+
+</p:dialog>
+</h:form>
+
+
+
+
+
+
+
+<div id ="separadora" style ="margin-top: 80px;"></div>
+
+
+<h2><h:graphicImage alt="funcionarioicon" value="/site/images/icons/funcionarioicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Atendimento</h2>
+<hr />
+
+<h:form id ="atendimentoForm">
+<p:growl id ="atendigrowl" showDetail="true"/>
+<h:panelGrid columns="2" >
+<h:outputLabel value ="Funcionário responsável pelo atendimento:" for="atendi"/>
+<h:outputText value ="#{editCliBean.cliente.atendimento.nomeCompleto}" id="atendi" styleClass="form-itens degrade-vertical2" />
+
+<h:outputLabel value ="Escolha outro funcionário" for="funcselect"/>
+
+    <p:selectOneMenu style="width:  230px;" id ="funcselect" value="#{editCliBean.funcSelecionado}" effect="fade" converter="funcConverter"  title="Funcionário responsável pelo atendimento">  
+            <f:selectItem itemLabel="Selecione um funcionário" itemValue="" />  
+            <f:selectItems value="#{editCliBean.funcionarios}" var="func" itemLabel="#{func.nomeCompleto}" itemValue="#{func}"/>  
+        </p:selectOneMenu>  
+
+<h:outputLabel value ="Funcionário que cadastrou:" for="funccadastro"/>
+<h:outputText value ="#{editCliBean.cliente.cadastrador.nomeCompleto}" id ="funccadastro" />
+
+
+<p:commandButton update=":atendimentoForm atendi atendigrowl"
+ actionListener="#{editCliBean.alterarAtendimento}"
+ value ="Alterar funcionário responsável pelo atendimento" icon="ui-icon-pencil" />
+
+
+</h:panelGrid>
+
+</h:form>
+
+
+
+
+
+
+</section>
+
+
+
+
+<div style="width: 150px; float:right;">
+<h2><h:graphicImage alt="opcoesicon" value="/site/images/icons/opcoesicon.png" width="30" height="30" style ="clear:left; margin-right: 6px; margin-left: 0px; margin-top:0; margin-bottom: 0;"  />Opções</h2>
+<hr/>
+				
+<h:form>
+<p:button outcome="clientedetails" includeViewParams="true" value ="Visualizar Cliente" icon="ui-icon-star"  >
+<f:param name="clienteid" value="#{editCliBean.cliente.idCliente}"  style="float:left;"/>
+</p:button>			
+<br/>		
+<p:button outcome="editfeirascli"  style="float:left;" value="Editar feiras" icon="ui-icon-suitcase"  />
+<br/>
+<p:commandButton ajax="false" style="float:left;" action="#{editCliBean.editarBriefings}" 
+value ="Editar Briefings" icon="ui-icon-image"> 
+ </p:commandButton>
+<br/>
+<p:button outcome="editfichas" style="float:left;" value="Editar fichas" icon="ui-icon-image"  />
+<br/>
+<p:button outcome="editfotos" style="float:left;" value="Editar fotos" icon="ui-icon-image"  />
+<br/>
+
+<p:commandButton ajax="false" style="float:left;" action="#{editCliBean.editarProjetos}" 
+value ="Editar Projetos" icon="ui-icon-image"> 
+ </p:commandButton>
+ 
+
+
+<p:commandButton  style="float:left;" rendered="#{funcBean.admin}" 
+value ="Excluir Cliente" icon="ui-icon-trash" onclick="PF('confirmationdelete').show()"> 
+ </p:commandButton>
+ 
+
+
+<!-- ****************** Excluir Cliente Confirm Dlg **************************************** -->
+<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+              
+<p:dialog modal="true" widgetVar="statusDialog" header="Aguarde o término da operação" styleClass="dialogGeral"   
+        draggable="false" closable="false">  
+    <p:graphicImage value="/imagens/ajaxloadingbar.gif" alt="ajaxbar" />  
+</p:dialog>  
+ 
+ <p:confirmDialog id="deleteCliDlg" styleClass="dialogGeral" 
+							message="Tem certeza que deseja excluir o cliente  #{editCliBean.cliente.razaoSocial}? 
+							Isso irá excluir todos os contatos, projetos, briefings e informações sobre aquele cliente, retirando-o
+							das feiras que participou - ao término, você será direcionado à Home do sistema"
+							header="Exclusão de Cliente" severity="alert"
+							widgetVar="confirmationdelete" >
+
+							<p:commandButton id="confirma" value="Sim"
+							oncomplete="PF('confirmationdelete').hide()"
+								action="#{editCliBean.excluirCliente()}"/>
+								
+								
+							<p:commandButton id="declinedelete" value="Não"
+								onclick="PF('confirmationdelete').hide()" type="button" />
+
+						</p:confirmDialog>
+
+
+
+ </h:form>
+
+</div>
+
+
+</section>
+
+
+
+  <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          	</div>
+          
+    </body>
+
+</html>

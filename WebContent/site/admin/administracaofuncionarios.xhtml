@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+<h:head>
+<meta charset="utf-8" />
+
+	<!-- Css Primefaces = default.css -->
+	<link type="text/css" rel="stylesheet" href="../CSS/default.css" />
+		<link type="text/css" rel="stylesheet" href="../CSS/home.css" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
+	
+
+<link href="../CSS/estilos.css" rel="stylesheet" type="text/css" />
+
+	
+<title>Biblioteca de Idéias - Funcionários</title>
+
+
+<script src="relogio.js"></script>
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[ 
+           
+           function relogio(){
+	var data = new Date();
+	var horas = data.getHours();
+	var minutos = data.getMinutes();
+	var segundos = data.getSeconds();
+
+
+	if(horas < 10){
+		horas = "0" + horas;
+
+	}
+
+	
+	if(minutos < 10){
+				minutos = "0" + minutos;
+		}
+
+	if(segundos < 10){
+		segundos = "0" + segundos;
+		
+		}
+	document.getElementById("relogio").innerHTML = horas + " : " + minutos + " : " + segundos;	
+}
+
+
+
+
+
+window.setInterval("relogio()", 1000);
+           
+  //]]>
+
+
+</script>
+
+<script>
+
+$('document').ready(function(e) {
+    
+	
+	$('nav ul li').hover(function(e)
+	{
+
+	},
+	function(e)
+	{
+	});
+	
+});
+
+</script>
+
+
+</h:head>
+	
+	
+
+
+
+    
+    <h:body styleClass="cadastro cadastro-func">
+    
+    
+    <f:facet name="last">
+		<h:outputStylesheet library="default" name="../CSS/estilos.css" />
+	</f:facet>
+    
+			<ui:include src="/WEB-INF/headertemplate.xhtml" />
+            
+                <div class="wrapper">
+            
+    <div class="breadcrumbs bordas degrade-horizontal">
+            <h:graphicImage alt ="funcionarioicon" value="/site/images/icons/funcionarioicon.png" width="30" height="30" />	Biblioteca de Ideias / <b>Cadastrar Funcionários</b>
+            </div>
+            
+             <section class="bordas main degrade-horizontal">
+              <section class="inner">
+           
+           <p:messages id ="deniedMessages" rendered="#{!funcManagerBean.access}" showDetail="true"/>
+           
+                               <h:panelGroup  rendered="#{funcBean.admin}">
+           
+           <header>
+                            <h2>Cadastre um novo funcionário:</h2>
+                            <hr/>
+                    </header>
+                    
+                    </h:panelGroup>
+                    
+                    <h:form id ="funccadastro" styleClass="form-cadastro" >
+                    
+                    <h:panelGrid columns="2" rendered="#{funcManagerBean.access}" styleClass ="funcFormCadastro">
+                    
+                    <h:outputLabel value="Nome de Usuário:" for ="nome" />
+<p:inputText value="#{funcManagerBean.newfuncionario.username}" size ="40" required="true" style="color: black;" requiredMessage="O username é obrigatório" 
+id ="nome" title="Nome que será usado para acessar o sistema - não pode ser repetido"  styleClass="form-itens degrade-vertical2">
+<p:tooltip for="nome" showEvent="focus" hideEvent="blur"  styleClass="form-itens degrade-vertical"/>  
+<p:watermark value="nome do usuário" for="nome"></p:watermark>
+</p:inputText>
+                    <h:outputLabel value="Nome completo:" for="nomeCompleto"/>
+<p:inputText 
+value="#{funcManagerBean.newfuncionario.nomeCompleto}" size ="40" required="true"
+ style="color: black;" id="nomeCompleto" requiredMessage="O nome é obrigatório" styleClass="form-itens degrade-vertical2">
+<p:watermark value="nome completo" for="nomeCompleto"></p:watermark> 
+ </p:inputText>
+                   
+                    <h:outputLabel value="E-mail:" for="email"/>
+<p:inputText id="email" value="#{funcManagerBean.newfuncionario.email}" size ="40" required="true" style="color: black;" 
+requiredMessage="O e-mail é obrigatório" styleClass="form-itens degrade-vertical2">
+                            <f:validator validatorId="validadorEmail"/>  
+<p:watermark value="email" for="email"></p:watermark>
+</p:inputText>
+                    
+                    <h:outputLabel for="pwd1" value="Senha:" />  
+            <p:password id="pwd1" value="#{funcManagerBean.password1}" match="pwd2" label="Password 1" required="true" style="color: black;" feedback="true" 
+            promptLabel="Digite uma senha" weakLabel="Senha fraca"  styleClass="form-itens degrade-vertical2"
+                        goodLabel="Senha boa" strongLabel="Senha forte">
+                        <p:watermark value="senha" for="pwd1"></p:watermark>
+                        </p:password>  
+  
+            <h:outputLabel for="pwd2" value="Confirme a Senha:"/>  
+            <p:password id="pwd2" styleClass="form-itens degrade-vertical2" value="#{funcManagerBean.password2}" label="Password 2" style="color: black;" required="true" >
+            <p:watermark value="confirme a senha" for="pwd2"></p:watermark>
+            </p:password>  
+
+                    
+                    <h:outputLabel value="Permissão:" for="permissao"/>
+
+<h:selectOneMenu value="#{funcManagerBean.permissao}" id ="permissao"  >
+<f:selectItems value ="#{funcManagerBean.auths}" var="auths" itemValue="#{auths.name}" itemLabel="#{auths.name}" />
+
+</h:selectOneMenu>
+<br/>
+Selecione ROLE_FUNC para permissões de funcionário e ROLE_ADMIN para um funcionário com permissões de administrador
+
+                </h:panelGrid>         
+               
+                   
+              <p:commandButton style="float:right;" value ="Cadastrar" actionListener="#{funcManagerBean.cadastrarFuncionario()}" 
+ icon="ui-icon-disk" iconPos="right" update="messages :funccadastro :listform:grid" />
+               
+                      
+               
+                    
+                     <div class="msg">
+                        
+                        	<hr/>
+                            
+                         <p:messages id ="messages" showDetail="true" />
+                        
+                        </div>
+                    
+                         </h:form>
+                    
+           </section>
+            
+            </section>
+            
+            
+            <aside class="aside degrade-vertical arredondado bordas">
+            
+            	 <h2><h:graphicImage alt="cadastrosicon" value="/site/images/icons/ultimoscadastrosicon.png" width="30" height="30" />Últimos Cadastros</h2>
+                
+                <hr/>
+                
+                <div class="cliente">
+                            
+                	
+                    
+                      <h:form id = "listform" styleClass="listFuncsManager" >  
+ <p:growl id ="messagesgrowl" />
+                      <p:dataList paginator="true" rows="4"
+                       id="grid" value="#{funcManagerBean.funcionarios}" var="funca" rendered="#{funcBean.admin}">
+                     
+                     <p:column width="284" >
+                     
+             
+                     <h:outputText value="#{funca.nomeCompleto}"  styleClass="searchLabel" />
+                    
+                     
+ 	<br />
+ 	
+            <h:outputText value="Código: #{funca.id}"  />
+            <br />
+            <h:outputText value="Permissões de: " />
+
+            <h:outputText value ="Administrador" rendered="#{funca.authorities.get(0).name.equalsIgnoreCase('Role_admin')}"  styleClass="searchResults"/>
+<h:outputText value ="Funcionário" rendered="#{funca.authorities.get(0).name.equalsIgnoreCase('Role_func')}" styleClass="searchResults"/>
+           
+           <br/>
+           
+                
+                      <p:commandButton style="float:left;"   oncomplete="PF('dlg').show()"  icon="ui-icon-pencil" iconPos="right" title="Editar funcionário" 
+   update=":fom:dlg1" value="Editar">
+ 	<f:setPropertyActionListener value="#{funca}" target="#{funcManagerBean.funcSelecionado}"  />
+ 	
+ 	</p:commandButton>
+                  <br/> 
+                     </p:column>
+                 
+                 
+                <br/> 
+                 
+                 <hr/>
+                   </p:dataList> 
+                    	
+                 </h:form>
+                            
+               
+               
+               
+               
+                </div>
+            
+            
+            
+            
+            
+            
+             <h:form id = "fom" >
+ <p:dialog modal="true" widgetVar="dlg" resizable="false" header="Funcionário Selecionado" id ="dlg1" width="880" height="500"  styleClass="dialogGeral">
+<h2>Informações</h2>
+ <h:panelGrid columns = "4" >
+ <h:outputLabel value="Nome: " styleClass="searchLabel" for ="ncompleto" />
+    <p:inputText value="#{funcManagerBean.funcSelecionado.nomeCompleto}" disabled="true" id ="ncompleto" />
+
+     <h:outputLabel value="Usuário: " styleClass="searchLabel" for ="usuario"/>
+    <p:inputText value="#{funcManagerBean.funcSelecionado.username}" disabled="true" id ="usuario" />
+
+      <h:outputLabel value="Código: "  styleClass="searchLabel" for ="codigo"/>
+    <p:inputText value="#{funcManagerBean.funcSelecionado.id}" disabled="true" id ="codigo" />
+  
+      <h:outputLabel value="E-mail: "  styleClass="searchLabel" for ="email1"/>
+    <p:inputText value="#{funcManagerBean.funcSelecionado.email}" disabled="true" id ="email1" size="60" />
+
+</h:panelGrid>
+
+<h2>Opções</h2>
+	
+	 <h:panelGrid columns="6">
+	 <h:outputLabel value="Permissões: "  styleClass="searchLabel" for ="perm" />
+	<h:outputText id="perm" value ="Funcionário" style ="margin-left: 20px; margin-right: 40px;" rendered="#{funcManagerBean.funcSelecionado.authorities.get(0).name.equalsIgnoreCase('Role_func')}" />
+    <h:outputText value ="Administrador" rendered="#{funcManagerBean.funcSelecionado.authorities.get(0).name.equalsIgnoreCase('Role_admin')}" />
+    <p:commandButton  value ="Alterar Permissões" iconPos="right"
+    update=":fom :listform:messagesgrowl :listform:grid" actionListener="#{funcManagerBean.alterarPermissao}"  icon="ui-icon-wrench"/>
+  
+    
+    
+    
+     <h:outputLabel value="Ativado: " styleClass="searchLabel" for ="ativado"/>
+      <h:outputText id ="ativado"  style ="padding-left: 19px; margin-right: 40px;" value ="Sim" rendered="#{funcManagerBean.funcSelecionado.enable}" />
+     <h:outputText  style ="padding-left: 19px; margin-right: 40px;" value ="Não" rendered="#{!funcManagerBean.funcSelecionado.enable}" />
+    
+       <p:commandButton  style="float:right;" value ="Ativar/Desativar Funcionário" id ="btdesativar" 
+       actionListener="#{funcManagerBean.ativarDesativarFunc}" oncomplete="PF('dlg').hide()" icon="ui-icon-notice"
+  iconPos="right" title="Clique para desativar ou ativar esse funcionário" update=":fom :listform:messagesgrowl :listform:grid" />
+ 	   
+ 	
+
+ </h:panelGrid>
+    <p:commandButton  style="float:left;" value ="Resetar a senha" icon="ui-icon-extlink"
+        oncomplete="PF('confirmation').show()" 
+  		iconPos="right" title="Clique para resetar a senha desse funcionário para 123"  />
+ 	
+    
+     
+    </p:dialog>
+    
+
+    
+    
+    
+    
+    </h:form>
+    
+        <p:confirmDialog id="confirmDialog" appendToBody="true" styleClass="dialogGeral"
+							message="Tem certeza que deseja resetar a senha desse usuário para 123?"
+							header="Resetar senha" severity="alert"
+							widgetVar="confirmation" >
+
+							<p:commandButton id="confirm" value="Sim"
+							oncomplete="PF('dlg').hide(); PF('confirmation').hide()"
+							update=":fom :listform:messagesgrowl :listform:grid"
+							actionListener="#{funcManagerBean.resetarSenha}" />
+								   
+							<p:commandButton id="declineB" value="Não"
+								onclick="PF('confirmation').hide()" type="button" />
+
+						</p:confirmDialog>
+            
+         
+            
+            
+            
+            
+            </aside>
+ 
+            
+              <footer>
+            		Copyright - Biblioteca de Ideias
+            </footer>
+          
+          
+          </div>
+          
+    </h:body>
+
+</html>

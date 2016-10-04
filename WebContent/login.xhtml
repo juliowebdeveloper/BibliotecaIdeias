@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Biblioteca de Idéias - Login</title>
+        <ui:insert name="head" />
+    </h:head>
+
+    <h:body styleClass="BlueBody">
+        
+        <div class="Container100">
+            <div class="Container100">
+                <div class="Wid50 OvHidden DispBlock MarAuto WidAutoOnMobile" style="margin-top:7%;">
+                    <div class="Card ShadowEffect">
+                        <div class="Container100">
+                        <h:graphicImage library="bibliotecaideias" name="images/logobi.jpg" id="logo"></h:graphicImage>
+                            <div class="Card OrangeBack White TexAlCenter Fs20 FontVoltBold">Login</div>
+                        </div>
+                        
+                      
+                        <div class="Container40 Responsive100">
+                            <div class="Card TexAlCenter">
+							<h:form id="login_form" class="login-form">
+
+
+								<img src="imagens/user-icon.png" />
+								<p:inputText styleClass="inputs login-input" id="username"
+									value="#{loginBean.func.username}" placeholder="usuário"
+									required="true" label="Email"
+									validatorMessage="O valor é necessário"></p:inputText>
+								<img src="imagens/pass-icon.png" />
+								<p:password styleClass="inputs login-input" id="senha"
+									label="Senha" value="#{loginBean.func.password}"
+									placeholder="senha" feedback="false" required="true"
+									validatorMessage="O valor é necessário" />
+
+								<p:commandButton value="Ok" id="logar"
+									action="#{loginBean.logar}"
+									styleClass=".ui-button btn logar-bt" update=":messages" />
+
+
+							</h:form>
+							<p:messages id="messages" showDetail="true" showSummary="true"
+								styleClass="msg-error" />
+						</div>
+                        </div>
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+        
+        <h:outputStylesheet name="css/core-layout.css" library="volt-layout" />
+        <h:outputStylesheet name="css/animate.css" library="volt-layout" />
+        <h:outputStylesheet name="css/volt-font.css" library="volt-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" library="volt-layout" />
+        <h:outputStylesheet name="css/volt-layout.css" library="volt-layout" />
+    </h:body>
+
+</html>
