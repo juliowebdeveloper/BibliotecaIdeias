@@ -294,7 +294,7 @@ public class CadastroBriefingBean {
 	//Caminho default para os arquivos do briefing .Com esse caminho salvo na URL ficará mais facil de exibi-las
 	private static String FILESSURL = ImagesUtil.urlBriefings;
 
-
+//Just a commit test
 
     
     public void handleFilesUpload(FileUploadEvent event) {
